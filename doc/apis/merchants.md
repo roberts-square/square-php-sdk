@@ -11,6 +11,7 @@ $merchantsApi = $client->getMerchantsApi();
 ## Methods
 
 * [List Merchants](../../doc/apis/merchants.md#list-merchants)
+* [Setup Merchant](../../doc/apis/merchants.md#setup-merchant)
 * [Retrieve Merchant](../../doc/apis/merchants.md#retrieve-merchant)
 
 
@@ -48,6 +49,43 @@ $apiResponse = $merchantsApi->listMerchants();
 
 if ($apiResponse->isSuccess()) {
     $listMerchantsResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Setup Merchant
+
+Create a new `Merchant`, its first `Location`, and its owner `Employee`.
+
+```php
+function setupMerchant(SetupMerchantRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`SetupMerchantRequest`](../../doc/models/setup-merchant-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`SetupMerchantResponse`](../../doc/models/setup-merchant-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\SetupMerchantRequest;
+
+$apiResponse = $merchantsApi->setupMerchant($body);
+
+if ($apiResponse->isSuccess()) {
+    $setupMerchantResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

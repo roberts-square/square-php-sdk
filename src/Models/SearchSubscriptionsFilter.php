@@ -29,6 +29,11 @@ class SearchSubscriptionsFilter implements \JsonSerializable
     private $sourceNames;
 
     /**
+     * @var string[]|null
+     */
+    private $planIds;
+
+    /**
      * Returns Customer Ids.
      * A filter to select subscriptions based on the subscribing customer IDs.
      *
@@ -101,6 +106,30 @@ class SearchSubscriptionsFilter implements \JsonSerializable
     }
 
     /**
+     * Returns Plan Ids.
+     * A filter to select subscriptions based on the plan IDs.
+     *
+     * @return string[]|null
+     */
+    public function getPlanIds(): ?array
+    {
+        return $this->planIds;
+    }
+
+    /**
+     * Sets Plan Ids.
+     * A filter to select subscriptions based on the plan IDs.
+     *
+     * @maps plan_ids
+     *
+     * @param string[]|null $planIds
+     */
+    public function setPlanIds(?array $planIds): void
+    {
+        $this->planIds = $planIds;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -120,6 +149,9 @@ class SearchSubscriptionsFilter implements \JsonSerializable
         }
         if (isset($this->sourceNames)) {
             $json['source_names'] = $this->sourceNames;
+        }
+        if (isset($this->planIds)) {
+            $json['plan_ids']     = $this->planIds;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -32,6 +32,11 @@ class SubscriptionAction implements \JsonSerializable
     private $newPlanId;
 
     /**
+     * @var int|null
+     */
+    private $monthlyBillingAnchorDate;
+
+    /**
      * Returns Id.
      * The ID of an action scoped to a subscription.
      */
@@ -112,6 +117,26 @@ class SubscriptionAction implements \JsonSerializable
     }
 
     /**
+     * Returns Monthly Billing Anchor Date.
+     * The new billing anchor day value, for a `CHANGE_BILLING_ANCHOR_DATE` action.
+     */
+    public function getMonthlyBillingAnchorDate(): ?int
+    {
+        return $this->monthlyBillingAnchorDate;
+    }
+
+    /**
+     * Sets Monthly Billing Anchor Date.
+     * The new billing anchor day value, for a `CHANGE_BILLING_ANCHOR_DATE` action.
+     *
+     * @maps monthly_billing_anchor_date
+     */
+    public function setMonthlyBillingAnchorDate(?int $monthlyBillingAnchorDate): void
+    {
+        $this->monthlyBillingAnchorDate = $monthlyBillingAnchorDate;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -124,16 +149,19 @@ class SubscriptionAction implements \JsonSerializable
     {
         $json = [];
         if (isset($this->id)) {
-            $json['id']             = $this->id;
+            $json['id']                          = $this->id;
         }
         if (isset($this->type)) {
-            $json['type']           = $this->type;
+            $json['type']                        = $this->type;
         }
         if (isset($this->effectiveDate)) {
-            $json['effective_date'] = $this->effectiveDate;
+            $json['effective_date']              = $this->effectiveDate;
         }
         if (isset($this->newPlanId)) {
-            $json['new_plan_id']    = $this->newPlanId;
+            $json['new_plan_id']                 = $this->newPlanId;
+        }
+        if (isset($this->monthlyBillingAnchorDate)) {
+            $json['monthly_billing_anchor_date'] = $this->monthlyBillingAnchorDate;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

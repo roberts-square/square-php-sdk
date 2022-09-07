@@ -92,6 +92,11 @@ class Location implements \JsonSerializable
     private $businessHours;
 
     /**
+     * @var SpecialBusinessHours|null
+     */
+    private $specialHours;
+
+    /**
      * @var string|null
      */
     private $businessEmail;
@@ -501,6 +506,28 @@ class Location implements \JsonSerializable
     }
 
     /**
+     * Returns Special Hours.
+     * The list of time periods during which the business location is open on non-normal days (e.g.
+     * holidays).
+     */
+    public function getSpecialHours(): ?SpecialBusinessHours
+    {
+        return $this->specialHours;
+    }
+
+    /**
+     * Sets Special Hours.
+     * The list of time periods during which the business location is open on non-normal days (e.g.
+     * holidays).
+     *
+     * @maps special_hours
+     */
+    public function setSpecialHours(?SpecialBusinessHours $specialHours): void
+    {
+        $this->specialHours = $specialHours;
+    }
+
+    /**
      * Returns Business Email.
      * The email address of the location. This can be unique to the location and is not always the email
      * address for the business owner or administrator.
@@ -801,6 +828,9 @@ class Location implements \JsonSerializable
         }
         if (isset($this->businessHours)) {
             $json['business_hours']       = $this->businessHours;
+        }
+        if (isset($this->specialHours)) {
+            $json['special_hours']        = $this->specialHours;
         }
         if (isset($this->businessEmail)) {
             $json['business_email']       = $this->businessEmail;

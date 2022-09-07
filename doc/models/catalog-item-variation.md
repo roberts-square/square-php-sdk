@@ -33,6 +33,7 @@ decreases by 2, and the stockable count automatically decreases by 0.4 bottle ac
 | `inventoryAlertThreshold` | `?int` | Optional | If the inventory quantity for the variation is less than or equal to this value and `inventory_alert_type`<br>is `LOW_QUANTITY`, the variation displays an alert in the merchant dashboard.<br><br>This value is always an integer. | getInventoryAlertThreshold(): ?int | setInventoryAlertThreshold(?int inventoryAlertThreshold): void |
 | `userData` | `?string` | Optional | Arbitrary user metadata to associate with the item variation. This attribute value length is of Unicode code points.<br>**Constraints**: *Maximum Length*: `255` | getUserData(): ?string | setUserData(?string userData): void |
 | `serviceDuration` | `?int` | Optional | If the `CatalogItem` that owns this item variation is of type<br>`APPOINTMENTS_SERVICE`, then this is the duration of the service in milliseconds. For<br>example, a 30 minute appointment would have the value `1800000`, which is equal to<br>30 (minutes) * 60 (seconds per minute) * 1000 (milliseconds per second). | getServiceDuration(): ?int | setServiceDuration(?int serviceDuration): void |
+| `priceDescription` | `?string` | Optional | A description of the price. Can only be used with variable pricing. | getPriceDescription(): ?string | setPriceDescription(?string priceDescription): void |
 | `availableForBooking` | `?bool` | Optional | If the `CatalogItem` that owns this item variation is of type<br>`APPOINTMENTS_SERVICE`, a bool representing whether this service is available for booking. | getAvailableForBooking(): ?bool | setAvailableForBooking(?bool availableForBooking): void |
 | `itemOptionValues` | [`?(CatalogItemOptionValueForItemVariation[])`](../../doc/models/catalog-item-option-value-for-item-variation.md) | Optional | List of item option values associated with this item variation. Listed<br>in the same order as the item options of the parent item. | getItemOptionValues(): ?array | setItemOptionValues(?array itemOptionValues): void |
 | `measurementUnitId` | `?string` | Optional | ID of the ‘CatalogMeasurementUnit’ that is used to measure the quantity<br>sold of this item variation. If left unset, the item will be sold in<br>whole quantities. | getMeasurementUnitId(): ?string | setMeasurementUnitId(?string measurementUnitId): void |
@@ -41,6 +42,7 @@ decreases by 2, and the stockable count automatically decreases by 0.4 bottle ac
 | `imageIds` | `?(string[])` | Optional | The IDs of images associated with this `CatalogItemVariation` instance.<br>These images will be shown to customers in Square Online Store. | getImageIds(): ?array | setImageIds(?array imageIds): void |
 | `teamMemberIds` | `?(string[])` | Optional | Tokens of employees that can perform the service represented by this variation. Only valid for<br>variations of type `APPOINTMENTS_SERVICE`. | getTeamMemberIds(): ?array | setTeamMemberIds(?array teamMemberIds): void |
 | `stockableConversion` | [`?CatalogStockConversion`](../../doc/models/catalog-stock-conversion.md) | Optional | Represents the rule of conversion between a stockable [CatalogItemVariation](../../doc/models/catalog-item-variation.md)<br>and a non-stockable sell-by or receive-by `CatalogItemVariation` that<br>share the same underlying stock. | getStockableConversion(): ?CatalogStockConversion | setStockableConversion(?CatalogStockConversion stockableConversion): void |
+| `subscriptionPlanIds` | `?(string[])` | Optional | A list of all of the Subscription Plans a seller can use to create a subscription with this item variation.<br>This field is read-only. | getSubscriptionPlanIds(): ?array | setSubscriptionPlanIds(?array subscriptionPlanIds): void |
 
 ## Example (as JSON)
 
@@ -58,6 +60,7 @@ decreases by 2, and the stockable count automatically decreases by 0.4 bottle ac
   "inventory_alert_threshold": null,
   "user_data": null,
   "service_duration": null,
+  "price_description": null,
   "available_for_booking": null,
   "item_option_values": null,
   "measurement_unit_id": null,
@@ -65,7 +68,8 @@ decreases by 2, and the stockable count automatically decreases by 0.4 bottle ac
   "stockable": null,
   "image_ids": null,
   "team_member_ids": null,
-  "stockable_conversion": null
+  "stockable_conversion": null,
+  "subscription_plan_ids": null
 }
 ```
 

@@ -91,6 +91,16 @@ class CatalogQuery implements \JsonSerializable
     private $itemVariationsForItemOptionValuesQuery;
 
     /**
+     * @var CatalogQueryFilteredItems|null
+     */
+    private $filteredItemsQuery;
+
+    /**
+     * @var CatalogQueryCustomAttributeUsage|null
+     */
+    private $customAttributeUsage;
+
+    /**
      * Returns Sorted Attribute Query.
      * The query expression to specify the key to sort search results.
      */
@@ -304,6 +314,56 @@ class CatalogQuery implements \JsonSerializable
     }
 
     /**
+     * Returns Filtered Items Query.
+     * Supported query expressions to search for items or item variations.
+     * When supplying any of the query expressions, be aware that newly created or updated
+     * items or item variations may not appear in the search result if the search request
+     * is submitted in 5 seconds or less after the items are created or updated. In this
+     * case, the search result may include the items or item variations with old data if they
+     * are updated, or the search result may not include the items or item variations at all
+     * if they are newly created.
+     */
+    public function getFilteredItemsQuery(): ?CatalogQueryFilteredItems
+    {
+        return $this->filteredItemsQuery;
+    }
+
+    /**
+     * Sets Filtered Items Query.
+     * Supported query expressions to search for items or item variations.
+     * When supplying any of the query expressions, be aware that newly created or updated
+     * items or item variations may not appear in the search result if the search request
+     * is submitted in 5 seconds or less after the items are created or updated. In this
+     * case, the search result may include the items or item variations with old data if they
+     * are updated, or the search result may not include the items or item variations at all
+     * if they are newly created.
+     *
+     * @maps filtered_items_query
+     */
+    public function setFilteredItemsQuery(?CatalogQueryFilteredItems $filteredItemsQuery): void
+    {
+        $this->filteredItemsQuery = $filteredItemsQuery;
+    }
+
+    /**
+     * Returns Custom Attribute Usage.
+     */
+    public function getCustomAttributeUsage(): ?CatalogQueryCustomAttributeUsage
+    {
+        return $this->customAttributeUsage;
+    }
+
+    /**
+     * Sets Custom Attribute Usage.
+     *
+     * @maps custom_attribute_usage
+     */
+    public function setCustomAttributeUsage(?CatalogQueryCustomAttributeUsage $customAttributeUsage): void
+    {
+        $this->customAttributeUsage = $customAttributeUsage;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -344,6 +404,12 @@ class CatalogQuery implements \JsonSerializable
         }
         if (isset($this->itemVariationsForItemOptionValuesQuery)) {
             $json['item_variations_for_item_option_values_query'] = $this->itemVariationsForItemOptionValuesQuery;
+        }
+        if (isset($this->filteredItemsQuery)) {
+            $json['filtered_items_query']                         = $this->filteredItemsQuery;
+        }
+        if (isset($this->customAttributeUsage)) {
+            $json['custom_attribute_usage']                       = $this->customAttributeUsage;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

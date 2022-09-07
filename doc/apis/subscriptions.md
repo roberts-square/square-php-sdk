@@ -15,6 +15,7 @@ $subscriptionsApi = $client->getSubscriptionsApi();
 * [Retrieve Subscription](../../doc/apis/subscriptions.md#retrieve-subscription)
 * [Update Subscription](../../doc/apis/subscriptions.md#update-subscription)
 * [Delete Subscription Action](../../doc/apis/subscriptions.md#delete-subscription-action)
+* [Change Billing Anchor Date](../../doc/apis/subscriptions.md#change-billing-anchor-date)
 * [Cancel Subscription](../../doc/apis/subscriptions.md#cancel-subscription)
 * [List Subscription Events](../../doc/apis/subscriptions.md#list-subscription-events)
 * [Pause Subscription](../../doc/apis/subscriptions.md#pause-subscription)
@@ -245,6 +246,45 @@ $apiResponse = $subscriptionsApi->deleteSubscriptionAction($subscriptionId, $act
 
 if ($apiResponse->isSuccess()) {
     $deleteSubscriptionActionResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Change Billing Anchor Date
+
+Changes the billing anchor date for a subscription
+
+```php
+function changeBillingAnchorDate(string $subscriptionId, ChangeBillingAnchorDateRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscriptionId` | `string` | Template, Required | The ID of the subscription to update the billing anchor date. |
+| `body` | [`ChangeBillingAnchorDateRequest`](../../doc/models/change-billing-anchor-date-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`ChangeBillingAnchorDateResponse`](../../doc/models/change-billing-anchor-date-response.md)
+
+## Example Usage
+
+```php
+$subscriptionId = 'subscription_id0';
+$body = new Models\ChangeBillingAnchorDateRequest;
+
+$apiResponse = $subscriptionsApi->changeBillingAnchorDate($subscriptionId, $body);
+
+if ($apiResponse->isSuccess()) {
+    $changeBillingAnchorDateResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

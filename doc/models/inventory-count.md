@@ -20,6 +20,8 @@ inventory adjustments.
 | `quantity` | `?string` | Optional | The number of items affected by the estimated count as a decimal string.<br>Can support up to 5 digits after the decimal point.<br>**Constraints**: *Maximum Length*: `26` | getQuantity(): ?string | setQuantity(?string quantity): void |
 | `calculatedAt` | `?string` | Optional | An RFC 3339-formatted timestamp that indicates when the most recent physical count or adjustment affecting<br>the estimated count is received.<br>**Constraints**: *Maximum Length*: `34` | getCalculatedAt(): ?string | setCalculatedAt(?string calculatedAt): void |
 | `isEstimated` | `?bool` | Optional | Whether the inventory count is for composed variation (TRUE) or not (FALSE). If true, the inventory count will not be present in the response of<br>any of these endpoints: [BatchChangeInventory](../../doc/apis/inventory.md#batch-change-inventory),<br>[BatchRetrieveInventoryChanges](../../doc/apis/inventory.md#batch-retrieve-inventory-changes),<br>[BatchRetrieveInventoryCounts](../../doc/apis/inventory.md#batch-retrieve-inventory-counts), and<br>[RetrieveInventoryChanges](../../doc/apis/inventory.md#retrieve-inventory-changes). | getIsEstimated(): ?bool | setIsEstimated(?bool isEstimated): void |
+| `quantityCommitted` | `?string` | Optional | The number of items committed as a decimal string.<br>Can support up to 5 digits after the decimal point. | getQuantityCommitted(): ?string | setQuantityCommitted(?string quantityCommitted): void |
+| `quantityAvailable` | `?string` | Optional | The number of items are available as a decimal string.<br>Can support up to 5 digits after the decimal point. | getQuantityAvailable(): ?string | setQuantityAvailable(?string quantityAvailable): void |
 
 ## Example (as JSON)
 
@@ -29,7 +31,9 @@ inventory adjustments.
   "catalog_object_type": null,
   "state": null,
   "location_id": null,
-  "quantity": null
+  "quantity": null,
+  "quantity_committed": null,
+  "quantity_available": null
 }
 ```
 

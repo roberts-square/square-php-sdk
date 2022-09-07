@@ -88,9 +88,19 @@ class CatalogItem implements \JsonSerializable
     private $imageIds;
 
     /**
+     * @var string[]|null
+     */
+    private $legacyTaxIds;
+
+    /**
      * @var string|null
      */
     private $sortName;
+
+    /**
+     * @var CatalogObjectCategory[]|null
+     */
+    private $additionalCategories;
 
     /**
      * @var string|null
@@ -493,6 +503,30 @@ class CatalogItem implements \JsonSerializable
     }
 
     /**
+     * Returns Legacy Tax Ids.
+     * fee tokens that item applied from legacy `ItemFeeMembership`. For internal and read only
+     *
+     * @return string[]|null
+     */
+    public function getLegacyTaxIds(): ?array
+    {
+        return $this->legacyTaxIds;
+    }
+
+    /**
+     * Sets Legacy Tax Ids.
+     * fee tokens that item applied from legacy `ItemFeeMembership`. For internal and read only
+     *
+     * @maps legacy_tax_ids
+     *
+     * @param string[]|null $legacyTaxIds
+     */
+    public function setLegacyTaxIds(?array $legacyTaxIds): void
+    {
+        $this->legacyTaxIds = $legacyTaxIds;
+    }
+
+    /**
      * Returns Sort Name.
      * A name to sort the item by. If this name is unspecified, namely, the `sort_name` field is absent,
      * the regular `name` field is used for sorting.
@@ -516,6 +550,30 @@ class CatalogItem implements \JsonSerializable
     public function setSortName(?string $sortName): void
     {
         $this->sortName = $sortName;
+    }
+
+    /**
+     * Returns Additional Categories.
+     * The list of additional categories
+     *
+     * @return CatalogObjectCategory[]|null
+     */
+    public function getAdditionalCategories(): ?array
+    {
+        return $this->additionalCategories;
+    }
+
+    /**
+     * Sets Additional Categories.
+     * The list of additional categories
+     *
+     * @maps additional_categories
+     *
+     * @param CatalogObjectCategory[]|null $additionalCategories
+     */
+    public function setAdditionalCategories(?array $additionalCategories): void
+    {
+        $this->additionalCategories = $additionalCategories;
     }
 
     /**
@@ -665,8 +723,14 @@ class CatalogItem implements \JsonSerializable
         if (isset($this->imageIds)) {
             $json['image_ids']                = $this->imageIds;
         }
+        if (isset($this->legacyTaxIds)) {
+            $json['legacy_tax_ids']           = $this->legacyTaxIds;
+        }
         if (isset($this->sortName)) {
             $json['sort_name']                = $this->sortName;
+        }
+        if (isset($this->additionalCategories)) {
+            $json['additional_categories']    = $this->additionalCategories;
         }
         if (isset($this->descriptionHtml)) {
             $json['description_html']         = $this->descriptionHtml;

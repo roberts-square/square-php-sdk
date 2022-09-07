@@ -43,10 +43,20 @@ itemization data.
 | `totalDiscountMoney` | [`?Money`](../../doc/models/money.md) | Optional | Represents an amount of money. `Money` fields can be signed or unsigned.<br>Fields that do not explicitly define whether they are signed or unsigned are<br>considered unsigned and can only hold positive amounts. For signed fields, the<br>sign of the value indicates the purpose of the money transfer. See<br>[Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-monetary-amounts)<br>for more information. | getTotalDiscountMoney(): ?Money | setTotalDiscountMoney(?Money totalDiscountMoney): void |
 | `totalTipMoney` | [`?Money`](../../doc/models/money.md) | Optional | Represents an amount of money. `Money` fields can be signed or unsigned.<br>Fields that do not explicitly define whether they are signed or unsigned are<br>considered unsigned and can only hold positive amounts. For signed fields, the<br>sign of the value indicates the purpose of the money transfer. See<br>[Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-monetary-amounts)<br>for more information. | getTotalTipMoney(): ?Money | setTotalTipMoney(?Money totalTipMoney): void |
 | `totalServiceChargeMoney` | [`?Money`](../../doc/models/money.md) | Optional | Represents an amount of money. `Money` fields can be signed or unsigned.<br>Fields that do not explicitly define whether they are signed or unsigned are<br>considered unsigned and can only hold positive amounts. For signed fields, the<br>sign of the value indicates the purpose of the money transfer. See<br>[Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-monetary-amounts)<br>for more information. | getTotalServiceChargeMoney(): ?Money | setTotalServiceChargeMoney(?Money totalServiceChargeMoney): void |
+| `shortReferenceId` | `?string` | Optional | A short form of the `reference_id` that is human-readable.<br>**Constraints**: *Maximum Length*: `14` | getShortReferenceId(): ?string | setShortReferenceId(?string shortReferenceId): void |
 | `ticketName` | `?string` | Optional | A short-term identifier for the order (such as a customer first name,<br>table number, or auto-generated order number that resets daily).<br>**Constraints**: *Maximum Length*: `30` | getTicketName(): ?string | setTicketName(?string ticketName): void |
 | `pricingOptions` | [`?OrderPricingOptions`](../../doc/models/order-pricing-options.md) | Optional | Pricing options for an order. The options affect how the order's price is calculated.<br>They can be used, for example, to apply automatic price adjustments that are based on preconfigured<br>[pricing rules](../../doc/models/catalog-pricing-rule.md). | getPricingOptions(): ?OrderPricingOptions | setPricingOptions(?OrderPricingOptions pricingOptions): void |
+| `discountCodes` | [`?(OrderDiscountCode[])`](../../doc/models/order-discount-code.md) | Optional | A set-like list of `DiscountCodes` that have been added to the `Order`. | getDiscountCodes(): ?array | setDiscountCodes(?array discountCodes): void |
 | `rewards` | [`?(OrderReward[])`](../../doc/models/order-reward.md) | Optional | A set-like list of Rewards that have been added to the Order. | getRewards(): ?array | setRewards(?array rewards): void |
+| `voids` | [`?(OrderVoid[])`](../../doc/models/order-void.md) | Optional | Stores information about any void operations performed against this order. | getVoids(): ?array | setVoids(?array voids): void |
+| `comps` | [`?(OrderComp[])`](../../doc/models/order-comp.md) | Optional | The list of all comps associated with this order, whether applied at the `ORDER` or `LINE_ITEM` level. | getComps(): ?array | setComps(?array comps): void |
+| `note` | `?string` | Optional | A short note field at the order level where details about the order can be entered<br>**Constraints**: *Maximum Length*: `1000` | getNote(): ?string | setNote(?string note): void |
+| `sequentialNumber` | `?string` | Optional | A Prefixed Sequential Number field used to satisfy international market requirements.<br>The number may be reset periodically. | getSequentialNumber(): ?string | setSequentialNumber(?string sequentialNumber): void |
+| `returnedQuantities` | [`?(OrderReturnedQuantity[])`](../../doc/models/order-returned-quantity.md) | Optional | List of ReturnedQuantity to indicate what has been returned for custom amount returns | getReturnedQuantities(): ?array | setReturnedQuantities(?array returnedQuantities): void |
 | `netAmountDueMoney` | [`?Money`](../../doc/models/money.md) | Optional | Represents an amount of money. `Money` fields can be signed or unsigned.<br>Fields that do not explicitly define whether they are signed or unsigned are<br>considered unsigned and can only hold positive amounts. For signed fields, the<br>sign of the value indicates the purpose of the money transfer. See<br>[Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-monetary-amounts)<br>for more information. | getNetAmountDueMoney(): ?Money | setNetAmountDueMoney(?Money netAmountDueMoney): void |
+| `diningOption` | [`?OrderDiningOption`](../../doc/models/order-dining-option.md) | Optional | Represents a dining option that can be applied either to the order top level or to<br>individual line items. Dining options are created through the Catalog API. | getDiningOption(): ?OrderDiningOption | setDiningOption(?OrderDiningOption diningOption): void |
+| `processingModes` | [`?OrderProcessingModes`](../../doc/models/order-processing-modes.md) | Optional | The processing modes for order creation and completion. | getProcessingModes(): ?OrderProcessingModes | setProcessingModes(?OrderProcessingModes processingModes): void |
+| `taxExemptions` | [`?(OrderLineItemTaxExemption[])`](../../doc/models/order-line-item-tax-exemption.md) | Optional | Tax exemptions that are applied to one or more line items in the order.<br>When a tax exemption is applied to a line item, it prevents its associated set of taxes from applying to that line item. | getTaxExemptions(): ?array | setTaxExemptions(?array taxExemptions): void |
 
 ## Example (as JSON)
 
@@ -72,9 +82,16 @@ itemization data.
   "total_discount_money": null,
   "total_tip_money": null,
   "total_service_charge_money": null,
+  "short_reference_id": null,
   "ticket_name": null,
   "pricing_options": null,
-  "net_amount_due_money": null
+  "voids": null,
+  "comps": null,
+  "note": null,
+  "sequential_number": null,
+  "net_amount_due_money": null,
+  "dining_option": null,
+  "processing_modes": null
 }
 ```
 

@@ -11,6 +11,7 @@ $inventoryApi = $client->getInventoryApi();
 ## Methods
 
 * [Deprecated Retrieve Inventory Adjustment](../../doc/apis/inventory.md#deprecated-retrieve-inventory-adjustment)
+* [Update Inventory Adjustment](../../doc/apis/inventory.md#update-inventory-adjustment)
 * [Retrieve Inventory Adjustment](../../doc/apis/inventory.md#retrieve-inventory-adjustment)
 * [Deprecated Batch Change Inventory](../../doc/apis/inventory.md#deprecated-batch-change-inventory)
 * [Deprecated Batch Retrieve Inventory Changes](../../doc/apis/inventory.md#deprecated-batch-retrieve-inventory-changes)
@@ -55,6 +56,54 @@ $apiResponse = $inventoryApi->deprecatedRetrieveInventoryAdjustment($adjustmentI
 
 if ($apiResponse->isSuccess()) {
     $retrieveInventoryAdjustmentResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Update Inventory Adjustment
+
+Applies an update to the provided adjustment.
+
+On success: returns the newly updated adjustment.
+On failure: returns a list of related errors.
+
+```php
+function updateInventoryAdjustment(UpdateInventoryAdjustmentRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`UpdateInventoryAdjustmentRequest`](../../doc/models/update-inventory-adjustment-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`UpdateInventoryAdjustmentResponse`](../../doc/models/update-inventory-adjustment-response.md)
+
+## Example Usage
+
+```php
+$body_idempotencyKey = '8fc6a5b0-9fe8-4b46-b46b-2ef95793abbe';
+$body = new Models\UpdateInventoryAdjustmentRequest(
+    $body_idempotencyKey
+);
+$body_update_adjustmentId = 'UDMOEO78BG6GYWA2XDRYX3KB';
+$body->setUpdate(new Models\InventoryAdjustmentUpdate(
+    $body_update_adjustmentId
+));
+$body->getUpdate()->setQuantity('7.5');
+
+$apiResponse = $inventoryApi->updateInventoryAdjustment($body);
+
+if ($apiResponse->isSuccess()) {
+    $updateInventoryAdjustmentResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

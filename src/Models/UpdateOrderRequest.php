@@ -28,6 +28,11 @@ class UpdateOrderRequest implements \JsonSerializable
     private $idempotencyKey;
 
     /**
+     * @var bool|null
+     */
+    private $precalculatedOrder;
+
+    /**
      * Returns Order.
      * Contains all information related to a single order to process with Square,
      * including line items that specify the products to purchase. `Order` objects also
@@ -126,6 +131,24 @@ class UpdateOrderRequest implements \JsonSerializable
     }
 
     /**
+     * Returns Precalculated Order.
+     */
+    public function getPrecalculatedOrder(): ?bool
+    {
+        return $this->precalculatedOrder;
+    }
+
+    /**
+     * Sets Precalculated Order.
+     *
+     * @maps precalculated_order
+     */
+    public function setPrecalculatedOrder(?bool $precalculatedOrder): void
+    {
+        $this->precalculatedOrder = $precalculatedOrder;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -138,13 +161,16 @@ class UpdateOrderRequest implements \JsonSerializable
     {
         $json = [];
         if (isset($this->order)) {
-            $json['order']           = $this->order;
+            $json['order']               = $this->order;
         }
         if (isset($this->fieldsToClear)) {
-            $json['fields_to_clear'] = $this->fieldsToClear;
+            $json['fields_to_clear']     = $this->fieldsToClear;
         }
         if (isset($this->idempotencyKey)) {
-            $json['idempotency_key'] = $this->idempotencyKey;
+            $json['idempotency_key']     = $this->idempotencyKey;
+        }
+        if (isset($this->precalculatedOrder)) {
+            $json['precalculated_order'] = $this->precalculatedOrder;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

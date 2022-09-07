@@ -38,4 +38,9 @@ class SubscriptionEventSubscriptionEventType
      * The subscription was paused.
      */
     public const PAUSE_SUBSCRIPTION = 'PAUSE_SUBSCRIPTION';
+
+    /**
+     * The billing anchor date was changed.
+     */
+    public const BILLING_ANCHOR_DATE_CHANGE = 'BILLING_ANCHOR_DATE_CHANGE';
 }

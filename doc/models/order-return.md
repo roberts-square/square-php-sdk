@@ -19,6 +19,7 @@ The set of line items, service charges, taxes, discounts, tips, and other items 
 | `returnDiscounts` | [`?(OrderReturnDiscount[])`](../../doc/models/order-return-discount.md) | Optional | A collection of references to discounts being returned for an order, including the total<br>applied discount amount to be returned. The discounts must reference a top-level discount ID<br>from the source order. | getReturnDiscounts(): ?array | setReturnDiscounts(?array returnDiscounts): void |
 | `roundingAdjustment` | [`?OrderRoundingAdjustment`](../../doc/models/order-rounding-adjustment.md) | Optional | A rounding adjustment of the money being returned. Commonly used to apply cash rounding<br>when the minimum unit of the account is smaller than the lowest physical denomination of the currency. | getRoundingAdjustment(): ?OrderRoundingAdjustment | setRoundingAdjustment(?OrderRoundingAdjustment roundingAdjustment): void |
 | `returnAmounts` | [`?OrderMoneyAmounts`](../../doc/models/order-money-amounts.md) | Optional | A collection of various money amounts. | getReturnAmounts(): ?OrderMoneyAmounts | setReturnAmounts(?OrderMoneyAmounts returnAmounts): void |
+| `returnType` | [`?string (OrderReturnType)`](../../doc/models/order-return-type.md) | Optional | - | getReturnType(): ?string | setReturnType(?string returnType): void |
 
 ## Example (as JSON)
 
@@ -30,7 +31,8 @@ The set of line items, service charges, taxes, discounts, tips, and other items 
   "return_taxes": null,
   "return_discounts": null,
   "rounding_adjustment": null,
-  "return_amounts": null
+  "return_amounts": null,
+  "return_type": null
 }
 ```
 

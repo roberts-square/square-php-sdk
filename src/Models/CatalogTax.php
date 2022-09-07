@@ -42,6 +42,11 @@ class CatalogTax implements \JsonSerializable
     private $enabled;
 
     /**
+     * @var string|null
+     */
+    private $appliesToProductSetId;
+
+    /**
      * Returns Name.
      * The tax's name. This is a searchable attribute for use in applicable query filters, and its value
      * length is of Unicode code points.
@@ -174,6 +179,28 @@ class CatalogTax implements \JsonSerializable
     }
 
     /**
+     * Returns Applies to Product Set Id.
+     * The ID of a `CatalogProductSet` object. If set, the tax is applicable to all products in the product
+     * set.
+     */
+    public function getAppliesToProductSetId(): ?string
+    {
+        return $this->appliesToProductSetId;
+    }
+
+    /**
+     * Sets Applies to Product Set Id.
+     * The ID of a `CatalogProductSet` object. If set, the tax is applicable to all products in the product
+     * set.
+     *
+     * @maps applies_to_product_set_id
+     */
+    public function setAppliesToProductSetId(?string $appliesToProductSetId): void
+    {
+        $this->appliesToProductSetId = $appliesToProductSetId;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -202,6 +229,9 @@ class CatalogTax implements \JsonSerializable
         }
         if (isset($this->enabled)) {
             $json['enabled']                   = $this->enabled;
+        }
+        if (isset($this->appliesToProductSetId)) {
+            $json['applies_to_product_set_id'] = $this->appliesToProductSetId;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -37,9 +37,9 @@ to store any sensitive information (personally identifiable information, card de
   "description": null,
   "source_application": null,
   "allowed_object_types": [
+    "SERVICE_CHARGE",
     "PRICING_RULE",
-    "PRODUCT_SET",
-    "TIME_PERIOD"
+    "PRODUCT_SET"
   ],
   "seller_visibility": null,
   "app_visibility": null,

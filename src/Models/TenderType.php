@@ -38,12 +38,42 @@ class TenderType
     public const NO_SALE = 'NO_SALE';
 
     /**
+     * A check.
+     */
+    public const CHECK = 'CHECK';
+
+    /**
+     * A non-Square gift card.
+     */
+    public const MERCHANT_GIFT_CARD = 'MERCHANT_GIFT_CARD';
+
+    /**
+     * An electronic money card not processed by Square.
+     */
+    public const THIRD_PARTY_E_MONEY = 'THIRD_PARTY_E_MONEY';
+
+    /**
+     * A bank account payment.
+     */
+    public const BANK_ACCOUNT = 'BANK_ACCOUNT';
+
+    /**
      * A payment from a digital wallet, e.g. Cash App.
      *
      * Note: Some "digital wallets", including Google Pay and Apple Pay, facilitate
      * card payments.  Those payments have the `CARD` type.
      */
     public const WALLET = 'WALLET';
+
+    /**
+     * A Buy Now Pay Later payment.
+     */
+    public const BUY_NOW_PAY_LATER = 'BUY_NOW_PAY_LATER';
+
+    /**
+     * A Square House Account payment.
+     */
+    public const SQUARE_ACCOUNT = 'SQUARE_ACCOUNT';
 
     /**
      * A form of tender that does not match any other value.

@@ -18,6 +18,8 @@ used by Square's servers to apply each filter property specified.
 | `start` | [`?TimeRange`](../../doc/models/time-range.md) | Optional | Represents a generic time range. The start and end values are<br>represented in RFC 3339 format. Time ranges are customized to be<br>inclusive or exclusive based on the needs of a particular endpoint.<br>Refer to the relevant endpoint-specific documentation to determine<br>how time ranges are handled. | getStart(): ?TimeRange | setStart(?TimeRange start): void |
 | `end` | [`?TimeRange`](../../doc/models/time-range.md) | Optional | Represents a generic time range. The start and end values are<br>represented in RFC 3339 format. Time ranges are customized to be<br>inclusive or exclusive based on the needs of a particular endpoint.<br>Refer to the relevant endpoint-specific documentation to determine<br>how time ranges are handled. | getEnd(): ?TimeRange | setEnd(?TimeRange end): void |
 | `workday` | [`?ShiftWorkday`](../../doc/models/shift-workday.md) | Optional | A `Shift` search query filter parameter that sets a range of days that<br>a `Shift` must start or end in before passing the filter condition. | getWorkday(): ?ShiftWorkday | setWorkday(?ShiftWorkday workday): void |
+| `locationId` | `?(string[])` | Optional | - | getLocationId(): ?array | setLocationId(?array locationId): void |
+| `employeeId` | `?(string[])` | Optional | - | getEmployeeId(): ?array | setEmployeeId(?array employeeId): void |
 | `teamMemberIds` | `?(string[])` | Optional | Fetch shifts for the specified team members. Replaced `employee_ids` at version "2020-08-26". | getTeamMemberIds(): ?array | setTeamMemberIds(?array teamMemberIds): void |
 
 ## Example (as JSON)
@@ -30,6 +32,8 @@ used by Square's servers to apply each filter property specified.
   "start": null,
   "end": null,
   "workday": null,
+  "location_id": null,
+  "employee_id": null,
   "team_member_ids": null
 }
 ```

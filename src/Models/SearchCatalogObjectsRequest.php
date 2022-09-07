@@ -44,6 +44,11 @@ class SearchCatalogObjectsRequest implements \JsonSerializable
     private $limit;
 
     /**
+     * @var string|null
+     */
+    private $endTime;
+
+    /**
      * Returns Cursor.
      * The pagination cursor returned in the previous response. Leave unset for an initial request.
      * See [Pagination](https://developer.squareup.com/docs/basics/api101/pagination) for more information.
@@ -306,6 +311,42 @@ class SearchCatalogObjectsRequest implements \JsonSerializable
     }
 
     /**
+     * Returns End Time.
+     * This field does not behave correctly, and should not be used. Nested objects and related objects
+     * will not be at the version specified. Also some query types are not performed at the current
+     * version
+     * instead of at this version.
+     *
+     * Return objects modified at or before this [timestamp](https://developer.squareup.com/docs/build-
+     * basics/working-with-dates), in RFC 3339
+     * format, e.g., `2016-09-04T23:59:33.123Z`. The timestamp is inclusive - objects with a
+     * timestamp equal to `end_time` will be included in the response.
+     */
+    public function getEndTime(): ?string
+    {
+        return $this->endTime;
+    }
+
+    /**
+     * Sets End Time.
+     * This field does not behave correctly, and should not be used. Nested objects and related objects
+     * will not be at the version specified. Also some query types are not performed at the current
+     * version
+     * instead of at this version.
+     *
+     * Return objects modified at or before this [timestamp](https://developer.squareup.com/docs/build-
+     * basics/working-with-dates), in RFC 3339
+     * format, e.g., `2016-09-04T23:59:33.123Z`. The timestamp is inclusive - objects with a
+     * timestamp equal to `end_time` will be included in the response.
+     *
+     * @maps end_time
+     */
+    public function setEndTime(?string $endTime): void
+    {
+        $this->endTime = $endTime;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -337,6 +378,9 @@ class SearchCatalogObjectsRequest implements \JsonSerializable
         }
         if (isset($this->limit)) {
             $json['limit']                   = $this->limit;
+        }
+        if (isset($this->endTime)) {
+            $json['end_time']                = $this->endTime;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

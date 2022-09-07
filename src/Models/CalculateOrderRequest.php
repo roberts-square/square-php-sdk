@@ -14,6 +14,11 @@ class CalculateOrderRequest implements \JsonSerializable
     private $order;
 
     /**
+     * @var OrderDiscountCode[]|null
+     */
+    private $proposedDiscountCodes;
+
+    /**
      * @var OrderReward[]|null
      */
     private $proposedRewards;
@@ -55,6 +60,36 @@ class CalculateOrderRequest implements \JsonSerializable
     public function setOrder(Order $order): void
     {
         $this->order = $order;
+    }
+
+    /**
+     * Returns Proposed Discount Codes.
+     * Discount codes that should be applied during the order calculation if the order meets
+     * the necessary criteria. The discount codes are added to the order for the calculation
+     * preview, but they do not correspond to actual redemptions. To create real discount code
+     * redemptions for orders, the Discount Codes API must be used.
+     *
+     * @return OrderDiscountCode[]|null
+     */
+    public function getProposedDiscountCodes(): ?array
+    {
+        return $this->proposedDiscountCodes;
+    }
+
+    /**
+     * Sets Proposed Discount Codes.
+     * Discount codes that should be applied during the order calculation if the order meets
+     * the necessary criteria. The discount codes are added to the order for the calculation
+     * preview, but they do not correspond to actual redemptions. To create real discount code
+     * redemptions for orders, the Discount Codes API must be used.
+     *
+     * @maps proposed_discount_codes
+     *
+     * @param OrderDiscountCode[]|null $proposedDiscountCodes
+     */
+    public function setProposedDiscountCodes(?array $proposedDiscountCodes): void
+    {
+        $this->proposedDiscountCodes = $proposedDiscountCodes;
     }
 
     /**
@@ -101,9 +136,12 @@ class CalculateOrderRequest implements \JsonSerializable
     public function jsonSerialize(bool $asArrayWhenEmpty = false)
     {
         $json = [];
-        $json['order']                = $this->order;
+        $json['order']                       = $this->order;
+        if (isset($this->proposedDiscountCodes)) {
+            $json['proposed_discount_codes'] = $this->proposedDiscountCodes;
+        }
         if (isset($this->proposedRewards)) {
-            $json['proposed_rewards'] = $this->proposedRewards;
+            $json['proposed_rewards']        = $this->proposedRewards;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

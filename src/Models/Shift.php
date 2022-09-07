@@ -79,6 +79,11 @@ class Shift implements \JsonSerializable
     private $teamMemberId;
 
     /**
+     * @var bool|null
+     */
+    private $tipEligible;
+
+    /**
      * @param string $startAt
      */
     public function __construct(string $startAt)
@@ -370,6 +375,24 @@ class Shift implements \JsonSerializable
     }
 
     /**
+     * Returns Tip Eligible.
+     */
+    public function getTipEligible(): ?bool
+    {
+        return $this->tipEligible;
+    }
+
+    /**
+     * Sets Tip Eligible.
+     *
+     * @maps tip_eligible
+     */
+    public function setTipEligible(?bool $tipEligible): void
+    {
+        $this->tipEligible = $tipEligible;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -417,6 +440,9 @@ class Shift implements \JsonSerializable
         }
         if (isset($this->teamMemberId)) {
             $json['team_member_id'] = $this->teamMemberId;
+        }
+        if (isset($this->tipEligible)) {
+            $json['tip_eligible']   = $this->tipEligible;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -26,6 +26,11 @@ class LoyaltyPromotionTriggerLimit implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $timePeriod;
+
+    /**
+     * @var string|null
+     */
     private $interval;
 
     /**
@@ -55,6 +60,24 @@ class LoyaltyPromotionTriggerLimit implements \JsonSerializable
     public function setTimes(int $times): void
     {
         $this->times = $times;
+    }
+
+    /**
+     * Returns Time Period.
+     */
+    public function getTimePeriod(): ?string
+    {
+        return $this->timePeriod;
+    }
+
+    /**
+     * Sets Time Period.
+     *
+     * @maps time_period
+     */
+    public function setTimePeriod(?string $timePeriod): void
+    {
+        $this->timePeriod = $timePeriod;
     }
 
     /**
@@ -93,9 +116,12 @@ class LoyaltyPromotionTriggerLimit implements \JsonSerializable
     public function jsonSerialize(bool $asArrayWhenEmpty = false)
     {
         $json = [];
-        $json['times']        = $this->times;
+        $json['times']           = $this->times;
+        if (isset($this->timePeriod)) {
+            $json['time_period'] = $this->timePeriod;
+        }
         if (isset($this->interval)) {
-            $json['interval'] = $this->interval;
+            $json['interval']    = $this->interval;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

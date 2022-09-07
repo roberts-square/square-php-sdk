@@ -60,6 +60,11 @@ class Card implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $buyerId;
+
+    /**
+     * @var string|null
+     */
     private $merchantId;
 
     /**
@@ -286,6 +291,26 @@ class Card implements \JsonSerializable
     }
 
     /**
+     * Returns Buyer Id.
+     * The ID of a buyer to be associated with the card.
+     */
+    public function getBuyerId(): ?string
+    {
+        return $this->buyerId;
+    }
+
+    /**
+     * Sets Buyer Id.
+     * The ID of a buyer to be associated with the card.
+     *
+     * @maps buyer_id
+     */
+    public function setBuyerId(?string $buyerId): void
+    {
+        $this->buyerId = $buyerId;
+    }
+
+    /**
      * Returns Merchant Id.
      * The ID of the merchant associated with the card.
      */
@@ -495,6 +520,9 @@ class Card implements \JsonSerializable
         }
         if (isset($this->customerId)) {
             $json['customer_id']     = $this->customerId;
+        }
+        if (isset($this->buyerId)) {
+            $json['buyer_id']        = $this->buyerId;
         }
         if (isset($this->merchantId)) {
             $json['merchant_id']     = $this->merchantId;

@@ -18,4 +18,11 @@ class OrderFulfillmentType
      * A shipping carrier to ship the fulfillment.
      */
     public const SHIPMENT = 'SHIPMENT';
+
+    /**
+     * A courier to deliver the fulfillment.
+     */
+    public const DELIVERY = 'DELIVERY';
+
+    public const SIMPLE = 'SIMPLE';
 }

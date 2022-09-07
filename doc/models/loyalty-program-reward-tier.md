@@ -25,6 +25,8 @@ Represents a reward tier in a loyalty program. A reward tier defines how buyers 
   "definition": {
     "scope": "ORDER",
     "discount_type": "FIXED_AMOUNT",
+    "fixed_discount": null,
+    "max_discount": null,
     "fixed_discount_money": null,
     "max_discount_money": null
   },

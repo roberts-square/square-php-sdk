@@ -28,6 +28,21 @@ class PayOrderRequest implements \JsonSerializable
     private $paymentIds;
 
     /**
+     * @var PayOrderRequestDelayCompletion|null
+     */
+    private $delayCompletion;
+
+    /**
+     * @var string|null
+     */
+    private $completionProcessingMode;
+
+    /**
+     * @var string|null
+     */
+    private $paymentType;
+
+    /**
      * @param string $idempotencyKey
      */
     public function __construct(string $idempotencyKey)
@@ -113,6 +128,68 @@ class PayOrderRequest implements \JsonSerializable
     }
 
     /**
+     * Returns Delay Completion.
+     * The delay completion details including the reason (e.g. PAPER_TIP) and the payment IDs
+     * to delay completion for. The same reason is used for all payments, but not all payments in the
+     * payment group have to use delayed completion. For example, a split tender checkout where one
+     * payment type cannot use delayed completion (e.g. ACH).
+     */
+    public function getDelayCompletion(): ?PayOrderRequestDelayCompletion
+    {
+        return $this->delayCompletion;
+    }
+
+    /**
+     * Sets Delay Completion.
+     * The delay completion details including the reason (e.g. PAPER_TIP) and the payment IDs
+     * to delay completion for. The same reason is used for all payments, but not all payments in the
+     * payment group have to use delayed completion. For example, a split tender checkout where one
+     * payment type cannot use delayed completion (e.g. ACH).
+     *
+     * @maps delay_completion
+     */
+    public function setDelayCompletion(?PayOrderRequestDelayCompletion $delayCompletion): void
+    {
+        $this->delayCompletion = $delayCompletion;
+    }
+
+    /**
+     * Returns Completion Processing Mode.
+     */
+    public function getCompletionProcessingMode(): ?string
+    {
+        return $this->completionProcessingMode;
+    }
+
+    /**
+     * Sets Completion Processing Mode.
+     *
+     * @maps completion_processing_mode
+     */
+    public function setCompletionProcessingMode(?string $completionProcessingMode): void
+    {
+        $this->completionProcessingMode = $completionProcessingMode;
+    }
+
+    /**
+     * Returns Payment Type.
+     */
+    public function getPaymentType(): ?string
+    {
+        return $this->paymentType;
+    }
+
+    /**
+     * Sets Payment Type.
+     *
+     * @maps payment_type
+     */
+    public function setPaymentType(?string $paymentType): void
+    {
+        $this->paymentType = $paymentType;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -124,12 +201,21 @@ class PayOrderRequest implements \JsonSerializable
     public function jsonSerialize(bool $asArrayWhenEmpty = false)
     {
         $json = [];
-        $json['idempotency_key']   = $this->idempotencyKey;
+        $json['idempotency_key']                = $this->idempotencyKey;
         if (isset($this->orderVersion)) {
-            $json['order_version'] = $this->orderVersion;
+            $json['order_version']              = $this->orderVersion;
         }
         if (isset($this->paymentIds)) {
-            $json['payment_ids']   = $this->paymentIds;
+            $json['payment_ids']                = $this->paymentIds;
+        }
+        if (isset($this->delayCompletion)) {
+            $json['delay_completion']           = $this->delayCompletion;
+        }
+        if (isset($this->completionProcessingMode)) {
+            $json['completion_processing_mode'] = $this->completionProcessingMode;
+        }
+        if (isset($this->paymentType)) {
+            $json['payment_type']               = $this->paymentType;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

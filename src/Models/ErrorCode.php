@@ -312,6 +312,11 @@ class ErrorCode
     public const INVALID_DATE = 'INVALID_DATE';
 
     /**
+     * There already exists a job template with the given name.
+     */
+    public const JOB_TEMPLATE_NAME_TAKEN = 'JOB_TEMPLATE_NAME_TAKEN';
+
+    /**
      * The card issuer declined the request because the card is expired.
      */
     public const CARD_EXPIRED = 'CARD_EXPIRED';
@@ -595,6 +600,36 @@ class ErrorCode
     public const LOCATION_MISMATCH = 'LOCATION_MISMATCH';
 
     /**
+     * The requested order has expired and cannot be updated.
+     */
+    public const ORDER_EXPIRED = 'ORDER_EXPIRED';
+
+    /**
+     * The order was already used.
+     */
+    public const ORDER_ALREADY_USED = 'ORDER_ALREADY_USED';
+
+    /**
+     * The creation request contains too many catalog IDs.
+     */
+    public const ORDER_TOO_MANY_CATALOG_OBJECTS = 'ORDER_TOO_MANY_CATALOG_OBJECTS';
+
+    /**
+     * The referenced inventory item has insufficient inventory.
+     */
+    public const INSUFFICIENT_INVENTORY = 'INSUFFICIENT_INVENTORY';
+
+    /**
+     * There is a price mismatch.
+     */
+    public const PRICE_MISMATCH = 'PRICE_MISMATCH';
+
+    /**
+     * The provided object version does not match the expected value.
+     */
+    public const VERSION_MISMATCH = 'VERSION_MISMATCH';
+
+    /**
      * The provided idempotency key has already been used.
      */
     public const IDEMPOTENCY_KEY_REUSED = 'IDEMPOTENCY_KEY_REUSED';
@@ -691,9 +726,43 @@ class ErrorCode
     public const RESERVATION_DECLINED = 'RESERVATION_DECLINED';
 
     /**
+     * This restricted date is a duplicate within the list.
+     */
+    public const FULFILLMENT_PREFERENCES_RESTRICTED_DATE_NOT_UNIQUE     =
+        'FULFILLMENT_PREFERENCES_RESTRICTED_DATE_NOT_UNIQUE';
+
+    /**
+     * The datetime value is not in the correct format per app business logic.
+     */
+    public const FULFILLMENT_PREFERENCES_INVALID_SCHEDULING_DATETIME     =
+        'FULFILLMENT_PREFERENCES_INVALID_SCHEDULING_DATETIME';
+
+    /**
+     * Fulfillment Preferences with fulfillment schedules cannot be assigned to a CATALOG_ITEM
+     */
+    public const FULFILLMENT_PREFERENCES_FULFILLMENT_SCHEDULE_NOT_ALLOWED     =
+        'FULFILLMENT_PREFERENCES_FULFILLMENT_SCHEDULE_NOT_ALLOWED';
+
+    /**
+     * Unable to re-assign preferences assignment. Preferences assignment is a write-once field.
+     */
+    public const FULFILLMENT_PREFERENCES_ASSIGNMENT_IS_IMMUTABLE = 'FULFILLMENT_PREFERENCES_ASSIGNMENT_IS_IMMUTABLE';
+
+    /**
+     * Value is not a valid timezone.
+     */
+    public const INVALID_TIMEZONE = 'INVALID_TIMEZONE';
+
+    /**
      * The body parameter is not recognized by the requested endpoint.
      */
     public const UNKNOWN_BODY_PARAMETER = 'UNKNOWN_BODY_PARAMETER';
+
+    /**
+     * The provided preferences assignment types should be consistent within request
+     */
+    public const FULFILLMENT_PREFERENCES_CONFLICTING_ASSIGNMENT_TYPE     =
+        'FULFILLMENT_PREFERENCES_CONFLICTING_ASSIGNMENT_TYPE';
 
     /**
      * Not Found - a general error occurred.

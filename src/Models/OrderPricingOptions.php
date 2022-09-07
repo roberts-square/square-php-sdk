@@ -24,6 +24,16 @@ class OrderPricingOptions implements \JsonSerializable
     private $autoApplyTaxes;
 
     /**
+     * @var string|null
+     */
+    private $automaticTaxSource;
+
+    /**
+     * @var bool|null
+     */
+    private $autoApplyServiceCharges;
+
+    /**
      * Returns Auto Apply Discounts.
      * The option to determine whether pricing rule-based
      * discounts are automatically applied to an order.
@@ -68,6 +78,46 @@ class OrderPricingOptions implements \JsonSerializable
     }
 
     /**
+     * Returns Automatic Tax Source.
+     */
+    public function getAutomaticTaxSource(): ?string
+    {
+        return $this->automaticTaxSource;
+    }
+
+    /**
+     * Sets Automatic Tax Source.
+     *
+     * @maps automatic_tax_source
+     */
+    public function setAutomaticTaxSource(?string $automaticTaxSource): void
+    {
+        $this->automaticTaxSource = $automaticTaxSource;
+    }
+
+    /**
+     * Returns Auto Apply Service Charges.
+     * The option to determine whether pricing rule-based
+     * service charges are automatically applied to an order.
+     */
+    public function getAutoApplyServiceCharges(): ?bool
+    {
+        return $this->autoApplyServiceCharges;
+    }
+
+    /**
+     * Sets Auto Apply Service Charges.
+     * The option to determine whether pricing rule-based
+     * service charges are automatically applied to an order.
+     *
+     * @maps auto_apply_service_charges
+     */
+    public function setAutoApplyServiceCharges(?bool $autoApplyServiceCharges): void
+    {
+        $this->autoApplyServiceCharges = $autoApplyServiceCharges;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -80,10 +130,16 @@ class OrderPricingOptions implements \JsonSerializable
     {
         $json = [];
         if (isset($this->autoApplyDiscounts)) {
-            $json['auto_apply_discounts'] = $this->autoApplyDiscounts;
+            $json['auto_apply_discounts']       = $this->autoApplyDiscounts;
         }
         if (isset($this->autoApplyTaxes)) {
-            $json['auto_apply_taxes']     = $this->autoApplyTaxes;
+            $json['auto_apply_taxes']           = $this->autoApplyTaxes;
+        }
+        if (isset($this->automaticTaxSource)) {
+            $json['automatic_tax_source']       = $this->automaticTaxSource;
+        }
+        if (isset($this->autoApplyServiceCharges)) {
+            $json['auto_apply_service_charges'] = $this->autoApplyServiceCharges;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

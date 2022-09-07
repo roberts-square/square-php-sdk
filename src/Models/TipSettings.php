@@ -34,6 +34,11 @@ class TipSettings implements \JsonSerializable
     private $smartTipping;
 
     /**
+     * @var bool|null
+     */
+    private $calculateTipBeforeTaxes;
+
+    /**
      * Returns Allow Tipping.
      * Indicates whether tipping is enabled for this checkout. Defaults to false.
      */
@@ -168,6 +173,30 @@ class TipSettings implements \JsonSerializable
     }
 
     /**
+     * Returns Calculate Tip Before Taxes.
+     * Indicates whether the tip should be calculated based on the pre-tax payment amount, as opposed
+     * to the post-tax payment amount.
+     * Defaults to true.
+     */
+    public function getCalculateTipBeforeTaxes(): ?bool
+    {
+        return $this->calculateTipBeforeTaxes;
+    }
+
+    /**
+     * Sets Calculate Tip Before Taxes.
+     * Indicates whether the tip should be calculated based on the pre-tax payment amount, as opposed
+     * to the post-tax payment amount.
+     * Defaults to true.
+     *
+     * @maps calculate_tip_before_taxes
+     */
+    public function setCalculateTipBeforeTaxes(?bool $calculateTipBeforeTaxes): void
+    {
+        $this->calculateTipBeforeTaxes = $calculateTipBeforeTaxes;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -180,19 +209,22 @@ class TipSettings implements \JsonSerializable
     {
         $json = [];
         if (isset($this->allowTipping)) {
-            $json['allow_tipping']       = $this->allowTipping;
+            $json['allow_tipping']              = $this->allowTipping;
         }
         if (isset($this->separateTipScreen)) {
-            $json['separate_tip_screen'] = $this->separateTipScreen;
+            $json['separate_tip_screen']        = $this->separateTipScreen;
         }
         if (isset($this->customTipField)) {
-            $json['custom_tip_field']    = $this->customTipField;
+            $json['custom_tip_field']           = $this->customTipField;
         }
         if (isset($this->tipPercentages)) {
-            $json['tip_percentages']     = $this->tipPercentages;
+            $json['tip_percentages']            = $this->tipPercentages;
         }
         if (isset($this->smartTipping)) {
-            $json['smart_tipping']       = $this->smartTipping;
+            $json['smart_tipping']              = $this->smartTipping;
+        }
+        if (isset($this->calculateTipBeforeTaxes)) {
+            $json['calculate_tip_before_taxes'] = $this->calculateTipBeforeTaxes;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

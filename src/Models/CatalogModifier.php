@@ -37,6 +37,11 @@ class CatalogModifier implements \JsonSerializable
     private $imageIds;
 
     /**
+     * @var ModifierLocationOverrides[]|null
+     */
+    private $locationOverrides;
+
+    /**
      * Returns Name.
      * The modifier name.  This is a searchable attribute for use in applicable query filters, and its
      * value length is of Unicode code points.
@@ -159,6 +164,30 @@ class CatalogModifier implements \JsonSerializable
     }
 
     /**
+     * Returns Location Overrides.
+     * Per-location price overrides.
+     *
+     * @return ModifierLocationOverrides[]|null
+     */
+    public function getLocationOverrides(): ?array
+    {
+        return $this->locationOverrides;
+    }
+
+    /**
+     * Sets Location Overrides.
+     * Per-location price overrides.
+     *
+     * @maps location_overrides
+     *
+     * @param ModifierLocationOverrides[]|null $locationOverrides
+     */
+    public function setLocationOverrides(?array $locationOverrides): void
+    {
+        $this->locationOverrides = $locationOverrides;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -171,19 +200,22 @@ class CatalogModifier implements \JsonSerializable
     {
         $json = [];
         if (isset($this->name)) {
-            $json['name']             = $this->name;
+            $json['name']               = $this->name;
         }
         if (isset($this->priceMoney)) {
-            $json['price_money']      = $this->priceMoney;
+            $json['price_money']        = $this->priceMoney;
         }
         if (isset($this->ordinal)) {
-            $json['ordinal']          = $this->ordinal;
+            $json['ordinal']            = $this->ordinal;
         }
         if (isset($this->modifierListId)) {
-            $json['modifier_list_id'] = $this->modifierListId;
+            $json['modifier_list_id']   = $this->modifierListId;
         }
         if (isset($this->imageIds)) {
-            $json['image_ids']        = $this->imageIds;
+            $json['image_ids']          = $this->imageIds;
+        }
+        if (isset($this->locationOverrides)) {
+            $json['location_overrides'] = $this->locationOverrides;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

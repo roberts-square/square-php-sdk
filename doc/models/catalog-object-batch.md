@@ -19,7 +19,7 @@ A batch of catalog objects.
 {
   "objects": [
     {
-      "type": "ITEM_OPTION_VAL",
+      "type": "MODIFIER_LIST",
       "id": "id8",
       "version": null,
       "is_deleted": null,
@@ -44,10 +44,14 @@ A batch of catalog objects.
       "item_option_data": null,
       "item_option_value_data": null,
       "custom_attribute_definition_data": null,
-      "quick_amounts_settings_data": null
+      "quick_amounts_settings_data": null,
+      "tax_exemption_data": null,
+      "dining_option_data": null,
+      "service_charge_data": null,
+      "subscription_plan_variation_data": null
     },
     {
-      "type": "ITEM_OPTION",
+      "type": "DISCOUNT",
       "id": "id9",
       "version": null,
       "is_deleted": null,
@@ -72,7 +76,11 @@ A batch of catalog objects.
       "item_option_data": null,
       "item_option_value_data": null,
       "custom_attribute_definition_data": null,
-      "quick_amounts_settings_data": null
+      "quick_amounts_settings_data": null,
+      "tax_exemption_data": null,
+      "dining_option_data": null,
+      "service_charge_data": null,
+      "subscription_plan_variation_data": null
     }
   ]
 }

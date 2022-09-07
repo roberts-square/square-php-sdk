@@ -36,6 +36,11 @@ class MeasurementUnitUnitType
     public const TYPE_WEIGHT = 'TYPE_WEIGHT';
 
     /**
+     * The unit details are contained in the time_unit field.
+     */
+    public const TYPE_TIME = 'TYPE_TIME';
+
+    /**
      * The unit details are contained in the generic_unit field.
      */
     public const TYPE_GENERIC = 'TYPE_GENERIC';

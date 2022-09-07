@@ -49,6 +49,16 @@ class InventoryCount implements \JsonSerializable
     private $isEstimated;
 
     /**
+     * @var string|null
+     */
+    private $quantityCommitted;
+
+    /**
+     * @var string|null
+     */
+    private $quantityAvailable;
+
+    /**
      * Returns Catalog Object Id.
      * The Square-generated ID of the
      * [CatalogObject]($m/CatalogObject) being tracked.
@@ -219,6 +229,50 @@ class InventoryCount implements \JsonSerializable
     }
 
     /**
+     * Returns Quantity Committed.
+     * The number of items committed as a decimal string.
+     * Can support up to 5 digits after the decimal point.
+     */
+    public function getQuantityCommitted(): ?string
+    {
+        return $this->quantityCommitted;
+    }
+
+    /**
+     * Sets Quantity Committed.
+     * The number of items committed as a decimal string.
+     * Can support up to 5 digits after the decimal point.
+     *
+     * @maps quantity_committed
+     */
+    public function setQuantityCommitted(?string $quantityCommitted): void
+    {
+        $this->quantityCommitted = $quantityCommitted;
+    }
+
+    /**
+     * Returns Quantity Available.
+     * The number of items are available as a decimal string.
+     * Can support up to 5 digits after the decimal point.
+     */
+    public function getQuantityAvailable(): ?string
+    {
+        return $this->quantityAvailable;
+    }
+
+    /**
+     * Sets Quantity Available.
+     * The number of items are available as a decimal string.
+     * Can support up to 5 digits after the decimal point.
+     *
+     * @maps quantity_available
+     */
+    public function setQuantityAvailable(?string $quantityAvailable): void
+    {
+        $this->quantityAvailable = $quantityAvailable;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -250,6 +304,12 @@ class InventoryCount implements \JsonSerializable
         }
         if (isset($this->isEstimated)) {
             $json['is_estimated']        = $this->isEstimated;
+        }
+        if (isset($this->quantityCommitted)) {
+            $json['quantity_committed']  = $this->quantityCommitted;
+        }
+        if (isset($this->quantityAvailable)) {
+            $json['quantity_available']  = $this->quantityAvailable;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

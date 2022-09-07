@@ -69,12 +69,42 @@ class OrderLineItemDiscount implements \JsonSerializable
     /**
      * @var string[]|null
      */
+    private $discountCodeIds;
+
+    /**
+     * @var string[]|null
+     */
     private $rewardIds;
 
     /**
      * @var string|null
      */
     private $pricingRuleId;
+
+    /**
+     * @var string|null
+     */
+    private $quantity;
+
+    /**
+     * @var Money|null
+     */
+    private $maximumAmountMoney;
+
+    /**
+     * @var string|null
+     */
+    private $modifyTaxBasis;
+
+    /**
+     * @var bool|null
+     */
+    private $applyPerQuantity;
+
+    /**
+     * @var string|null
+     */
+    private $applicationMethod;
 
     /**
      * Returns Uid.
@@ -345,6 +375,42 @@ class OrderLineItemDiscount implements \JsonSerializable
     }
 
     /**
+     * Returns Discount Code Ids.
+     * The discount code IDs corresponding to this discount. Either
+     * `discount_code_ids` or `reward_ids` can be set for a discount, but not both. The application and
+     * specification of discounts that have `discount_code_ids` are completely controlled by
+     * the backing criteria corresponding to the discount codes when the discount codes are
+     * added to the order through the Discount Codes API. To manually unapply discounts that
+     * are the result of added discount codes, the discount codes must be removed from the order
+     * through the Discount Codes API.
+     *
+     * @return string[]|null
+     */
+    public function getDiscountCodeIds(): ?array
+    {
+        return $this->discountCodeIds;
+    }
+
+    /**
+     * Sets Discount Code Ids.
+     * The discount code IDs corresponding to this discount. Either
+     * `discount_code_ids` or `reward_ids` can be set for a discount, but not both. The application and
+     * specification of discounts that have `discount_code_ids` are completely controlled by
+     * the backing criteria corresponding to the discount codes when the discount codes are
+     * added to the order through the Discount Codes API. To manually unapply discounts that
+     * are the result of added discount codes, the discount codes must be removed from the order
+     * through the Discount Codes API.
+     *
+     * @maps discount_code_ids
+     *
+     * @param string[]|null $discountCodeIds
+     */
+    public function setDiscountCodeIds(?array $discountCodeIds): void
+    {
+        $this->discountCodeIds = $discountCodeIds;
+    }
+
+    /**
      * Returns Reward Ids.
      * The reward IDs corresponding to this discount. The application and
      * specification of discounts that have `reward_ids` are completely controlled by the backing
@@ -403,6 +469,118 @@ class OrderLineItemDiscount implements \JsonSerializable
     }
 
     /**
+     * Returns Quantity.
+     * The number of times this discount was applied.
+     */
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Sets Quantity.
+     * The number of times this discount was applied.
+     *
+     * @maps quantity
+     */
+    public function setQuantity(?string $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    /**
+     * Returns Maximum Amount Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getMaximumAmountMoney(): ?Money
+    {
+        return $this->maximumAmountMoney;
+    }
+
+    /**
+     * Sets Maximum Amount Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps maximum_amount_money
+     */
+    public function setMaximumAmountMoney(?Money $maximumAmountMoney): void
+    {
+        $this->maximumAmountMoney = $maximumAmountMoney;
+    }
+
+    /**
+     * Returns Modify Tax Basis.
+     * Indicates whether the discount should reduce the price used to calculate tax.
+     */
+    public function getModifyTaxBasis(): ?string
+    {
+        return $this->modifyTaxBasis;
+    }
+
+    /**
+     * Sets Modify Tax Basis.
+     * Indicates whether the discount should reduce the price used to calculate tax.
+     *
+     * @maps modify_tax_basis
+     */
+    public function setModifyTaxBasis(?string $modifyTaxBasis): void
+    {
+        $this->modifyTaxBasis = $modifyTaxBasis;
+    }
+
+    /**
+     * Returns Apply Per Quantity.
+     * Indicates whether the discount applies to every quantity of the itemization.
+     */
+    public function getApplyPerQuantity(): ?bool
+    {
+        return $this->applyPerQuantity;
+    }
+
+    /**
+     * Sets Apply Per Quantity.
+     * Indicates whether the discount applies to every quantity of the itemization.
+     *
+     * @maps apply_per_quantity
+     */
+    public function setApplyPerQuantity(?bool $applyPerQuantity): void
+    {
+        $this->applyPerQuantity = $applyPerQuantity;
+    }
+
+    /**
+     * Returns Application Method.
+     * Categorizes why a discount was applied to an order or line item.
+     */
+    public function getApplicationMethod(): ?string
+    {
+        return $this->applicationMethod;
+    }
+
+    /**
+     * Sets Application Method.
+     * Categorizes why a discount was applied to an order or line item.
+     *
+     * @maps application_method
+     */
+    public function setApplicationMethod(?string $applicationMethod): void
+    {
+        $this->applicationMethod = $applicationMethod;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -415,40 +593,58 @@ class OrderLineItemDiscount implements \JsonSerializable
     {
         $json = [];
         if (isset($this->uid)) {
-            $json['uid']               = $this->uid;
+            $json['uid']                  = $this->uid;
         }
         if (isset($this->catalogObjectId)) {
-            $json['catalog_object_id'] = $this->catalogObjectId;
+            $json['catalog_object_id']    = $this->catalogObjectId;
         }
         if (isset($this->catalogVersion)) {
-            $json['catalog_version']   = $this->catalogVersion;
+            $json['catalog_version']      = $this->catalogVersion;
         }
         if (isset($this->name)) {
-            $json['name']              = $this->name;
+            $json['name']                 = $this->name;
         }
         if (isset($this->type)) {
-            $json['type']              = $this->type;
+            $json['type']                 = $this->type;
         }
         if (isset($this->percentage)) {
-            $json['percentage']        = $this->percentage;
+            $json['percentage']           = $this->percentage;
         }
         if (isset($this->amountMoney)) {
-            $json['amount_money']      = $this->amountMoney;
+            $json['amount_money']         = $this->amountMoney;
         }
         if (isset($this->appliedMoney)) {
-            $json['applied_money']     = $this->appliedMoney;
+            $json['applied_money']        = $this->appliedMoney;
         }
         if (isset($this->metadata)) {
-            $json['metadata']          = $this->metadata;
+            $json['metadata']             = $this->metadata;
         }
         if (isset($this->scope)) {
-            $json['scope']             = $this->scope;
+            $json['scope']                = $this->scope;
+        }
+        if (isset($this->discountCodeIds)) {
+            $json['discount_code_ids']    = $this->discountCodeIds;
         }
         if (isset($this->rewardIds)) {
-            $json['reward_ids']        = $this->rewardIds;
+            $json['reward_ids']           = $this->rewardIds;
         }
         if (isset($this->pricingRuleId)) {
-            $json['pricing_rule_id']   = $this->pricingRuleId;
+            $json['pricing_rule_id']      = $this->pricingRuleId;
+        }
+        if (isset($this->quantity)) {
+            $json['quantity']             = $this->quantity;
+        }
+        if (isset($this->maximumAmountMoney)) {
+            $json['maximum_amount_money'] = $this->maximumAmountMoney;
+        }
+        if (isset($this->modifyTaxBasis)) {
+            $json['modify_tax_basis']     = $this->modifyTaxBasis;
+        }
+        if (isset($this->applyPerQuantity)) {
+            $json['apply_per_quantity']   = $this->applyPerQuantity;
+        }
+        if (isset($this->applicationMethod)) {
+            $json['application_method']   = $this->applicationMethod;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -10,6 +10,11 @@ namespace Square\Models;
 class LoyaltyPromotionStatus
 {
     /**
+     * The loyalty promotion will start in the future.
+     */
+    public const UPCOMING = 'UPCOMING';
+
+    /**
      * The loyalty promotion is currently active. Buyers can earn points for purchases
      * that meet the promotion conditions, such as the promotion's `available_time`.
      */

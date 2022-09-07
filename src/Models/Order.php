@@ -154,6 +154,11 @@ class Order implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $shortReferenceId;
+
+    /**
+     * @var string|null
+     */
     private $ticketName;
 
     /**
@@ -162,14 +167,59 @@ class Order implements \JsonSerializable
     private $pricingOptions;
 
     /**
+     * @var OrderDiscountCode[]|null
+     */
+    private $discountCodes;
+
+    /**
      * @var OrderReward[]|null
      */
     private $rewards;
 
     /**
+     * @var OrderVoid[]|null
+     */
+    private $voids;
+
+    /**
+     * @var OrderComp[]|null
+     */
+    private $comps;
+
+    /**
+     * @var string|null
+     */
+    private $note;
+
+    /**
+     * @var string|null
+     */
+    private $sequentialNumber;
+
+    /**
+     * @var OrderReturnedQuantity[]|null
+     */
+    private $returnedQuantities;
+
+    /**
      * @var Money|null
      */
     private $netAmountDueMoney;
+
+    /**
+     * @var OrderDiningOption|null
+     */
+    private $diningOption;
+
+    /**
+     * @var OrderProcessingModes|null
+     */
+    private $processingModes;
+
+    /**
+     * @var OrderLineItemTaxExemption[]|null
+     */
+    private $taxExemptions;
 
     /**
      * @param string $locationId
@@ -935,6 +985,26 @@ class Order implements \JsonSerializable
     }
 
     /**
+     * Returns Short Reference Id.
+     * A short form of the `reference_id` that is human-readable.
+     */
+    public function getShortReferenceId(): ?string
+    {
+        return $this->shortReferenceId;
+    }
+
+    /**
+     * Sets Short Reference Id.
+     * A short form of the `reference_id` that is human-readable.
+     *
+     * @maps short_reference_id
+     */
+    public function setShortReferenceId(?string $shortReferenceId): void
+    {
+        $this->shortReferenceId = $shortReferenceId;
+    }
+
+    /**
      * Returns Ticket Name.
      * A short-term identifier for the order (such as a customer first name,
      * table number, or auto-generated order number that resets daily).
@@ -981,6 +1051,30 @@ class Order implements \JsonSerializable
     }
 
     /**
+     * Returns Discount Codes.
+     * A set-like list of `DiscountCodes` that have been added to the `Order`.
+     *
+     * @return OrderDiscountCode[]|null
+     */
+    public function getDiscountCodes(): ?array
+    {
+        return $this->discountCodes;
+    }
+
+    /**
+     * Sets Discount Codes.
+     * A set-like list of `DiscountCodes` that have been added to the `Order`.
+     *
+     * @maps discount_codes
+     *
+     * @param OrderDiscountCode[]|null $discountCodes
+     */
+    public function setDiscountCodes(?array $discountCodes): void
+    {
+        $this->discountCodes = $discountCodes;
+    }
+
+    /**
      * Returns Rewards.
      * A set-like list of Rewards that have been added to the Order.
      *
@@ -1002,6 +1096,122 @@ class Order implements \JsonSerializable
     public function setRewards(?array $rewards): void
     {
         $this->rewards = $rewards;
+    }
+
+    /**
+     * Returns Voids.
+     * Stores information about any void operations performed against this order.
+     *
+     * @return OrderVoid[]|null
+     */
+    public function getVoids(): ?array
+    {
+        return $this->voids;
+    }
+
+    /**
+     * Sets Voids.
+     * Stores information about any void operations performed against this order.
+     *
+     * @maps voids
+     *
+     * @param OrderVoid[]|null $voids
+     */
+    public function setVoids(?array $voids): void
+    {
+        $this->voids = $voids;
+    }
+
+    /**
+     * Returns Comps.
+     * The list of all comps associated with this order, whether applied at the `ORDER` or `LINE_ITEM`
+     * level.
+     *
+     * @return OrderComp[]|null
+     */
+    public function getComps(): ?array
+    {
+        return $this->comps;
+    }
+
+    /**
+     * Sets Comps.
+     * The list of all comps associated with this order, whether applied at the `ORDER` or `LINE_ITEM`
+     * level.
+     *
+     * @maps comps
+     *
+     * @param OrderComp[]|null $comps
+     */
+    public function setComps(?array $comps): void
+    {
+        $this->comps = $comps;
+    }
+
+    /**
+     * Returns Note.
+     * A short note field at the order level where details about the order can be entered
+     */
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    /**
+     * Sets Note.
+     * A short note field at the order level where details about the order can be entered
+     *
+     * @maps note
+     */
+    public function setNote(?string $note): void
+    {
+        $this->note = $note;
+    }
+
+    /**
+     * Returns Sequential Number.
+     * A Prefixed Sequential Number field used to satisfy international market requirements.
+     * The number may be reset periodically.
+     */
+    public function getSequentialNumber(): ?string
+    {
+        return $this->sequentialNumber;
+    }
+
+    /**
+     * Sets Sequential Number.
+     * A Prefixed Sequential Number field used to satisfy international market requirements.
+     * The number may be reset periodically.
+     *
+     * @maps sequential_number
+     */
+    public function setSequentialNumber(?string $sequentialNumber): void
+    {
+        $this->sequentialNumber = $sequentialNumber;
+    }
+
+    /**
+     * Returns Returned Quantities.
+     * List of ReturnedQuantity to indicate what has been returned for custom amount returns
+     *
+     * @return OrderReturnedQuantity[]|null
+     */
+    public function getReturnedQuantities(): ?array
+    {
+        return $this->returnedQuantities;
+    }
+
+    /**
+     * Sets Returned Quantities.
+     * List of ReturnedQuantity to indicate what has been returned for custom amount returns
+     *
+     * @maps returned_quantities
+     *
+     * @param OrderReturnedQuantity[]|null $returnedQuantities
+     */
+    public function setReturnedQuantities(?array $returnedQuantities): void
+    {
+        $this->returnedQuantities = $returnedQuantities;
     }
 
     /**
@@ -1034,6 +1244,76 @@ class Order implements \JsonSerializable
     public function setNetAmountDueMoney(?Money $netAmountDueMoney): void
     {
         $this->netAmountDueMoney = $netAmountDueMoney;
+    }
+
+    /**
+     * Returns Dining Option.
+     * Represents a dining option that can be applied either to the order top level or to
+     * individual line items. Dining options are created through the Catalog API.
+     */
+    public function getDiningOption(): ?OrderDiningOption
+    {
+        return $this->diningOption;
+    }
+
+    /**
+     * Sets Dining Option.
+     * Represents a dining option that can be applied either to the order top level or to
+     * individual line items. Dining options are created through the Catalog API.
+     *
+     * @maps dining_option
+     */
+    public function setDiningOption(?OrderDiningOption $diningOption): void
+    {
+        $this->diningOption = $diningOption;
+    }
+
+    /**
+     * Returns Processing Modes.
+     * The processing modes for order creation and completion.
+     */
+    public function getProcessingModes(): ?OrderProcessingModes
+    {
+        return $this->processingModes;
+    }
+
+    /**
+     * Sets Processing Modes.
+     * The processing modes for order creation and completion.
+     *
+     * @maps processing_modes
+     */
+    public function setProcessingModes(?OrderProcessingModes $processingModes): void
+    {
+        $this->processingModes = $processingModes;
+    }
+
+    /**
+     * Returns Tax Exemptions.
+     * Tax exemptions that are applied to one or more line items in the order.
+     * When a tax exemption is applied to a line item, it prevents its associated set of taxes from
+     * applying to that line item.
+     *
+     * @return OrderLineItemTaxExemption[]|null
+     */
+    public function getTaxExemptions(): ?array
+    {
+        return $this->taxExemptions;
+    }
+
+    /**
+     * Sets Tax Exemptions.
+     * Tax exemptions that are applied to one or more line items in the order.
+     * When a tax exemption is applied to a line item, it prevents its associated set of taxes from
+     * applying to that line item.
+     *
+     * @maps tax_exemptions
+     *
+     * @param OrderLineItemTaxExemption[]|null $taxExemptions
+     */
+    public function setTaxExemptions(?array $taxExemptions): void
+    {
+        $this->taxExemptions = $taxExemptions;
     }
 
     /**
@@ -1127,17 +1407,47 @@ class Order implements \JsonSerializable
         if (isset($this->totalServiceChargeMoney)) {
             $json['total_service_charge_money'] = $this->totalServiceChargeMoney;
         }
+        if (isset($this->shortReferenceId)) {
+            $json['short_reference_id']         = $this->shortReferenceId;
+        }
         if (isset($this->ticketName)) {
             $json['ticket_name']                = $this->ticketName;
         }
         if (isset($this->pricingOptions)) {
             $json['pricing_options']            = $this->pricingOptions;
         }
+        if (isset($this->discountCodes)) {
+            $json['discount_codes']             = $this->discountCodes;
+        }
         if (isset($this->rewards)) {
             $json['rewards']                    = $this->rewards;
         }
+        if (isset($this->voids)) {
+            $json['voids']                      = $this->voids;
+        }
+        if (isset($this->comps)) {
+            $json['comps']                      = $this->comps;
+        }
+        if (isset($this->note)) {
+            $json['note']                       = $this->note;
+        }
+        if (isset($this->sequentialNumber)) {
+            $json['sequential_number']          = $this->sequentialNumber;
+        }
+        if (isset($this->returnedQuantities)) {
+            $json['returned_quantities']        = $this->returnedQuantities;
+        }
         if (isset($this->netAmountDueMoney)) {
             $json['net_amount_due_money']       = $this->netAmountDueMoney;
+        }
+        if (isset($this->diningOption)) {
+            $json['dining_option']              = $this->diningOption;
+        }
+        if (isset($this->processingModes)) {
+            $json['processing_modes']           = $this->processingModes;
+        }
+        if (isset($this->taxExemptions)) {
+            $json['tax_exemptions']             = $this->taxExemptions;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -63,6 +63,11 @@ class UpdateCustomerRequest implements \JsonSerializable
     private $birthday;
 
     /**
+     * @var CustomerPreferences|null
+     */
+    private $preferences;
+
+    /**
      * @var int|null
      */
     private $version;
@@ -289,6 +294,26 @@ class UpdateCustomerRequest implements \JsonSerializable
     }
 
     /**
+     * Returns Preferences.
+     * Represents communication preferences for the customer profile.
+     */
+    public function getPreferences(): ?CustomerPreferences
+    {
+        return $this->preferences;
+    }
+
+    /**
+     * Sets Preferences.
+     * Represents communication preferences for the customer profile.
+     *
+     * @maps preferences
+     */
+    public function setPreferences(?CustomerPreferences $preferences): void
+    {
+        $this->preferences = $preferences;
+    }
+
+    /**
      * Returns Version.
      * The current version of the customer profile.
      *
@@ -385,6 +410,9 @@ class UpdateCustomerRequest implements \JsonSerializable
         }
         if (isset($this->birthday)) {
             $json['birthday']      = $this->birthday;
+        }
+        if (isset($this->preferences)) {
+            $json['preferences']   = $this->preferences;
         }
         if (isset($this->version)) {
             $json['version']       = $this->version;

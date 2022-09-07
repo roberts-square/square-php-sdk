@@ -402,6 +402,82 @@ class SubscriptionsApi extends BaseApi
     }
 
     /**
+     * Changes the billing anchor date for a subscription
+     *
+     * @param string $subscriptionId The ID of the subscription to update the billing anchor date.
+     * @param Models\ChangeBillingAnchorDateRequest $body An object containing the fields to POST
+     *        for the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function changeBillingAnchorDate(
+        string $subscriptionId,
+        Models\ChangeBillingAnchorDateRequest $body
+    ): ApiResponse {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/subscriptions/{subscription_id}/billing-date';
+
+        //process template parameters
+        $_queryUrl = ApiHelper::appendUrlWithTemplateParameters($_queryUrl, [
+            'subscription_id' => $subscriptionId,
+        ]);
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'ChangeBillingAnchorDateResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
      * Schedules a `CANCEL` action to cancel an active subscription
      * by setting the `canceled_date` field to the end of the active billing period
      * and changing the subscription status from ACTIVE to CANCELED after this date.

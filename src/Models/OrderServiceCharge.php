@@ -82,6 +82,26 @@ class OrderServiceCharge implements \JsonSerializable
     private $type;
 
     /**
+     * @var string|null
+     */
+    private $treatmentType;
+
+    /**
+     * @var string|null
+     */
+    private $pricingRuleId;
+
+    /**
+     * @var string|null
+     */
+    private $applicationMethod;
+
+    /**
+     * @var string|null
+     */
+    private $scope;
+
+    /**
      * Returns Uid.
      * A unique ID that identifies the service charge only within this order.
      */
@@ -490,6 +510,96 @@ class OrderServiceCharge implements \JsonSerializable
     }
 
     /**
+     * Returns Treatment Type.
+     * Indicates whether the service charge will be treated as a value-holding line item or
+     * apportioned toward a line item.
+     */
+    public function getTreatmentType(): ?string
+    {
+        return $this->treatmentType;
+    }
+
+    /**
+     * Sets Treatment Type.
+     * Indicates whether the service charge will be treated as a value-holding line item or
+     * apportioned toward a line item.
+     *
+     * @maps treatment_type
+     */
+    public function setTreatmentType(?string $treatmentType): void
+    {
+        $this->treatmentType = $treatmentType;
+    }
+
+    /**
+     * Returns Pricing Rule Id.
+     * The object ID of a [pricing rule]($m/CatalogPricingRule) to be applied
+     * automatically to this service charge. The specification and application of the service charges,
+     * to which a `pricing_rule_id` is assigned, are completely controlled by the corresponding
+     * pricing rule.
+     */
+    public function getPricingRuleId(): ?string
+    {
+        return $this->pricingRuleId;
+    }
+
+    /**
+     * Sets Pricing Rule Id.
+     * The object ID of a [pricing rule]($m/CatalogPricingRule) to be applied
+     * automatically to this service charge. The specification and application of the service charges,
+     * to which a `pricing_rule_id` is assigned, are completely controlled by the corresponding
+     * pricing rule.
+     *
+     * @maps pricing_rule_id
+     */
+    public function setPricingRuleId(?string $pricingRuleId): void
+    {
+        $this->pricingRuleId = $pricingRuleId;
+    }
+
+    /**
+     * Returns Application Method.
+     * Categorizes why a service charge was applied to an order or line item.
+     */
+    public function getApplicationMethod(): ?string
+    {
+        return $this->applicationMethod;
+    }
+
+    /**
+     * Sets Application Method.
+     * Categorizes why a service charge was applied to an order or line item.
+     *
+     * @maps application_method
+     */
+    public function setApplicationMethod(?string $applicationMethod): void
+    {
+        $this->applicationMethod = $applicationMethod;
+    }
+
+    /**
+     * Returns Scope.
+     * Indicates whether this is a line-item or order-level apportioned
+     * service charge.
+     */
+    public function getScope(): ?string
+    {
+        return $this->scope;
+    }
+
+    /**
+     * Sets Scope.
+     * Indicates whether this is a line-item or order-level apportioned
+     * service charge.
+     *
+     * @maps scope
+     */
+    public function setScope(?string $scope): void
+    {
+        $this->scope = $scope;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -502,46 +612,58 @@ class OrderServiceCharge implements \JsonSerializable
     {
         $json = [];
         if (isset($this->uid)) {
-            $json['uid']               = $this->uid;
+            $json['uid']                = $this->uid;
         }
         if (isset($this->name)) {
-            $json['name']              = $this->name;
+            $json['name']               = $this->name;
         }
         if (isset($this->catalogObjectId)) {
-            $json['catalog_object_id'] = $this->catalogObjectId;
+            $json['catalog_object_id']  = $this->catalogObjectId;
         }
         if (isset($this->catalogVersion)) {
-            $json['catalog_version']   = $this->catalogVersion;
+            $json['catalog_version']    = $this->catalogVersion;
         }
         if (isset($this->percentage)) {
-            $json['percentage']        = $this->percentage;
+            $json['percentage']         = $this->percentage;
         }
         if (isset($this->amountMoney)) {
-            $json['amount_money']      = $this->amountMoney;
+            $json['amount_money']       = $this->amountMoney;
         }
         if (isset($this->appliedMoney)) {
-            $json['applied_money']     = $this->appliedMoney;
+            $json['applied_money']      = $this->appliedMoney;
         }
         if (isset($this->totalMoney)) {
-            $json['total_money']       = $this->totalMoney;
+            $json['total_money']        = $this->totalMoney;
         }
         if (isset($this->totalTaxMoney)) {
-            $json['total_tax_money']   = $this->totalTaxMoney;
+            $json['total_tax_money']    = $this->totalTaxMoney;
         }
         if (isset($this->calculationPhase)) {
-            $json['calculation_phase'] = $this->calculationPhase;
+            $json['calculation_phase']  = $this->calculationPhase;
         }
         if (isset($this->taxable)) {
-            $json['taxable']           = $this->taxable;
+            $json['taxable']            = $this->taxable;
         }
         if (isset($this->appliedTaxes)) {
-            $json['applied_taxes']     = $this->appliedTaxes;
+            $json['applied_taxes']      = $this->appliedTaxes;
         }
         if (isset($this->metadata)) {
-            $json['metadata']          = $this->metadata;
+            $json['metadata']           = $this->metadata;
         }
         if (isset($this->type)) {
-            $json['type']              = $this->type;
+            $json['type']               = $this->type;
+        }
+        if (isset($this->treatmentType)) {
+            $json['treatment_type']     = $this->treatmentType;
+        }
+        if (isset($this->pricingRuleId)) {
+            $json['pricing_rule_id']    = $this->pricingRuleId;
+        }
+        if (isset($this->applicationMethod)) {
+            $json['application_method'] = $this->applicationMethod;
+        }
+        if (isset($this->scope)) {
+            $json['scope']              = $this->scope;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -12,6 +12,7 @@
 | `query` | [`?TerminalActionQuery`](../../doc/models/terminal-action-query.md) | Optional | - | getQuery(): ?TerminalActionQuery | setQuery(?TerminalActionQuery query): void |
 | `cursor` | `?string` | Optional | A pagination cursor returned by a previous call to this endpoint.<br>Provide this to retrieve the next set of results for the original query.<br>See [Pagination](https://developer.squareup.com/docs/basics/api101/pagination) for more<br>information. | getCursor(): ?string | setCursor(?string cursor): void |
 | `limit` | `?int` | Optional | Limit the number of results returned for a single request.<br>**Constraints**: `>= 1`, `<= 100` | getLimit(): ?int | setLimit(?int limit): void |
+| `mInclude` | [`?(string[]) (TerminalIncludesInclude)`](../../doc/models/terminal-includes-include.md) | Optional | Related paths to include in the response as an optimization.<br>See [TerminalIncludesInclude](#type-terminalincludesinclude) for possible values | getMInclude(): ?array | setMInclude(?array mInclude): void |
 
 ## Example (as JSON)
 

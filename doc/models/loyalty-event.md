@@ -15,6 +15,7 @@ For more information, see [Search for Balance-Changing Loyalty Events](https://d
 | `id` | `string` | Required | The Square-assigned ID of the loyalty event.<br>**Constraints**: *Minimum Length*: `1` | getId(): string | setId(string id): void |
 | `type` | [`string (LoyaltyEventType)`](../../doc/models/loyalty-event-type.md) | Required | The type of the loyalty event. | getType(): string | setType(string type): void |
 | `createdAt` | `string` | Required | The timestamp when the event was created, in RFC 3339 format.<br>**Constraints**: *Minimum Length*: `1` | getCreatedAt(): string | setCreatedAt(string createdAt): void |
+| `createAccount` | [`?LoyaltyEventCreateAccount`](../../doc/models/loyalty-event-create-account.md) | Optional | Provides metadata when the event `type` is `CREATE_ACCOUNT`. | getCreateAccount(): ?LoyaltyEventCreateAccount | setCreateAccount(?LoyaltyEventCreateAccount createAccount): void |
 | `accumulatePoints` | [`?LoyaltyEventAccumulatePoints`](../../doc/models/loyalty-event-accumulate-points.md) | Optional | Provides metadata when the event `type` is `ACCUMULATE_POINTS`. | getAccumulatePoints(): ?LoyaltyEventAccumulatePoints | setAccumulatePoints(?LoyaltyEventAccumulatePoints accumulatePoints): void |
 | `createReward` | [`?LoyaltyEventCreateReward`](../../doc/models/loyalty-event-create-reward.md) | Optional | Provides metadata when the event `type` is `CREATE_REWARD`. | getCreateReward(): ?LoyaltyEventCreateReward | setCreateReward(?LoyaltyEventCreateReward createReward): void |
 | `redeemReward` | [`?LoyaltyEventRedeemReward`](../../doc/models/loyalty-event-redeem-reward.md) | Optional | Provides metadata when the event `type` is `REDEEM_REWARD`. | getRedeemReward(): ?LoyaltyEventRedeemReward | setRedeemReward(?LoyaltyEventRedeemReward redeemReward): void |
@@ -31,7 +32,8 @@ For more information, see [Search for Balance-Changing Loyalty Events](https://d
 
 ```json
 {
-  "type": "OTHER",
+  "type": "CREATE_REWARD",
+  "create_account": null,
   "accumulate_points": null,
   "create_reward": null,
   "redeem_reward": null,

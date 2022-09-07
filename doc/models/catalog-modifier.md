@@ -16,6 +16,7 @@ A modifier applicable to items at the time of sale.
 | `ordinal` | `?int` | Optional | Determines where this `CatalogModifier` appears in the `CatalogModifierList`. | getOrdinal(): ?int | setOrdinal(?int ordinal): void |
 | `modifierListId` | `?string` | Optional | The ID of the `CatalogModifierList` associated with this modifier. | getModifierListId(): ?string | setModifierListId(?string modifierListId): void |
 | `imageIds` | `?(string[])` | Optional | The IDs of images associated with this `CatalogModifier` instance.<br>Currently these images are not displayed by Square, but are free to be displayed in 3rd party applications. | getImageIds(): ?array | setImageIds(?array imageIds): void |
+| `locationOverrides` | [`?(ModifierLocationOverrides[])`](../../doc/models/modifier-location-overrides.md) | Optional | Per-location price overrides. | getLocationOverrides(): ?array | setLocationOverrides(?array locationOverrides): void |
 
 ## Example (as JSON)
 

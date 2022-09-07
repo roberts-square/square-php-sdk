@@ -29,6 +29,11 @@ class LoyaltyEvent implements \JsonSerializable
     private $createdAt;
 
     /**
+     * @var LoyaltyEventCreateAccount|null
+     */
+    private $createAccount;
+
+    /**
      * @var LoyaltyEventAccumulatePoints|null
      */
     private $accumulatePoints;
@@ -160,6 +165,26 @@ class LoyaltyEvent implements \JsonSerializable
     public function setCreatedAt(string $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Returns Create Account.
+     * Provides metadata when the event `type` is `CREATE_ACCOUNT`.
+     */
+    public function getCreateAccount(): ?LoyaltyEventCreateAccount
+    {
+        return $this->createAccount;
+    }
+
+    /**
+     * Sets Create Account.
+     * Provides metadata when the event `type` is `CREATE_ACCOUNT`.
+     *
+     * @maps create_account
+     */
+    public function setCreateAccount(?LoyaltyEventCreateAccount $createAccount): void
+    {
+        $this->createAccount = $createAccount;
     }
 
     /**
@@ -400,6 +425,9 @@ class LoyaltyEvent implements \JsonSerializable
         $json['id']                              = $this->id;
         $json['type']                            = $this->type;
         $json['created_at']                      = $this->createdAt;
+        if (isset($this->createAccount)) {
+            $json['create_account']              = $this->createAccount;
+        }
         if (isset($this->accumulatePoints)) {
             $json['accumulate_points']           = $this->accumulatePoints;
         }

@@ -19,6 +19,16 @@ class CreateOrderRequest implements \JsonSerializable
     private $idempotencyKey;
 
     /**
+     * @var bool|null
+     */
+    private $precalculatedOrder;
+
+    /**
+     * @var string|null
+     */
+    private $creationProcessingMode;
+
+    /**
      * Returns Order.
      * Contains all information related to a single order to process with Square,
      * including line items that specify the products to purchase. `Order` objects also
@@ -85,6 +95,42 @@ class CreateOrderRequest implements \JsonSerializable
     }
 
     /**
+     * Returns Precalculated Order.
+     */
+    public function getPrecalculatedOrder(): ?bool
+    {
+        return $this->precalculatedOrder;
+    }
+
+    /**
+     * Sets Precalculated Order.
+     *
+     * @maps precalculated_order
+     */
+    public function setPrecalculatedOrder(?bool $precalculatedOrder): void
+    {
+        $this->precalculatedOrder = $precalculatedOrder;
+    }
+
+    /**
+     * Returns Creation Processing Mode.
+     */
+    public function getCreationProcessingMode(): ?string
+    {
+        return $this->creationProcessingMode;
+    }
+
+    /**
+     * Sets Creation Processing Mode.
+     *
+     * @maps creation_processing_mode
+     */
+    public function setCreationProcessingMode(?string $creationProcessingMode): void
+    {
+        $this->creationProcessingMode = $creationProcessingMode;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -97,10 +143,16 @@ class CreateOrderRequest implements \JsonSerializable
     {
         $json = [];
         if (isset($this->order)) {
-            $json['order']           = $this->order;
+            $json['order']                    = $this->order;
         }
         if (isset($this->idempotencyKey)) {
-            $json['idempotency_key'] = $this->idempotencyKey;
+            $json['idempotency_key']          = $this->idempotencyKey;
+        }
+        if (isset($this->precalculatedOrder)) {
+            $json['precalculated_order']      = $this->precalculatedOrder;
+        }
+        if (isset($this->creationProcessingMode)) {
+            $json['creation_processing_mode'] = $this->creationProcessingMode;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -21,6 +21,7 @@ Represents a refund processed for a Square transaction.
 | `status` | [`string (RefundStatus)`](../../doc/models/refund-status.md) | Required | Indicates a refund's current status. | getStatus(): string | setStatus(string status): void |
 | `processingFeeMoney` | [`?Money`](../../doc/models/money.md) | Optional | Represents an amount of money. `Money` fields can be signed or unsigned.<br>Fields that do not explicitly define whether they are signed or unsigned are<br>considered unsigned and can only hold positive amounts. For signed fields, the<br>sign of the value indicates the purpose of the money transfer. See<br>[Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-monetary-amounts)<br>for more information. | getProcessingFeeMoney(): ?Money | setProcessingFeeMoney(?Money processingFeeMoney): void |
 | `additionalRecipients` | [`?(AdditionalRecipient[])`](../../doc/models/additional-recipient.md) | Optional | Additional recipients (other than the merchant) receiving a portion of this refund.<br>For example, fees assessed on a refund of a purchase by a third party integration. | getAdditionalRecipients(): ?array | setAdditionalRecipients(?array additionalRecipients): void |
+| `refundType` | [`?string (RefundRefundType)`](../../doc/models/refund-refund-type.md) | Optional | - | getRefundType(): ?string | setRefundType(?string refundType): void |
 
 ## Example (as JSON)
 
@@ -37,7 +38,8 @@ Represents a refund processed for a Square transaction.
   },
   "status": "PENDING",
   "processing_fee_money": null,
-  "additional_recipients": null
+  "additional_recipients": null,
+  "refund_type": null
 }
 ```
 

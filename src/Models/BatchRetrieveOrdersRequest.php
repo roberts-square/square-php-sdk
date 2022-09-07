@@ -23,6 +23,11 @@ class BatchRetrieveOrdersRequest implements \JsonSerializable
     private $orderIds;
 
     /**
+     * @var bool|null
+     */
+    private $resolveReturns;
+
+    /**
      * @param string[] $orderIds
      */
     public function __construct(array $orderIds)
@@ -78,6 +83,26 @@ class BatchRetrieveOrdersRequest implements \JsonSerializable
     }
 
     /**
+     * Returns Resolve Returns.
+     * Whether to make pending returns look like they happened surfacing from reservations
+     */
+    public function getResolveReturns(): ?bool
+    {
+        return $this->resolveReturns;
+    }
+
+    /**
+     * Sets Resolve Returns.
+     * Whether to make pending returns look like they happened surfacing from reservations
+     *
+     * @maps resolve_returns
+     */
+    public function setResolveReturns(?bool $resolveReturns): void
+    {
+        $this->resolveReturns = $resolveReturns;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -90,9 +115,12 @@ class BatchRetrieveOrdersRequest implements \JsonSerializable
     {
         $json = [];
         if (isset($this->locationId)) {
-            $json['location_id'] = $this->locationId;
+            $json['location_id']     = $this->locationId;
         }
-        $json['order_ids']       = $this->orderIds;
+        $json['order_ids']           = $this->orderIds;
+        if (isset($this->resolveReturns)) {
+            $json['resolve_returns'] = $this->resolveReturns;
+        }
         $json = array_filter($json, function ($val) {
             return $val !== null;
         });

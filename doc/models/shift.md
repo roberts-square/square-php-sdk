@@ -26,6 +26,7 @@ taken during the shift.
 | `createdAt` | `?string` | Optional | A read-only timestamp in RFC 3339 format; presented in UTC. | getCreatedAt(): ?string | setCreatedAt(?string createdAt): void |
 | `updatedAt` | `?string` | Optional | A read-only timestamp in RFC 3339 format; presented in UTC. | getUpdatedAt(): ?string | setUpdatedAt(?string updatedAt): void |
 | `teamMemberId` | `?string` | Optional | The ID of the team member this shift belongs to. Replaced `employee_id` at version "2020-08-26". | getTeamMemberId(): ?string | setTeamMemberId(?string teamMemberId): void |
+| `tipEligible` | `?bool` | Optional | - | getTipEligible(): ?bool | setTipEligible(?bool tipEligible): void |
 
 ## Example (as JSON)
 
@@ -41,7 +42,8 @@ taken during the shift.
   "breaks": null,
   "status": null,
   "version": null,
-  "team_member_id": null
+  "team_member_id": null,
+  "tip_eligible": null
 }
 ```
 

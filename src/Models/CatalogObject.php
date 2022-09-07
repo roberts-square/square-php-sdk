@@ -40,6 +40,11 @@ class CatalogObject implements \JsonSerializable
     private $updatedAt;
 
     /**
+     * @var string|null
+     */
+    private $createdAt;
+
+    /**
      * @var int|null
      */
     private $version;
@@ -160,6 +165,26 @@ class CatalogObject implements \JsonSerializable
     private $quickAmountsSettingsData;
 
     /**
+     * @var CatalogTaxExemption|null
+     */
+    private $taxExemptionData;
+
+    /**
+     * @var CatalogDiningOption|null
+     */
+    private $diningOptionData;
+
+    /**
+     * @var CatalogServiceCharge|null
+     */
+    private $serviceChargeData;
+
+    /**
+     * @var CatalogSubscriptionPlanVariation|null
+     */
+    private $subscriptionPlanVariationData;
+
+    /**
      * @param string $type
      * @param string $id
      */
@@ -247,6 +272,32 @@ class CatalogObject implements \JsonSerializable
     public function setUpdatedAt(?string $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Returns Created At.
+     * The [timestamp](https://developer.squareup.com/docs/build-basics/working-with-dates) of the request
+     * that created this object
+     * in RFC 3339 format, e.g., `"2016-08-15T23:59:33.123Z"` would indicate the UTC time (denoted by `Z`)
+     * of August 15, 2016 at 23:59:33 and 123 milliseconds.
+     */
+    public function getCreatedAt(): ?string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Sets Created At.
+     * The [timestamp](https://developer.squareup.com/docs/build-basics/working-with-dates) of the request
+     * that created this object
+     * in RFC 3339 format, e.g., `"2016-08-15T23:59:33.123Z"` would indicate the UTC time (denoted by `Z`)
+     * of August 15, 2016 at 23:59:33 and 123 milliseconds.
+     *
+     * @maps created_at
+     */
+    public function setCreatedAt(?string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**
@@ -897,6 +948,95 @@ class CatalogObject implements \JsonSerializable
     }
 
     /**
+     * Returns Tax Exemption Data.
+     * A conditional tax exemption for non-taxable goods and services. Supported conditions include
+     * `dining_option`, `max_total_amount`, `min_item_price` and `max_item_price`.
+     * Exactly one condition is allowed for a tax exemption.
+     */
+    public function getTaxExemptionData(): ?CatalogTaxExemption
+    {
+        return $this->taxExemptionData;
+    }
+
+    /**
+     * Sets Tax Exemption Data.
+     * A conditional tax exemption for non-taxable goods and services. Supported conditions include
+     * `dining_option`, `max_total_amount`, `min_item_price` and `max_item_price`.
+     * Exactly one condition is allowed for a tax exemption.
+     *
+     * @maps tax_exemption_data
+     */
+    public function setTaxExemptionData(?CatalogTaxExemption $taxExemptionData): void
+    {
+        $this->taxExemptionData = $taxExemptionData;
+    }
+
+    /**
+     * Returns Dining Option Data.
+     * A dining option in the Catalog object model.
+     */
+    public function getDiningOptionData(): ?CatalogDiningOption
+    {
+        return $this->diningOptionData;
+    }
+
+    /**
+     * Sets Dining Option Data.
+     * A dining option in the Catalog object model.
+     *
+     * @maps dining_option_data
+     */
+    public function setDiningOptionData(?CatalogDiningOption $diningOptionData): void
+    {
+        $this->diningOptionData = $diningOptionData;
+    }
+
+    /**
+     * Returns Service Charge Data.
+     * A service charge in the Catalog object model. Note that `AUTO_GRATUITY` service charge can be
+     * applied only in one location.
+     */
+    public function getServiceChargeData(): ?CatalogServiceCharge
+    {
+        return $this->serviceChargeData;
+    }
+
+    /**
+     * Sets Service Charge Data.
+     * A service charge in the Catalog object model. Note that `AUTO_GRATUITY` service charge can be
+     * applied only in one location.
+     *
+     * @maps service_charge_data
+     */
+    public function setServiceChargeData(?CatalogServiceCharge $serviceChargeData): void
+    {
+        $this->serviceChargeData = $serviceChargeData;
+    }
+
+    /**
+     * Returns Subscription Plan Variation Data.
+     * Describes a subscription plan variation. All of the fields were copied from the original
+     * Subscription Plan
+     */
+    public function getSubscriptionPlanVariationData(): ?CatalogSubscriptionPlanVariation
+    {
+        return $this->subscriptionPlanVariationData;
+    }
+
+    /**
+     * Sets Subscription Plan Variation Data.
+     * Describes a subscription plan variation. All of the fields were copied from the original
+     * Subscription Plan
+     *
+     * @maps subscription_plan_variation_data
+     */
+    public function setSubscriptionPlanVariationData(
+        ?CatalogSubscriptionPlanVariation $subscriptionPlanVariationData
+    ): void {
+        $this->subscriptionPlanVariationData = $subscriptionPlanVariationData;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -912,6 +1052,9 @@ class CatalogObject implements \JsonSerializable
         $json['id']                                   = $this->id;
         if (isset($this->updatedAt)) {
             $json['updated_at']                       = $this->updatedAt;
+        }
+        if (isset($this->createdAt)) {
+            $json['created_at']                       = $this->createdAt;
         }
         if (isset($this->version)) {
             $json['version']                          = $this->version;
@@ -984,6 +1127,18 @@ class CatalogObject implements \JsonSerializable
         }
         if (isset($this->quickAmountsSettingsData)) {
             $json['quick_amounts_settings_data']      = $this->quickAmountsSettingsData;
+        }
+        if (isset($this->taxExemptionData)) {
+            $json['tax_exemption_data']               = $this->taxExemptionData;
+        }
+        if (isset($this->diningOptionData)) {
+            $json['dining_option_data']               = $this->diningOptionData;
+        }
+        if (isset($this->serviceChargeData)) {
+            $json['service_charge_data']              = $this->serviceChargeData;
+        }
+        if (isset($this->subscriptionPlanVariationData)) {
+            $json['subscription_plan_variation_data'] = $this->subscriptionPlanVariationData;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

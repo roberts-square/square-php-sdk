@@ -12,6 +12,11 @@ use stdClass;
 class CalculateLoyaltyPointsRequest implements \JsonSerializable
 {
     /**
+     * @var Money|null
+     */
+    private $transactionAmount;
+
+    /**
      * @var string|null
      */
     private $orderId;
@@ -25,6 +30,38 @@ class CalculateLoyaltyPointsRequest implements \JsonSerializable
      * @var string|null
      */
     private $loyaltyAccountId;
+
+    /**
+     * Returns Transaction Amount.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getTransactionAmount(): ?Money
+    {
+        return $this->transactionAmount;
+    }
+
+    /**
+     * Sets Transaction Amount.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps transaction_amount
+     */
+    public function setTransactionAmount(?Money $transactionAmount): void
+    {
+        $this->transactionAmount = $transactionAmount;
+    }
 
     /**
      * Returns Order Id.
@@ -134,6 +171,9 @@ class CalculateLoyaltyPointsRequest implements \JsonSerializable
     public function jsonSerialize(bool $asArrayWhenEmpty = false)
     {
         $json = [];
+        if (isset($this->transactionAmount)) {
+            $json['transaction_amount']       = $this->transactionAmount;
+        }
         if (isset($this->orderId)) {
             $json['order_id']                 = $this->orderId;
         }

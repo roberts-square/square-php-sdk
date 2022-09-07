@@ -33,6 +33,11 @@ class SearchOrdersResponse implements \JsonSerializable
     private $errors;
 
     /**
+     * @var string[]|null
+     */
+    private $unconvertibleTransactionIds;
+
+    /**
      * Returns Order Entries.
      * A list of [OrderEntries]($m/OrderEntry) that fit the query
      * conditions. The list is populated only if `return_entries` is set to `true` in the request.
@@ -135,6 +140,36 @@ class SearchOrdersResponse implements \JsonSerializable
     }
 
     /**
+     * Returns Unconvertible Transaction Ids.
+     * A list of transaction IDs identifying transactions that could not be
+     * converted to an `Order`. Empty if, `return_entries` is `true`; however, attempts
+     * to retrieve those orders might encounter subsequent `unconvertible_transcation_ids`.
+     * This field has been moved to ALPHA so that it is not exposed for the `SearchOrders` GA release.
+     *
+     * @return string[]|null
+     */
+    public function getUnconvertibleTransactionIds(): ?array
+    {
+        return $this->unconvertibleTransactionIds;
+    }
+
+    /**
+     * Sets Unconvertible Transaction Ids.
+     * A list of transaction IDs identifying transactions that could not be
+     * converted to an `Order`. Empty if, `return_entries` is `true`; however, attempts
+     * to retrieve those orders might encounter subsequent `unconvertible_transcation_ids`.
+     * This field has been moved to ALPHA so that it is not exposed for the `SearchOrders` GA release.
+     *
+     * @maps unconvertible_transaction_ids
+     *
+     * @param string[]|null $unconvertibleTransactionIds
+     */
+    public function setUnconvertibleTransactionIds(?array $unconvertibleTransactionIds): void
+    {
+        $this->unconvertibleTransactionIds = $unconvertibleTransactionIds;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -147,16 +182,19 @@ class SearchOrdersResponse implements \JsonSerializable
     {
         $json = [];
         if (isset($this->orderEntries)) {
-            $json['order_entries'] = $this->orderEntries;
+            $json['order_entries']                 = $this->orderEntries;
         }
         if (isset($this->orders)) {
-            $json['orders']        = $this->orders;
+            $json['orders']                        = $this->orders;
         }
         if (isset($this->cursor)) {
-            $json['cursor']        = $this->cursor;
+            $json['cursor']                        = $this->cursor;
         }
         if (isset($this->errors)) {
-            $json['errors']        = $this->errors;
+            $json['errors']                        = $this->errors;
+        }
+        if (isset($this->unconvertibleTransactionIds)) {
+            $json['unconvertible_transaction_ids'] = $this->unconvertibleTransactionIds;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

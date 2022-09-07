@@ -58,6 +58,11 @@ class OrderLineItem implements \JsonSerializable
     private $itemType;
 
     /**
+     * @var string|null
+     */
+    private $sku;
+
+    /**
      * @var array<string,string>|null
      */
     private $metadata;
@@ -76,6 +81,11 @@ class OrderLineItem implements \JsonSerializable
      * @var OrderLineItemAppliedDiscount[]|null
      */
     private $appliedDiscounts;
+
+    /**
+     * @var OrderLineItemAppliedServiceCharge[]|null
+     */
+    private $appliedServiceCharges;
 
     /**
      * @var Money|null
@@ -111,6 +121,36 @@ class OrderLineItem implements \JsonSerializable
      * @var OrderLineItemPricingBlocklists|null
      */
     private $pricingBlocklists;
+
+    /**
+     * @var string|null
+     */
+    private $quantityEntryType;
+
+    /**
+     * @var string|null
+     */
+    private $taxCategory;
+
+    /**
+     * @var OrderReturnedQuantity[]|null
+     */
+    private $returnedQuantities;
+
+    /**
+     * @var OrderDiningOption|null
+     */
+    private $diningOption;
+
+    /**
+     * @var Money|null
+     */
+    private $totalServiceChargeMoney;
+
+    /**
+     * @var OrderAppliedTaxExemption[]|null
+     */
+    private $appliedTaxExemptions;
 
     /**
      * @param string $quantity
@@ -318,6 +358,26 @@ class OrderLineItem implements \JsonSerializable
     }
 
     /**
+     * Returns Sku.
+     * The SKU of the item variation.
+     */
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    /**
+     * Sets Sku.
+     * The SKU of the item variation.
+     *
+     * @maps sku
+     */
+    public function setSku(?string $sku): void
+    {
+        $this->sku = $sku;
+    }
+
+    /**
      * Returns Metadata.
      * Application-defined data attached to this line item. Metadata fields are intended
      * to store descriptive references or associations with an entity in another system or store brief
@@ -485,6 +545,40 @@ class OrderLineItem implements \JsonSerializable
     public function setAppliedDiscounts(?array $appliedDiscounts): void
     {
         $this->appliedDiscounts = $appliedDiscounts;
+    }
+
+    /**
+     * Returns Applied Service Charges.
+     * The list of references to service charges applied to this line item. Each
+     * `OrderLineItemAppliedServiceCharge` has a `service_charge_id` that references the `uid` of a
+     * top-level `OrderServiceCharge` applied to the line item. On reads, the amount applied is
+     * populated.
+     *
+     * To change the amount of a service charge, modify the referenced top-level service charge.
+     *
+     * @return OrderLineItemAppliedServiceCharge[]|null
+     */
+    public function getAppliedServiceCharges(): ?array
+    {
+        return $this->appliedServiceCharges;
+    }
+
+    /**
+     * Sets Applied Service Charges.
+     * The list of references to service charges applied to this line item. Each
+     * `OrderLineItemAppliedServiceCharge` has a `service_charge_id` that references the `uid` of a
+     * top-level `OrderServiceCharge` applied to the line item. On reads, the amount applied is
+     * populated.
+     *
+     * To change the amount of a service charge, modify the referenced top-level service charge.
+     *
+     * @maps applied_service_charges
+     *
+     * @param OrderLineItemAppliedServiceCharge[]|null $appliedServiceCharges
+     */
+    public function setAppliedServiceCharges(?array $appliedServiceCharges): void
+    {
+        $this->appliedServiceCharges = $appliedServiceCharges;
     }
 
     /**
@@ -706,6 +800,162 @@ class OrderLineItem implements \JsonSerializable
     }
 
     /**
+     * Returns Quantity Entry Type.
+     * How the quantity was added to the line item.
+     */
+    public function getQuantityEntryType(): ?string
+    {
+        return $this->quantityEntryType;
+    }
+
+    /**
+     * Sets Quantity Entry Type.
+     * How the quantity was added to the line item.
+     *
+     * @maps quantity_entry_type
+     */
+    public function setQuantityEntryType(?string $quantityEntryType): void
+    {
+        $this->quantityEntryType = $quantityEntryType;
+    }
+
+    /**
+     * Returns Tax Category.
+     * Represents the line item tax category.
+     */
+    public function getTaxCategory(): ?string
+    {
+        return $this->taxCategory;
+    }
+
+    /**
+     * Sets Tax Category.
+     * Represents the line item tax category.
+     *
+     * @maps tax_category
+     */
+    public function setTaxCategory(?string $taxCategory): void
+    {
+        $this->taxCategory = $taxCategory;
+    }
+
+    /**
+     * Returns Returned Quantities.
+     * List of ReturnedQuantity to indicate what has been returned for itemized returns for
+     * this line item
+     *
+     * @return OrderReturnedQuantity[]|null
+     */
+    public function getReturnedQuantities(): ?array
+    {
+        return $this->returnedQuantities;
+    }
+
+    /**
+     * Sets Returned Quantities.
+     * List of ReturnedQuantity to indicate what has been returned for itemized returns for
+     * this line item
+     *
+     * @maps returned_quantities
+     *
+     * @param OrderReturnedQuantity[]|null $returnedQuantities
+     */
+    public function setReturnedQuantities(?array $returnedQuantities): void
+    {
+        $this->returnedQuantities = $returnedQuantities;
+    }
+
+    /**
+     * Returns Dining Option.
+     * Represents a dining option that can be applied either to the order top level or to
+     * individual line items. Dining options are created through the Catalog API.
+     */
+    public function getDiningOption(): ?OrderDiningOption
+    {
+        return $this->diningOption;
+    }
+
+    /**
+     * Sets Dining Option.
+     * Represents a dining option that can be applied either to the order top level or to
+     * individual line items. Dining options are created through the Catalog API.
+     *
+     * @maps dining_option
+     */
+    public function setDiningOption(?OrderDiningOption $diningOption): void
+    {
+        $this->diningOption = $diningOption;
+    }
+
+    /**
+     * Returns Total Service Charge Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getTotalServiceChargeMoney(): ?Money
+    {
+        return $this->totalServiceChargeMoney;
+    }
+
+    /**
+     * Sets Total Service Charge Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps total_service_charge_money
+     */
+    public function setTotalServiceChargeMoney(?Money $totalServiceChargeMoney): void
+    {
+        $this->totalServiceChargeMoney = $totalServiceChargeMoney;
+    }
+
+    /**
+     * Returns Applied Tax Exemptions.
+     * The list of references to tax exemption applied to this line
+     * item. Each `OrderLineItemAppliedTaxExemption` has a
+     * `tax_exemption_uid` that references the `uid` of a top-level
+     * `OrderLineItemTaxExemption` applied to the line item.
+     * `OrderLineItemAppliedTaxExemption` records for `LINE_ITEM`
+     * scoped tax exemptions must be added in requests for the tax exemption
+     * to apply to any line items.
+     *
+     * @return OrderAppliedTaxExemption[]|null
+     */
+    public function getAppliedTaxExemptions(): ?array
+    {
+        return $this->appliedTaxExemptions;
+    }
+
+    /**
+     * Sets Applied Tax Exemptions.
+     * The list of references to tax exemption applied to this line
+     * item. Each `OrderLineItemAppliedTaxExemption` has a
+     * `tax_exemption_uid` that references the `uid` of a top-level
+     * `OrderLineItemTaxExemption` applied to the line item.
+     * `OrderLineItemAppliedTaxExemption` records for `LINE_ITEM`
+     * scoped tax exemptions must be added in requests for the tax exemption
+     * to apply to any line items.
+     *
+     * @maps applied_tax_exemptions
+     *
+     * @param OrderAppliedTaxExemption[]|null $appliedTaxExemptions
+     */
+    public function setAppliedTaxExemptions(?array $appliedTaxExemptions): void
+    {
+        $this->appliedTaxExemptions = $appliedTaxExemptions;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -742,6 +992,9 @@ class OrderLineItem implements \JsonSerializable
         if (isset($this->itemType)) {
             $json['item_type']                   = $this->itemType;
         }
+        if (isset($this->sku)) {
+            $json['sku']                         = $this->sku;
+        }
         if (isset($this->metadata)) {
             $json['metadata']                    = $this->metadata;
         }
@@ -753,6 +1006,9 @@ class OrderLineItem implements \JsonSerializable
         }
         if (isset($this->appliedDiscounts)) {
             $json['applied_discounts']           = $this->appliedDiscounts;
+        }
+        if (isset($this->appliedServiceCharges)) {
+            $json['applied_service_charges']     = $this->appliedServiceCharges;
         }
         if (isset($this->basePriceMoney)) {
             $json['base_price_money']            = $this->basePriceMoney;
@@ -774,6 +1030,24 @@ class OrderLineItem implements \JsonSerializable
         }
         if (isset($this->pricingBlocklists)) {
             $json['pricing_blocklists']          = $this->pricingBlocklists;
+        }
+        if (isset($this->quantityEntryType)) {
+            $json['quantity_entry_type']         = $this->quantityEntryType;
+        }
+        if (isset($this->taxCategory)) {
+            $json['tax_category']                = $this->taxCategory;
+        }
+        if (isset($this->returnedQuantities)) {
+            $json['returned_quantities']         = $this->returnedQuantities;
+        }
+        if (isset($this->diningOption)) {
+            $json['dining_option']               = $this->diningOption;
+        }
+        if (isset($this->totalServiceChargeMoney)) {
+            $json['total_service_charge_money']  = $this->totalServiceChargeMoney;
+        }
+        if (isset($this->appliedTaxExemptions)) {
+            $json['applied_tax_exemptions']      = $this->appliedTaxExemptions;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -17,6 +17,7 @@ A tax applicable to an item.
 | `percentage` | `?string` | Optional | The percentage of the tax in decimal form, using a `'.'` as the decimal separator and without a `'%'` sign.<br>A value of `7.5` corresponds to 7.5%. For a location-specific tax rate, contact the tax authority of the location or a tax consultant. | getPercentage(): ?string | setPercentage(?string percentage): void |
 | `appliesToCustomAmounts` | `?bool` | Optional | If `true`, the fee applies to custom amounts entered into the Square Point of Sale<br>app that are not associated with a particular `CatalogItem`. | getAppliesToCustomAmounts(): ?bool | setAppliesToCustomAmounts(?bool appliesToCustomAmounts): void |
 | `enabled` | `?bool` | Optional | A Boolean flag to indicate whether the tax is displayed as enabled (`true`) in the Square Point of Sale app or not (`false`). | getEnabled(): ?bool | setEnabled(?bool enabled): void |
+| `appliesToProductSetId` | `?string` | Optional | The ID of a `CatalogProductSet` object. If set, the tax is applicable to all products in the product set. | getAppliesToProductSetId(): ?string | setAppliesToProductSetId(?string appliesToProductSetId): void |
 
 ## Example (as JSON)
 

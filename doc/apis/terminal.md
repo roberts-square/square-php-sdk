@@ -14,9 +14,13 @@ $terminalApi = $client->getTerminalApi();
 * [Search Terminal Actions](../../doc/apis/terminal.md#search-terminal-actions)
 * [Get Terminal Action](../../doc/apis/terminal.md#get-terminal-action)
 * [Cancel Terminal Action](../../doc/apis/terminal.md#cancel-terminal-action)
+* [Complete Terminal Action](../../doc/apis/terminal.md#complete-terminal-action)
+* [List Terminal Checkouts](../../doc/apis/terminal.md#list-terminal-checkouts)
 * [Create Terminal Checkout](../../doc/apis/terminal.md#create-terminal-checkout)
+* [Ack Next Terminal Checkout](../../doc/apis/terminal.md#ack-next-terminal-checkout)
 * [Search Terminal Checkouts](../../doc/apis/terminal.md#search-terminal-checkouts)
 * [Get Terminal Checkout](../../doc/apis/terminal.md#get-terminal-checkout)
+* [Ack Terminal Checkout](../../doc/apis/terminal.md#ack-terminal-checkout)
 * [Cancel Terminal Checkout](../../doc/apis/terminal.md#cancel-terminal-checkout)
 * [Create Terminal Refund](../../doc/apis/terminal.md#create-terminal-refund)
 * [Search Terminal Refunds](../../doc/apis/terminal.md#search-terminal-refunds)
@@ -123,7 +127,7 @@ if ($apiResponse->isSuccess()) {
 Retrieves a Terminal action request by `action_id`. Terminal action requests are available for 30 days.
 
 ```php
-function getTerminalAction(string $actionId): ApiResponse
+function getTerminalAction(string $actionId, ?string $mInclude = null): ApiResponse
 ```
 
 ## Parameters
@@ -131,6 +135,7 @@ function getTerminalAction(string $actionId): ApiResponse
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `actionId` | `string` | Template, Required | Unique ID for the desired `TerminalAction` |
+| `mInclude` | `?string` | Query, Optional | Related paths to include in the response as an optimization represented as a<br>comma-separated list. |
 
 ## Response Type
 
@@ -192,6 +197,92 @@ if ($apiResponse->isSuccess()) {
 ```
 
 
+# Complete Terminal Action
+
+Completes a Terminal action request if the status of the request permits it.
+
+```php
+function completeTerminalAction(string $actionId, CompleteTerminalActionRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `actionId` | `string` | Template, Required | Unique ID for the desired `TerminalAction` to complete. |
+| `body` | [`CompleteTerminalActionRequest`](../../doc/models/complete-terminal-action-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`CompleteTerminalActionResponse`](../../doc/models/complete-terminal-action-response.md)
+
+## Example Usage
+
+```php
+$actionId = 'action_id6';
+$body = new Models\CompleteTerminalActionRequest;
+
+$apiResponse = $terminalApi->completeTerminalAction($actionId, $body);
+
+if ($apiResponse->isSuccess()) {
+    $completeTerminalActionResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# List Terminal Checkouts
+
+The method definition for the [ListTerminalCheckouts](../../doc/apis/terminal.md#list-terminal-checkouts) endpoint.
+
+```php
+function listTerminalCheckouts(
+    ?string $deviceId = null,
+    ?string $cursor = null,
+    ?string $beginTime = null,
+    ?string $endTime = null,
+    ?string $sortOrder = null,
+    ?string $status = null
+): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `deviceId` | `?string` | Query, Optional | The `TerminalCheckout` objects associated with a specific device. If no device is specified, then all<br>`TerminalCheckout` objects for the signed-in account are displayed. |
+| `cursor` | `?string` | Query, Optional | A pagination cursor returned by a previous call to this endpoint.<br>Provide this cursor to retrieve the next set of results for the original query.<br>See [Pagination](https://developer.squareup.com/docs/basics/api101/pagination) for more information. |
+| `beginTime` | `?string` | Query, Optional | The RFC 3339 timestamp for the beginning of the reporting period, which is inclusive.<br>Default value: The current time minus one day. |
+| `endTime` | `?string` | Query, Optional | The RFC 3339 timestamp for the end of the reporting period, which is inclusive.<br>Default value: The current time. |
+| `sortOrder` | `?string` | Query, Optional | The order in which results are listed.<br><br>- `ASC` - Oldest to newest.<br>- `DESC` - Newest to oldest (default). |
+| `status` | `?string` | Query, Optional | Filtered results with the desired status of the `TerminalCheckout`. |
+
+## Response Type
+
+[`ListTerminalCheckoutsResponse`](../../doc/models/list-terminal-checkouts-response.md)
+
+## Example Usage
+
+```php
+$apiResponse = $terminalApi->listTerminalCheckouts();
+
+if ($apiResponse->isSuccess()) {
+    $listTerminalCheckoutsResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
 # Create Terminal Checkout
 
 Creates a Terminal checkout request and sends it to the specified device to take a payment
@@ -237,6 +328,46 @@ $apiResponse = $terminalApi->createTerminalCheckout($body);
 
 if ($apiResponse->isSuccess()) {
     $createTerminalCheckoutResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Ack Next Terminal Checkout
+
+The method definition for the [AckNextTerminalCheckout](../../doc/apis/terminal.md#ack-next-terminal-checkout) endpoint.
+
+```php
+function ackNextTerminalCheckout(AckNextTerminalCheckoutRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`AckNextTerminalCheckoutRequest`](../../doc/models/ack-next-terminal-checkout-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`AckNextTerminalCheckoutResponse`](../../doc/models/ack-next-terminal-checkout-response.md)
+
+## Example Usage
+
+```php
+$body_idempotencyKey = 'idempotency_key2';
+$body = new Models\AckNextTerminalCheckoutRequest(
+    $body_idempotencyKey
+);
+
+$apiResponse = $terminalApi->ackNextTerminalCheckout($body);
+
+if ($apiResponse->isSuccess()) {
+    $ackNextTerminalCheckoutResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }
@@ -325,12 +456,12 @@ if ($apiResponse->isSuccess()) {
 ```
 
 
-# Cancel Terminal Checkout
+# Ack Terminal Checkout
 
-Cancels a Terminal checkout request if the status of the request permits it.
+The method definition for the [AckTerminalCheckout](../../doc/apis/terminal.md#ack-terminal-checkout) endpoint.
 
 ```php
-function cancelTerminalCheckout(string $checkoutId): ApiResponse
+function ackTerminalCheckout(string $checkoutId, AckTerminalCheckoutRequest $body): ApiResponse
 ```
 
 ## Parameters
@@ -338,6 +469,46 @@ function cancelTerminalCheckout(string $checkoutId): ApiResponse
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `checkoutId` | `string` | Template, Required | The unique ID for the desired `TerminalCheckout`. |
+| `body` | [`AckTerminalCheckoutRequest`](../../doc/models/ack-terminal-checkout-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`AckTerminalCheckoutResponse`](../../doc/models/ack-terminal-checkout-response.md)
+
+## Example Usage
+
+```php
+$checkoutId = 'checkout_id8';
+$body = new Models\AckTerminalCheckoutRequest;
+
+$apiResponse = $terminalApi->ackTerminalCheckout($checkoutId, $body);
+
+if ($apiResponse->isSuccess()) {
+    $ackTerminalCheckoutResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Cancel Terminal Checkout
+
+Cancels a Terminal checkout request if the status of the request permits it.
+
+```php
+function cancelTerminalCheckout(string $checkoutId, CancelTerminalCheckoutRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `checkoutId` | `string` | Template, Required | The unique ID for the desired `TerminalCheckout`. |
+| `body` | [`CancelTerminalCheckoutRequest`](../../doc/models/cancel-terminal-checkout-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
 
 ## Response Type
 
@@ -347,8 +518,9 @@ function cancelTerminalCheckout(string $checkoutId): ApiResponse
 
 ```php
 $checkoutId = 'checkout_id8';
+$body = new Models\CancelTerminalCheckoutRequest;
 
-$apiResponse = $terminalApi->cancelTerminalCheckout($checkoutId);
+$apiResponse = $terminalApi->cancelTerminalCheckout($checkoutId, $body);
 
 if ($apiResponse->isSuccess()) {
     $cancelTerminalCheckoutResponse = $apiResponse->getResult();

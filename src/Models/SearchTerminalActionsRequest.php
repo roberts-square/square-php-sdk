@@ -24,6 +24,11 @@ class SearchTerminalActionsRequest implements \JsonSerializable
     private $limit;
 
     /**
+     * @var string[]|null
+     */
+    private $mInclude;
+
+    /**
      * Returns Query.
      */
     public function getQuery(): ?TerminalActionQuery
@@ -88,6 +93,32 @@ class SearchTerminalActionsRequest implements \JsonSerializable
     }
 
     /**
+     * Returns M Include.
+     * Related paths to include in the response as an optimization.
+     * See [TerminalIncludesInclude](#type-terminalincludesinclude) for possible values
+     *
+     * @return string[]|null
+     */
+    public function getMInclude(): ?array
+    {
+        return $this->mInclude;
+    }
+
+    /**
+     * Sets M Include.
+     * Related paths to include in the response as an optimization.
+     * See [TerminalIncludesInclude](#type-terminalincludesinclude) for possible values
+     *
+     * @maps include
+     *
+     * @param string[]|null $mInclude
+     */
+    public function setMInclude(?array $mInclude): void
+    {
+        $this->mInclude = $mInclude;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -100,13 +131,16 @@ class SearchTerminalActionsRequest implements \JsonSerializable
     {
         $json = [];
         if (isset($this->query)) {
-            $json['query']  = $this->query;
+            $json['query']   = $this->query;
         }
         if (isset($this->cursor)) {
-            $json['cursor'] = $this->cursor;
+            $json['cursor']  = $this->cursor;
         }
         if (isset($this->limit)) {
-            $json['limit']  = $this->limit;
+            $json['limit']   = $this->limit;
+        }
+        if (isset($this->mInclude)) {
+            $json['include'] = $this->mInclude;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

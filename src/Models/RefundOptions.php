@@ -1,0 +1,313 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Square\Models;
+
+use stdClass;
+
+class RefundOptions implements \JsonSerializable
+{
+    /**
+     * @var string|null
+     */
+    private $refundId;
+
+    /**
+     * @var string
+     */
+    private $paymentId;
+
+    /**
+     * @var CardPaymentDetails|null
+     */
+    private $cardDetails;
+
+    /**
+     * @var string|null
+     */
+    private $orderId;
+
+    /**
+     * @var Money
+     */
+    private $amountMoney;
+
+    /**
+     * @var string|null
+     */
+    private $reason;
+
+    /**
+     * @var string|null
+     */
+    private $referenceIdDeprecated;
+
+    /**
+     * @var string|null
+     */
+    private $noteDeprecated;
+
+    /**
+     * @var Card|null
+     */
+    private $card;
+
+    /**
+     * @param string $paymentId
+     * @param Money $amountMoney
+     */
+    public function __construct(string $paymentId, Money $amountMoney)
+    {
+        $this->paymentId = $paymentId;
+        $this->amountMoney = $amountMoney;
+    }
+
+    /**
+     * Returns Refund Id.
+     * The reference to the payment refund created by completing this `TerminalRefund`.
+     */
+    public function getRefundId(): ?string
+    {
+        return $this->refundId;
+    }
+
+    /**
+     * Sets Refund Id.
+     * The reference to the payment refund created by completing this `TerminalRefund`.
+     *
+     * @maps refund_id
+     */
+    public function setRefundId(?string $refundId): void
+    {
+        $this->refundId = $refundId;
+    }
+
+    /**
+     * Returns Payment Id.
+     * The unique ID of the payment being refunded.
+     */
+    public function getPaymentId(): string
+    {
+        return $this->paymentId;
+    }
+
+    /**
+     * Sets Payment Id.
+     * The unique ID of the payment being refunded.
+     *
+     * @required
+     * @maps payment_id
+     */
+    public function setPaymentId(string $paymentId): void
+    {
+        $this->paymentId = $paymentId;
+    }
+
+    /**
+     * Returns Card Details.
+     * Reflects the current status of a card payment. Contains only non-confidential information.
+     */
+    public function getCardDetails(): ?CardPaymentDetails
+    {
+        return $this->cardDetails;
+    }
+
+    /**
+     * Sets Card Details.
+     * Reflects the current status of a card payment. Contains only non-confidential information.
+     *
+     * @maps card_details
+     */
+    public function setCardDetails(?CardPaymentDetails $cardDetails): void
+    {
+        $this->cardDetails = $cardDetails;
+    }
+
+    /**
+     * Returns Order Id.
+     * The reference to the Square order ID for the payment identified by the `payment_id`.
+     */
+    public function getOrderId(): ?string
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * Sets Order Id.
+     * The reference to the Square order ID for the payment identified by the `payment_id`.
+     *
+     * @maps order_id
+     */
+    public function setOrderId(?string $orderId): void
+    {
+        $this->orderId = $orderId;
+    }
+
+    /**
+     * Returns Amount Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getAmountMoney(): Money
+    {
+        return $this->amountMoney;
+    }
+
+    /**
+     * Sets Amount Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @required
+     * @maps amount_money
+     */
+    public function setAmountMoney(Money $amountMoney): void
+    {
+        $this->amountMoney = $amountMoney;
+    }
+
+    /**
+     * Returns Reason.
+     * A description of the reason for the refund.
+     * Note: maximum 192 characters
+     */
+    public function getReason(): ?string
+    {
+        return $this->reason;
+    }
+
+    /**
+     * Sets Reason.
+     * A description of the reason for the refund.
+     * Note: maximum 192 characters
+     *
+     * @maps reason
+     */
+    public function setReason(?string $reason): void
+    {
+        $this->reason = $reason;
+    }
+
+    /**
+     * Returns Reference Id Deprecated.
+     * An optional user-defined reference ID that can be used to associate
+     * this `TerminalRefund` to another entity in an external system. For example, an
+     * ID generated by a third-party system.
+     * Note: The maximum is 40 characters.
+     */
+    public function getReferenceIdDeprecated(): ?string
+    {
+        return $this->referenceIdDeprecated;
+    }
+
+    /**
+     * Sets Reference Id Deprecated.
+     * An optional user-defined reference ID that can be used to associate
+     * this `TerminalRefund` to another entity in an external system. For example, an
+     * ID generated by a third-party system.
+     * Note: The maximum is 40 characters.
+     *
+     * @maps reference_id_deprecated
+     */
+    public function setReferenceIdDeprecated(?string $referenceIdDeprecated): void
+    {
+        $this->referenceIdDeprecated = $referenceIdDeprecated;
+    }
+
+    /**
+     * Returns Note Deprecated.
+     * An optional note to associate with the transaction.
+     * Note: The maximum is 250 characters.
+     */
+    public function getNoteDeprecated(): ?string
+    {
+        return $this->noteDeprecated;
+    }
+
+    /**
+     * Sets Note Deprecated.
+     * An optional note to associate with the transaction.
+     * Note: The maximum is 250 characters.
+     *
+     * @maps note_deprecated
+     */
+    public function setNoteDeprecated(?string $noteDeprecated): void
+    {
+        $this->noteDeprecated = $noteDeprecated;
+    }
+
+    /**
+     * Returns Card.
+     * Represents the payment details of a card to be used for payments. These
+     * details are determined by the payment token generated by Web Payments SDK.
+     */
+    public function getCard(): ?Card
+    {
+        return $this->card;
+    }
+
+    /**
+     * Sets Card.
+     * Represents the payment details of a card to be used for payments. These
+     * details are determined by the payment token generated by Web Payments SDK.
+     *
+     * @maps card
+     */
+    public function setCard(?Card $card): void
+    {
+        $this->card = $card;
+    }
+
+    /**
+     * Encode this object to JSON
+     *
+     * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
+     *        are set. (default: false)
+     *
+     * @return array|stdClass
+     */
+    #[\ReturnTypeWillChange] // @phan-suppress-current-line PhanUndeclaredClassAttribute for (php < 8.1)
+    public function jsonSerialize(bool $asArrayWhenEmpty = false)
+    {
+        $json = [];
+        if (isset($this->refundId)) {
+            $json['refund_id']               = $this->refundId;
+        }
+        $json['payment_id']                  = $this->paymentId;
+        if (isset($this->cardDetails)) {
+            $json['card_details']            = $this->cardDetails;
+        }
+        if (isset($this->orderId)) {
+            $json['order_id']                = $this->orderId;
+        }
+        $json['amount_money']                = $this->amountMoney;
+        if (isset($this->reason)) {
+            $json['reason']                  = $this->reason;
+        }
+        if (isset($this->referenceIdDeprecated)) {
+            $json['reference_id_deprecated'] = $this->referenceIdDeprecated;
+        }
+        if (isset($this->noteDeprecated)) {
+            $json['note_deprecated']         = $this->noteDeprecated;
+        }
+        if (isset($this->card)) {
+            $json['card']                    = $this->card;
+        }
+        $json = array_filter($json, function ($val) {
+            return $val !== null;
+        });
+
+        return (!$asArrayWhenEmpty && empty($json)) ? new stdClass() : $json;
+    }
+}

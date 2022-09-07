@@ -22,6 +22,8 @@ a product set will also include its item variations.
 | `quantityMin` | `?int` | Optional | If set, there must be at least this many items from `products_any` or `products_all`<br>in a cart for the discount to apply. See `quantity_exact`. Defaults to 0 if<br>`quantity_exact`, `quantity_min` and `quantity_max` are all unspecified. | getQuantityMin(): ?int | setQuantityMin(?int quantityMin): void |
 | `quantityMax` | `?int` | Optional | If set, the pricing rule will apply to a maximum of this many items from<br>`products_any` or `products_all`. | getQuantityMax(): ?int | setQuantityMax(?int quantityMax): void |
 | `allProducts` | `?bool` | Optional | If set to `true`, the product set will include every item in the catalog.<br>Only one of `product_ids_all`, `product_ids_any`, or `all_products` can be set. | getAllProducts(): ?bool | setAllProducts(?bool allProducts): void |
+| `matchCustomAmounts` | `?bool` | Optional | If set to `true`, the product set will match custom amounts. | getMatchCustomAmounts(): ?bool | setMatchCustomAmounts(?bool matchCustomAmounts): void |
+| `lineItemTypes` | [`?(string[]) (CatalogProductSetLineItemType)`](../../doc/models/catalog-product-set-line-item-type.md) | Optional | The list of Order sources that a pricing rule is explicitly enabled on.<br>If unset, the pricing rule is implicitly enabled on all sources.<br>See [CatalogProductSetLineItemType](#type-catalogproductsetlineitemtype) for possible values | getLineItemTypes(): ?array | setLineItemTypes(?array lineItemTypes): void |
 
 ## Example (as JSON)
 
@@ -33,7 +35,9 @@ a product set will also include its item variations.
   "quantity_exact": null,
   "quantity_min": null,
   "quantity_max": null,
-  "all_products": null
+  "all_products": null,
+  "match_custom_amounts": null,
+  "line_item_types": null
 }
 ```
 

@@ -13,6 +13,7 @@ $catalogApi = $client->getCatalogApi();
 * [Batch Delete Catalog Objects](../../doc/apis/catalog.md#batch-delete-catalog-objects)
 * [Batch Retrieve Catalog Objects](../../doc/apis/catalog.md#batch-retrieve-catalog-objects)
 * [Batch Upsert Catalog Objects](../../doc/apis/catalog.md#batch-upsert-catalog-objects)
+* [Catalog Configuration](../../doc/apis/catalog.md#catalog-configuration)
 * [Create Catalog Image](../../doc/apis/catalog.md#create-catalog-image)
 * [Update Catalog Image](../../doc/apis/catalog.md#update-catalog-image)
 * [Catalog Info](../../doc/apis/catalog.md#catalog-info)
@@ -21,7 +22,9 @@ $catalogApi = $client->getCatalogApi();
 * [Delete Catalog Object](../../doc/apis/catalog.md#delete-catalog-object)
 * [Retrieve Catalog Object](../../doc/apis/catalog.md#retrieve-catalog-object)
 * [Search Catalog Objects](../../doc/apis/catalog.md#search-catalog-objects)
+* [Search Catalog Item Variations](../../doc/apis/catalog.md#search-catalog-item-variations)
 * [Search Catalog Items](../../doc/apis/catalog.md#search-catalog-items)
+* [Sync Catalog Objects](../../doc/apis/catalog.md#sync-catalog-objects)
 * [Update Item Modifier Lists](../../doc/apis/catalog.md#update-item-modifier-lists)
 * [Update Item Taxes](../../doc/apis/catalog.md#update-item-taxes)
 
@@ -248,6 +251,35 @@ if ($apiResponse->isSuccess()) {
 ```
 
 
+# Catalog Configuration
+
+Fetches any configuration values that apply to this catalog.
+
+```php
+function catalogConfiguration(): ApiResponse
+```
+
+## Response Type
+
+[`CatalogConfigurationResponse`](../../doc/models/catalog-configuration-response.md)
+
+## Example Usage
+
+```php
+$apiResponse = $catalogApi->catalogConfiguration();
+
+if ($apiResponse->isSuccess()) {
+    $catalogConfigurationResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
 # Create Catalog Image
 
 Uploads an image file to be represented by a [CatalogImage](../../doc/models/catalog-image.md) object that can be linked to an existing
@@ -406,7 +438,7 @@ function listCatalog(?string $cursor = null, ?string $types = null, ?int $catalo
 |  --- | --- | --- | --- |
 | `cursor` | `?string` | Query, Optional | The pagination cursor returned in the previous response. Leave unset for an initial request.<br>The page size is currently set to be 100.<br>See [Pagination](https://developer.squareup.com/docs/basics/api101/pagination) for more information. |
 | `types` | `?string` | Query, Optional | An optional case-insensitive, comma-separated list of object types to retrieve.<br><br>The valid values are defined in the [CatalogObjectType](../../doc/models/catalog-object-type.md) enum, for example,<br>`ITEM`, `ITEM_VARIATION`, `CATEGORY`, `DISCOUNT`, `TAX`,<br>`MODIFIER`, `MODIFIER_LIST`, `IMAGE`, etc.<br><br>If this is unspecified, the operation returns objects of all the top level types at the version<br>of the Square API used to make the request. Object types that are nested onto other object types<br>are not included in the defaults.<br><br>At the current API version the default object types are:<br>ITEM, CATEGORY, TAX, DISCOUNT, MODIFIER_LIST,<br>PRICING_RULE, PRODUCT_SET, TIME_PERIOD, MEASUREMENT_UNIT,<br>SUBSCRIPTION_PLAN, ITEM_OPTION, CUSTOM_ATTRIBUTE_DEFINITION, QUICK_AMOUNT_SETTINGS. |
-| `catalogVersion` | `?int` | Query, Optional | The specific version of the catalog objects to be included in the response.<br>This allows you to retrieve historical<br>versions of objects. The specified version value is matched against<br>the [CatalogObject](../../doc/models/catalog-object.md)s' `version` attribute.  If not included, results will<br>be from the current version of the catalog. |
+| `catalogVersion` | `?int` | Query, Optional | The specific version of the catalog objects to be included in the response.<br>This allows you to retrieve historical versions of objects. The specified version value is matched against<br>the [CatalogObject](../../doc/models/catalog-object.md)s' `version` attribute.  If not included, results will be from the<br>current version of the catalog. |
 
 ## Response Type
 
@@ -644,6 +676,69 @@ if ($apiResponse->isSuccess()) {
 ```
 
 
+# Search Catalog Item Variations
+
+Searches for catalog item variations by matching supported search attribute values against one or more of the
+specified query filters. Additionally, this endpoint returns stock counts at all locations for returned item variations.
+
+This (`SearchCatalogItemVariations`) endpoint is similar to the [SearchCatalogItems](../../doc/apis/catalog.md#search-catalog-items)
+endpoint, but differs in the following aspects:
+
+- `SearchCatalogItems` searches both items and their variations and returns items with nested variations, whereas `SearchCatalogItemVariations` returns only item variations as a flat list.
+- `SearchCatalogItemVariations` returns stock count information for returned item variations, and the results are sortable by this value.
+- `SearchCatalogItemVariations` includes a field to specify which neighboring objects to return (e.g. parent items).
+- The `MultiFieldTextFilter` in `SearchCatalogItemVariations` allows specification for which attributes to consider in a text search.
+
+```php
+function searchCatalogItemVariations(SearchCatalogItemVariationsRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`SearchCatalogItemVariationsRequest`](../../doc/models/search-catalog-item-variations-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`SearchCatalogItemVariationsResponse`](../../doc/models/search-catalog-item-variations-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\SearchCatalogItemVariationsRequest;
+$body_textFilter = [];
+
+$body_textFilter[0] = new Models\MultiFieldTextFilter;
+$body_textFilter[0]->setTextFilter('coffee');
+$body_textFilter[0]->setFields(new Models\MultiFieldTextFilterFieldValues);
+$body_textFilter[0]->getFields()->setAny([Models\MultiFieldTextFilterSearchField::ITEM_NAME, Models\MultiFieldTextFilterSearchField::ITEM_VARIATION_NAME]);
+$body->setTextFilter($body_textFilter);
+
+$body->setCategoryIds(['COFFEE_CATEGORY_ID']);
+$body->setEnabledLocationIds(['ATL_LOCATION_ID', 'NYC_LOCATION_ID']);
+$body->setSort(new Models\Sort);
+$body->getSort()->setField(Models\SortSortField::ITEM_VARIATION_INVENTORY_COUNT);
+$body->getSort()->setOrder(Models\SortOrder::DESC);
+$body->getSort()->setLocationId('ATL_LOCATION_ID');
+$body->setTrackInventoryLocationIds(['ATL_LOCATION_ID', 'NYC_LOCATION_ID']);
+$body->setIncludeRelatedObjects([Models\CatalogObjectType::ITEM]);
+$body->setLimit(100);
+
+$apiResponse = $catalogApi->searchCatalogItemVariations($body);
+
+if ($apiResponse->isSuccess()) {
+    $searchCatalogItemVariationsResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
 # Search Catalog Items
 
 Searches for catalog items or item variations by matching supported search attribute values, including
@@ -707,6 +802,46 @@ $apiResponse = $catalogApi->searchCatalogItems($body);
 
 if ($apiResponse->isSuccess()) {
     $searchCatalogItemsResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Sync Catalog Objects
+
+Returns [CatalogObject](../../doc/models/catalog-object.md)s that have been modified or deleted since a given timestamp.
+Deleted objects are returned as empty "tombstones" with their `is_deleted` field set to true but with other fields empty.
+Use this endpoint instead of `SearchCatalogObject` when the contents of deleted objects are not needed.
+
+```php
+function syncCatalogObjects(SyncCatalogObjectsRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`SyncCatalogObjectsRequest`](../../doc/models/sync-catalog-objects-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`SyncCatalogObjectsResponse`](../../doc/models/sync-catalog-objects-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\SyncCatalogObjectsRequest;
+$body->setModifiedAfter('1639432537');
+
+$apiResponse = $catalogApi->syncCatalogObjects($body);
+
+if ($apiResponse->isSuccess()) {
+    $syncCatalogObjectsResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

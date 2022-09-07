@@ -68,6 +68,11 @@ class CreateCustomerRequest implements \JsonSerializable
     private $birthday;
 
     /**
+     * @var CustomerPreferences|null
+     */
+    private $preferences;
+
+    /**
      * @var CustomerTaxIds|null
      */
     private $taxIds;
@@ -311,6 +316,26 @@ class CreateCustomerRequest implements \JsonSerializable
     }
 
     /**
+     * Returns Preferences.
+     * Represents communication preferences for the customer profile.
+     */
+    public function getPreferences(): ?CustomerPreferences
+    {
+        return $this->preferences;
+    }
+
+    /**
+     * Sets Preferences.
+     * Represents communication preferences for the customer profile.
+     *
+     * @maps preferences
+     */
+    public function setPreferences(?CustomerPreferences $preferences): void
+    {
+        $this->preferences = $preferences;
+    }
+
+    /**
      * Returns Tax Ids.
      * Represents the tax ID associated with a [customer profile]($m/Customer). The corresponding `tax_ids`
      * field is available only for customers of sellers in EU countries or the United Kingdom.
@@ -380,6 +405,9 @@ class CreateCustomerRequest implements \JsonSerializable
         }
         if (isset($this->birthday)) {
             $json['birthday']        = $this->birthday;
+        }
+        if (isset($this->preferences)) {
+            $json['preferences']     = $this->preferences;
         }
         if (isset($this->taxIds)) {
             $json['tax_ids']         = $this->taxIds;

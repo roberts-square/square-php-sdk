@@ -22,7 +22,7 @@ Describes changes to a subscription and the subscription status.
 ```json
 {
   "id": "id0",
-  "subscription_event_type": "RESUME_SUBSCRIPTION",
+  "subscription_event_type": "START_SUBSCRIPTION",
   "effective_date": "effective_date0",
   "plan_id": "plan_id8",
   "info": null

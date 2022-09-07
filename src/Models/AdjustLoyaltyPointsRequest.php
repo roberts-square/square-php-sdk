@@ -12,6 +12,11 @@ use stdClass;
 class AdjustLoyaltyPointsRequest implements \JsonSerializable
 {
     /**
+     * @var LoyaltyEventAdjustPoints|null
+     */
+    private $adjust;
+
+    /**
      * @var string
      */
     private $idempotencyKey;
@@ -34,6 +39,26 @@ class AdjustLoyaltyPointsRequest implements \JsonSerializable
     {
         $this->idempotencyKey = $idempotencyKey;
         $this->adjustPoints = $adjustPoints;
+    }
+
+    /**
+     * Returns Adjust.
+     * Provides metadata when the event `type` is `ADJUST_POINTS`.
+     */
+    public function getAdjust(): ?LoyaltyEventAdjustPoints
+    {
+        return $this->adjust;
+    }
+
+    /**
+     * Sets Adjust.
+     * Provides metadata when the event `type` is `ADJUST_POINTS`.
+     *
+     * @maps adjust
+     */
+    public function setAdjust(?LoyaltyEventAdjustPoints $adjust): void
+    {
+        $this->adjust = $adjust;
     }
 
     /**
@@ -120,6 +145,9 @@ class AdjustLoyaltyPointsRequest implements \JsonSerializable
     public function jsonSerialize(bool $asArrayWhenEmpty = false)
     {
         $json = [];
+        if (isset($this->adjust)) {
+            $json['adjust']                 = $this->adjust;
+        }
         $json['idempotency_key']            = $this->idempotencyKey;
         $json['adjust_points']              = $this->adjustPoints;
         if (isset($this->allowNegativeBalance)) {

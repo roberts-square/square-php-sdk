@@ -14,8 +14,10 @@ For more information, see [Loyalty Program Overview](https://developer.squareup.
 | Name | Type | Tags | Description | Getter | Setter |
 |  --- | --- | --- | --- | --- | --- |
 | `id` | `string` | Required | The Square-assigned ID of the loyalty program. Updates to<br>the loyalty program do not modify the identifier.<br>**Constraints**: *Minimum Length*: `1`, *Maximum Length*: `36` | getId(): string | setId(string id): void |
+| `description` | `?string` | Optional | The program description. | getDescription(): ?string | setDescription(?string description): void |
 | `status` | [`string (LoyaltyProgramStatus)`](../../doc/models/loyalty-program-status.md) | Required | Indicates whether the program is currently active. | getStatus(): string | setStatus(string status): void |
 | `rewardTiers` | [`LoyaltyProgramRewardTier[]`](../../doc/models/loyalty-program-reward-tier.md) | Required | The list of rewards for buyers, sorted by ascending points. | getRewardTiers(): array | setRewardTiers(array rewardTiers): void |
+| `rule` | [`?LoyaltyProgramAccrualRule`](../../doc/models/loyalty-program-accrual-rule.md) | Optional | Represents an accrual rule, which defines how buyers can earn points from the base [loyalty program](../../doc/models/loyalty-program.md). | getRule(): ?LoyaltyProgramAccrualRule | setRule(?LoyaltyProgramAccrualRule rule): void |
 | `expirationPolicy` | [`?LoyaltyProgramExpirationPolicy`](../../doc/models/loyalty-program-expiration-policy.md) | Optional | Describes when the loyalty program expires. | getExpirationPolicy(): ?LoyaltyProgramExpirationPolicy | setExpirationPolicy(?LoyaltyProgramExpirationPolicy expirationPolicy): void |
 | `terminology` | [`LoyaltyProgramTerminology`](../../doc/models/loyalty-program-terminology.md) | Required | Represents the naming used for loyalty points. | getTerminology(): LoyaltyProgramTerminology | setTerminology(LoyaltyProgramTerminology terminology): void |
 | `locationIds` | `?(string[])` | Optional | The [locations](../../doc/models/location.md) at which the program is active. | getLocationIds(): ?array | setLocationIds(?array locationIds): void |
@@ -28,6 +30,7 @@ For more information, see [Loyalty Program Overview](https://developer.squareup.
 ```json
 {
   "status": "INACTIVE",
+  "rule": null,
   "expiration_policy": null,
   "terminology": {}
 }

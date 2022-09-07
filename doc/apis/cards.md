@@ -13,6 +13,7 @@ $cardsApi = $client->getCardsApi();
 * [List Cards](../../doc/apis/cards.md#list-cards)
 * [Create Card](../../doc/apis/cards.md#create-card)
 * [Retrieve Card](../../doc/apis/cards.md#retrieve-card)
+* [Update Card](../../doc/apis/cards.md#update-card)
 * [Disable Card](../../doc/apis/cards.md#disable-card)
 
 
@@ -25,6 +26,7 @@ A max of 25 cards will be returned.
 function listCards(
     ?string $cursor = null,
     ?string $customerId = null,
+    ?string $buyerId = null,
     ?bool $includeDisabled = false,
     ?string $referenceId = null,
     ?string $sortOrder = null
@@ -37,6 +39,7 @@ function listCards(
 |  --- | --- | --- | --- |
 | `cursor` | `?string` | Query, Optional | A pagination cursor returned by a previous call to this endpoint.<br>Provide this to retrieve the next set of results for your original query.<br><br>See [Pagination](https://developer.squareup.com/docs/basics/api101/pagination) for more information. |
 | `customerId` | `?string` | Query, Optional | Limit results to cards associated with the customer supplied.<br>By default, all cards owned by the merchant are returned. |
+| `buyerId` | `?string` | Query, Optional | Limit results to cards associated with the buyer supplied. |
 | `includeDisabled` | `?bool` | Query, Optional | Includes disabled cards.<br>By default, all enabled cards owned by the merchant are returned.<br>**Default**: `false` |
 | `referenceId` | `?string` | Query, Optional | Limit results to cards associated with the reference_id supplied. |
 | `sortOrder` | [`?string (SortOrder)`](../../doc/models/sort-order.md) | Query, Optional | Sorts the returned list by when the card was created with the specified order.<br>This field defaults to ASC. |
@@ -50,7 +53,7 @@ function listCards(
 ```php
 $includeDisabled = false;
 
-$apiResponse = $cardsApi->listCards(null, null, $includeDisabled);
+$apiResponse = $cardsApi->listCards(null, null, null, $includeDisabled);
 
 if ($apiResponse->isSuccess()) {
     $listCardsResponse = $apiResponse->getResult();
@@ -145,6 +148,52 @@ $apiResponse = $cardsApi->retrieveCard($cardId);
 
 if ($apiResponse->isSuccess()) {
     $retrieveCardResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Update Card
+
+Updates attributes of the card, e.g. billing address.
+
+```php
+function updateCard(string $cardId, UpdateCardRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `cardId` | `string` | Template, Required | Unique ID for the desired Card. |
+| `body` | [`UpdateCardRequest`](../../doc/models/update-card-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`UpdateCardResponse`](../../doc/models/update-card-response.md)
+
+## Example Usage
+
+```php
+$cardId = 'card_id4';
+$body_idempotencyKey = '4935a656-a929-4792-b97c-8848be85c27c';
+$body_card = new Models\Card;
+$body_card->setReferenceId('user-id-2');
+$body_card->setVersion(1);
+$body = new Models\UpdateCardRequest(
+    $body_idempotencyKey,
+    $body_card
+);
+
+$apiResponse = $cardsApi->updateCard($cardId, $body);
+
+if ($apiResponse->isSuccess()) {
+    $updateCardResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

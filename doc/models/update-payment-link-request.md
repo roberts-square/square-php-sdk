@@ -16,10 +16,13 @@
 ```json
 {
   "payment_link": {
-    "checkout_options": {
-      "ask_for_shipping_address": true
-    },
-    "version": 1
+    "version": 184,
+    "description": null,
+    "checkout_options": null,
+    "pre_populated_data": null,
+    "created_at": null,
+    "updated_at": null,
+    "payment_note": null
   }
 }
 ```

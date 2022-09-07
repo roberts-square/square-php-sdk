@@ -14,17 +14,22 @@ class SquareClient implements ConfigurationInterface
     private $mobileAuthorization;
     private $oAuth;
     private $v1Transactions;
+    private $accounts;
     private $applePay;
     private $bankAccounts;
     private $bookings;
+    private $resource;
+    private $caPlayResourceCustomAttributes;
     private $cards;
     private $cashDrawers;
     private $catalog;
+    private $checkouts;
     private $customers;
     private $customerCustomAttributes;
     private $customerGroups;
     private $customerSegments;
     private $devices;
+    private $discountCodes;
     private $disputes;
     private $employees;
     private $giftCards;
@@ -38,6 +43,7 @@ class SquareClient implements ConfigurationInterface
     private $loyalty;
     private $merchants;
     private $orders;
+    private $orderCustomAttributes;
     private $payments;
     private $payouts;
     private $refunds;
@@ -47,7 +53,9 @@ class SquareClient implements ConfigurationInterface
     private $team;
     private $terminal;
     private $vendors;
+    private $verificationQuestions;
     private $webhookSubscriptions;
+    private $webhookSubscriptionFilters;
 
     private $timeout = ConfigurationDefaults::TIMEOUT;
     private $enableRetries = ConfigurationDefaults::ENABLE_RETRIES;
@@ -349,6 +357,17 @@ class SquareClient implements ConfigurationInterface
     }
 
     /**
+     * Returns Accounts Api
+     */
+    public function getAccountsApi(): Apis\AccountsApi
+    {
+        if ($this->accounts == null) {
+            $this->accounts = new Apis\AccountsApi($this, $this->authManagers, $this->httpCallback);
+        }
+        return $this->accounts;
+    }
+
+    /**
      * Returns Apple Pay Api
      */
     public function getApplePayApi(): Apis\ApplePayApi
@@ -382,6 +401,32 @@ class SquareClient implements ConfigurationInterface
     }
 
     /**
+     * Returns Resource Api
+     */
+    public function getResourceApi(): Apis\ResourceApi
+    {
+        if ($this->resource == null) {
+            $this->resource = new Apis\ResourceApi($this, $this->authManagers, $this->httpCallback);
+        }
+        return $this->resource;
+    }
+
+    /**
+     * Returns Ca Play Resource Custom Attributes Api
+     */
+    public function getCaPlayResourceCustomAttributesApi(): Apis\CaPlayResourceCustomAttributesApi
+    {
+        if ($this->caPlayResourceCustomAttributes == null) {
+            $this->caPlayResourceCustomAttributes = new Apis\CaPlayResourceCustomAttributesApi(
+                $this,
+                $this->authManagers,
+                $this->httpCallback
+            );
+        }
+        return $this->caPlayResourceCustomAttributes;
+    }
+
+    /**
      * Returns Cards Api
      */
     public function getCardsApi(): Apis\CardsApi
@@ -412,6 +457,17 @@ class SquareClient implements ConfigurationInterface
             $this->catalog = new Apis\CatalogApi($this, $this->authManagers, $this->httpCallback);
         }
         return $this->catalog;
+    }
+
+    /**
+     * Returns Checkouts Api
+     */
+    public function getCheckoutsApi(): Apis\CheckoutsApi
+    {
+        if ($this->checkouts == null) {
+            $this->checkouts = new Apis\CheckoutsApi($this, $this->authManagers, $this->httpCallback);
+        }
+        return $this->checkouts;
     }
 
     /**
@@ -479,6 +535,21 @@ class SquareClient implements ConfigurationInterface
             $this->devices = new Apis\DevicesApi($this, $this->authManagers, $this->httpCallback);
         }
         return $this->devices;
+    }
+
+    /**
+     * Returns Discount Codes Api
+     */
+    public function getDiscountCodesApi(): Apis\DiscountCodesApi
+    {
+        if ($this->discountCodes == null) {
+            $this->discountCodes = new Apis\DiscountCodesApi(
+                $this,
+                $this->authManagers,
+                $this->httpCallback
+            );
+        }
+        return $this->discountCodes;
     }
 
     /**
@@ -629,6 +700,21 @@ class SquareClient implements ConfigurationInterface
     }
 
     /**
+     * Returns Order Custom Attributes Api
+     */
+    public function getOrderCustomAttributesApi(): Apis\OrderCustomAttributesApi
+    {
+        if ($this->orderCustomAttributes == null) {
+            $this->orderCustomAttributes = new Apis\OrderCustomAttributesApi(
+                $this,
+                $this->authManagers,
+                $this->httpCallback
+            );
+        }
+        return $this->orderCustomAttributes;
+    }
+
+    /**
      * Returns Payments Api
      */
     public function getPaymentsApi(): Apis\PaymentsApi
@@ -732,6 +818,21 @@ class SquareClient implements ConfigurationInterface
     }
 
     /**
+     * Returns Verification Questions Api
+     */
+    public function getVerificationQuestionsApi(): Apis\VerificationQuestionsApi
+    {
+        if ($this->verificationQuestions == null) {
+            $this->verificationQuestions = new Apis\VerificationQuestionsApi(
+                $this,
+                $this->authManagers,
+                $this->httpCallback
+            );
+        }
+        return $this->verificationQuestions;
+    }
+
+    /**
      * Returns Webhook Subscriptions Api
      */
     public function getWebhookSubscriptionsApi(): Apis\WebhookSubscriptionsApi
@@ -744,6 +845,21 @@ class SquareClient implements ConfigurationInterface
             );
         }
         return $this->webhookSubscriptions;
+    }
+
+    /**
+     * Returns Webhook Subscription Filters Api
+     */
+    public function getWebhookSubscriptionFiltersApi(): Apis\WebhookSubscriptionFiltersApi
+    {
+        if ($this->webhookSubscriptionFilters == null) {
+            $this->webhookSubscriptionFilters = new Apis\WebhookSubscriptionFiltersApi(
+                $this,
+                $this->authManagers,
+                $this->httpCallback
+            );
+        }
+        return $this->webhookSubscriptionFilters;
     }
 
     /**

@@ -15,10 +15,12 @@ $loyaltyApi = $client->getLoyaltyApi();
 * [Retrieve Loyalty Account](../../doc/apis/loyalty.md#retrieve-loyalty-account)
 * [Accumulate Loyalty Points](../../doc/apis/loyalty.md#accumulate-loyalty-points)
 * [Adjust Loyalty Points](../../doc/apis/loyalty.md#adjust-loyalty-points)
+* [Create Loyalty Order Assignment](../../doc/apis/loyalty.md#create-loyalty-order-assignment)
 * [Search Loyalty Events](../../doc/apis/loyalty.md#search-loyalty-events)
 * [List Loyalty Programs](../../doc/apis/loyalty.md#list-loyalty-programs)
 * [Retrieve Loyalty Program](../../doc/apis/loyalty.md#retrieve-loyalty-program)
 * [Calculate Loyalty Points](../../doc/apis/loyalty.md#calculate-loyalty-points)
+* [Retrieve Loyalty Program Order Assignment](../../doc/apis/loyalty.md#retrieve-loyalty-program-order-assignment)
 * [List Loyalty Promotions](../../doc/apis/loyalty.md#list-loyalty-promotions)
 * [Create Loyalty Promotion](../../doc/apis/loyalty.md#create-loyalty-promotion)
 * [Retrieve Loyalty Promotion](../../doc/apis/loyalty.md#retrieve-loyalty-promotion)
@@ -177,7 +179,8 @@ Adds points earned from a purchase to a [loyalty account](../../doc/models/loyal
 - If you are not using the Orders API to manage orders, provide `points` with the number of points to add.
   You must first perform a client-side computation of the points earned from the loyalty program and
   loyalty promotion. For spend-based and visit-based programs, you can call [CalculateLoyaltyPoints](../../doc/apis/loyalty.md#calculate-loyalty-points)
-  to compute the points earned from the loyalty program (but not points earned from a loyalty promotion).
+  to compute the points earned from the base loyalty program. For information about computing points earned from a loyalty promotion, see
+  [Calculating promotion points](https://developer.squareup.com/docs/loyalty-api/loyalty-promotions#calculate-promotion-points).
 
 ```php
 function accumulateLoyaltyPoints(string $accountId, AccumulateLoyaltyPointsRequest $body): ApiResponse
@@ -264,6 +267,52 @@ $apiResponse = $loyaltyApi->adjustLoyaltyPoints($accountId, $body);
 
 if ($apiResponse->isSuccess()) {
     $adjustLoyaltyPointsResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Create Loyalty Order Assignment
+
+Creates a loyalty order assignment for a given `account_id` and `order_id`.
+Deprecated.
+
+```php
+function createLoyaltyOrderAssignment(
+    string $accountId,
+    string $orderId,
+    CreateLoyaltyOrderAssignmentRequest $body
+): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `accountId` | `string` | Template, Required | The unique identifier of the `LoyaltyAccount`, which is copied from the path parameter. |
+| `orderId` | `string` | Template, Required | The unique identifier of the `Order`, which is copied from the path parameter. |
+| `body` | [`CreateLoyaltyOrderAssignmentRequest`](../../doc/models/create-loyalty-order-assignment-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`CreateLoyaltyOrderAssignmentResponse`](../../doc/models/create-loyalty-order-assignment-response.md)
+
+## Example Usage
+
+```php
+$accountId = 'account_id2';
+$orderId = 'order_id6';
+$body = new Models\CreateLoyaltyOrderAssignmentRequest;
+
+$apiResponse = $loyaltyApi->createLoyaltyOrderAssignment($accountId, $orderId, $body);
+
+if ($apiResponse->isSuccess()) {
+    $createLoyaltyOrderAssignmentResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }
@@ -443,6 +492,46 @@ $apiResponse = $loyaltyApi->calculateLoyaltyPoints($programId, $body);
 
 if ($apiResponse->isSuccess()) {
     $calculateLoyaltyPointsResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Retrieve Loyalty Program Order Assignment
+
+Retrieves a loyalty order assignment for a given `program_id` and `order_id`.
+Deprecated.
+
+```php
+function retrieveLoyaltyProgramOrderAssignment(string $programId, string $orderId): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `programId` | `string` | Template, Required | The unique identifier of the `LoyaltyProgram`, which is copied from the path parameter. |
+| `orderId` | `string` | Template, Required | The unique identifier of the `Order`, which is copied from the path parameter. |
+
+## Response Type
+
+[`RetrieveLoyaltyProgramOrderAssignmentResponse`](../../doc/models/retrieve-loyalty-program-order-assignment-response.md)
+
+## Example Usage
+
+```php
+$programId = 'program_id0';
+$orderId = 'order_id6';
+
+$apiResponse = $loyaltyApi->retrieveLoyaltyProgramOrderAssignment($programId, $orderId);
+
+if ($apiResponse->isSuccess()) {
+    $retrieveLoyaltyProgramOrderAssignmentResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

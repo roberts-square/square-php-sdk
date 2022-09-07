@@ -49,6 +49,16 @@ class Merchant implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $ownerEmail;
+
+    /**
+     * @var string[]|null
+     */
+    private $capabilities;
+
+    /**
+     * @var string|null
+     */
     private $createdAt;
 
     /**
@@ -209,6 +219,52 @@ class Merchant implements \JsonSerializable
     }
 
     /**
+     * Returns Owner Email.
+     * A contact email for the team member who is responsible for this merchant.
+     */
+    public function getOwnerEmail(): ?string
+    {
+        return $this->ownerEmail;
+    }
+
+    /**
+     * Sets Owner Email.
+     * A contact email for the team member who is responsible for this merchant.
+     *
+     * @maps owner_email
+     */
+    public function setOwnerEmail(?string $ownerEmail): void
+    {
+        $this->ownerEmail = $ownerEmail;
+    }
+
+    /**
+     * Returns Capabilities.
+     * Capabilities enabled for this merchant
+     * See [MerchantCapability](#type-merchantcapability) for possible values
+     *
+     * @return string[]|null
+     */
+    public function getCapabilities(): ?array
+    {
+        return $this->capabilities;
+    }
+
+    /**
+     * Sets Capabilities.
+     * Capabilities enabled for this merchant
+     * See [MerchantCapability](#type-merchantcapability) for possible values
+     *
+     * @maps capabilities
+     *
+     * @param string[]|null $capabilities
+     */
+    public function setCapabilities(?array $capabilities): void
+    {
+        $this->capabilities = $capabilities;
+    }
+
+    /**
      * Returns Created At.
      * The time when the merchant was created, in RFC 3339 format.
      * For more information, see [Working with Dates](https://developer.squareup.com/docs/build-
@@ -262,6 +318,12 @@ class Merchant implements \JsonSerializable
         }
         if (isset($this->mainLocationId)) {
             $json['main_location_id'] = $this->mainLocationId;
+        }
+        if (isset($this->ownerEmail)) {
+            $json['owner_email']      = $this->ownerEmail;
+        }
+        if (isset($this->capabilities)) {
+            $json['capabilities']     = $this->capabilities;
         }
         if (isset($this->createdAt)) {
             $json['created_at']       = $this->createdAt;

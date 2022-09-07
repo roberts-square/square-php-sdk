@@ -51,6 +51,16 @@ class CatalogProductSet implements \JsonSerializable
     private $allProducts;
 
     /**
+     * @var bool|null
+     */
+    private $matchCustomAmounts;
+
+    /**
+     * @var string[]|null
+     */
+    private $lineItemTypes;
+
+    /**
      * Returns Name.
      * User-defined name for the product set. For example, "Clearance Items"
      * or "Winter Sale Items".
@@ -243,6 +253,54 @@ class CatalogProductSet implements \JsonSerializable
     }
 
     /**
+     * Returns Match Custom Amounts.
+     * If set to `true`, the product set will match custom amounts.
+     */
+    public function getMatchCustomAmounts(): ?bool
+    {
+        return $this->matchCustomAmounts;
+    }
+
+    /**
+     * Sets Match Custom Amounts.
+     * If set to `true`, the product set will match custom amounts.
+     *
+     * @maps match_custom_amounts
+     */
+    public function setMatchCustomAmounts(?bool $matchCustomAmounts): void
+    {
+        $this->matchCustomAmounts = $matchCustomAmounts;
+    }
+
+    /**
+     * Returns Line Item Types.
+     * The list of Order sources that a pricing rule is explicitly enabled on.
+     * If unset, the pricing rule is implicitly enabled on all sources.
+     * See [CatalogProductSetLineItemType](#type-catalogproductsetlineitemtype) for possible values
+     *
+     * @return string[]|null
+     */
+    public function getLineItemTypes(): ?array
+    {
+        return $this->lineItemTypes;
+    }
+
+    /**
+     * Sets Line Item Types.
+     * The list of Order sources that a pricing rule is explicitly enabled on.
+     * If unset, the pricing rule is implicitly enabled on all sources.
+     * See [CatalogProductSetLineItemType](#type-catalogproductsetlineitemtype) for possible values
+     *
+     * @maps line_item_types
+     *
+     * @param string[]|null $lineItemTypes
+     */
+    public function setLineItemTypes(?array $lineItemTypes): void
+    {
+        $this->lineItemTypes = $lineItemTypes;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -255,25 +313,31 @@ class CatalogProductSet implements \JsonSerializable
     {
         $json = [];
         if (isset($this->name)) {
-            $json['name']            = $this->name;
+            $json['name']                 = $this->name;
         }
         if (isset($this->productIdsAny)) {
-            $json['product_ids_any'] = $this->productIdsAny;
+            $json['product_ids_any']      = $this->productIdsAny;
         }
         if (isset($this->productIdsAll)) {
-            $json['product_ids_all'] = $this->productIdsAll;
+            $json['product_ids_all']      = $this->productIdsAll;
         }
         if (isset($this->quantityExact)) {
-            $json['quantity_exact']  = $this->quantityExact;
+            $json['quantity_exact']       = $this->quantityExact;
         }
         if (isset($this->quantityMin)) {
-            $json['quantity_min']    = $this->quantityMin;
+            $json['quantity_min']         = $this->quantityMin;
         }
         if (isset($this->quantityMax)) {
-            $json['quantity_max']    = $this->quantityMax;
+            $json['quantity_max']         = $this->quantityMax;
         }
         if (isset($this->allProducts)) {
-            $json['all_products']    = $this->allProducts;
+            $json['all_products']         = $this->allProducts;
+        }
+        if (isset($this->matchCustomAmounts)) {
+            $json['match_custom_amounts'] = $this->matchCustomAmounts;
+        }
+        if (isset($this->lineItemTypes)) {
+            $json['line_item_types']      = $this->lineItemTypes;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

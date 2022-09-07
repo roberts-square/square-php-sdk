@@ -11,6 +11,7 @@ Indicates the status of a [loyalty promotion](../../doc/models/loyalty-promotion
 
 | Name | Description |
 |  --- | --- |
+| `UPCOMING` | The loyalty promotion will start in the future. |
 | `ACTIVE` | The loyalty promotion is currently active. Buyers can earn points for purchases<br>that meet the promotion conditions, such as the promotion's `available_time`. |
 | `ENDED` | The loyalty promotion has ended because the specified `end_date` was reached.<br>`ENDED` is a terminal status. |
 | `CANCELED` | The loyalty promotion was canceled. `CANCELED` is a terminal status. |

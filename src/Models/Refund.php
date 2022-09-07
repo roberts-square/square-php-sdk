@@ -62,6 +62,11 @@ class Refund implements \JsonSerializable
     private $additionalRecipients;
 
     /**
+     * @var string|null
+     */
+    private $refundType;
+
+    /**
      * @param string $id
      * @param string $locationId
      * @param string $tenderId
@@ -322,6 +327,24 @@ class Refund implements \JsonSerializable
     }
 
     /**
+     * Returns Refund Type.
+     */
+    public function getRefundType(): ?string
+    {
+        return $this->refundType;
+    }
+
+    /**
+     * Sets Refund Type.
+     *
+     * @maps refund_type
+     */
+    public function setRefundType(?string $refundType): void
+    {
+        $this->refundType = $refundType;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -350,6 +373,9 @@ class Refund implements \JsonSerializable
         }
         if (isset($this->additionalRecipients)) {
             $json['additional_recipients'] = $this->additionalRecipients;
+        }
+        if (isset($this->refundType)) {
+            $json['refund_type']           = $this->refundType;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

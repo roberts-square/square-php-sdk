@@ -33,6 +33,7 @@ class CardsApi extends BaseApi
      *        more information.
      * @param string|null $customerId Limit results to cards associated with the customer supplied.
      *        By default, all cards owned by the merchant are returned.
+     * @param string|null $buyerId Limit results to cards associated with the buyer supplied.
      * @param bool|null $includeDisabled Includes disabled cards. By default, all enabled cards
      *        owned by the merchant are returned.
      * @param string|null $referenceId Limit results to cards associated with the reference_id
@@ -48,6 +49,7 @@ class CardsApi extends BaseApi
     public function listCards(
         ?string $cursor = null,
         ?string $customerId = null,
+        ?string $buyerId = null,
         ?bool $includeDisabled = false,
         ?string $referenceId = null,
         ?string $sortOrder = null
@@ -59,6 +61,7 @@ class CardsApi extends BaseApi
         ApiHelper::appendUrlWithQueryParameters($_queryUrl, [
             'cursor'           => $cursor,
             'customer_id'      => $customerId,
+            'buyer_id'         => $buyerId,
             'include_disabled' => (null != $includeDisabled) ?
                 var_export($includeDisabled, true) : false,
             'reference_id'     => $referenceId,
@@ -242,6 +245,80 @@ class CardsApi extends BaseApi
             $_httpResponse,
             $response->body,
             'RetrieveCardResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Updates attributes of the card, e.g. billing address.
+     *
+     * @param string $cardId Unique ID for the desired Card.
+     * @param Models\UpdateCardRequest $body An object containing the fields to POST for the
+     *        request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function updateCard(string $cardId, Models\UpdateCardRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/cards/{card_id}';
+
+        //process template parameters
+        $_queryUrl = ApiHelper::appendUrlWithTemplateParameters($_queryUrl, [
+            'card_id'      => $cardId,
+        ]);
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::PUT, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->put($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'UpdateCardResponse'
         );
         return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
     }

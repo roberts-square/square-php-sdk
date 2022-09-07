@@ -389,22 +389,183 @@ class OrdersApi extends BaseApi
     }
 
     /**
-     * Retrieves an [Order]($m/Order) by ID.
+     * Perform a sync for all orders for one or more locations. All orders since the last sync
+     * or bootstrap will be returned.
      *
-     * @param string $orderId The ID of the order to retrieve.
+     * @param Models\SyncOrdersRequest $body An object containing the fields to POST for the
+     *        request.
+     *
+     *        See the corresponding object definition for field details.
      *
      * @return ApiResponse Response from the API call
      *
      * @throws ApiException Thrown if API call fails
      */
-    public function retrieveOrder(string $orderId): ApiResponse
+    public function syncOrders(Models\SyncOrdersRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/orders/sync';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'SyncOrdersResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Perform a SyncBootstrap all orders for one or more locations. Orders include all sales,
+     * returns, and exchanges regardless of how or when they entered the Square
+     * ecosystem (such as Point of Sale, Invoices, and Connect APIs).
+     *
+     * `SearchOrders` requests need to specify which locations to search and define a
+     * [SearchOrdersQuery]($m/SearchOrdersQuery) object that controls
+     * how to sort or filter the results. Your `SearchOrdersQuery` can:
+     *
+     * Set filter criteria.
+     * Set the sort order.
+     * Determine whether to return results as complete `Order` objects or as
+     * [OrderEntry]($m/OrderEntry) objects.
+     *
+     * Note that details for orders processed with Square Point of Sale while in
+     * offline mode might not be transmitted to Square for up to 72 hours. Offline
+     * orders have a `created_at` value that reflects the time the order was created,
+     * not the time it was subsequently transmitted to Square.
+     *
+     * @param Models\SyncOrdersBootstrapRequest $body An object containing the fields to POST for
+     *        the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function syncOrdersBootstrap(Models\SyncOrdersBootstrapRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/orders/sync-bootstrap';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'SyncOrdersBootstrapResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Retrieves an [Order]($m/Order) by ID.
+     *
+     * @param string $orderId The ID of the order to retrieve.
+     * @param bool|null $resolveReturns Whether to make pending returns look like they happened
+     *        surfacing from reservations
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function retrieveOrder(string $orderId, ?bool $resolveReturns = false): ApiResponse
     {
         //prepare query string for API call
         $_queryUrl = $this->config->getBaseUri() . '/v2/orders/{order_id}';
 
         //process template parameters
         $_queryUrl = ApiHelper::appendUrlWithTemplateParameters($_queryUrl, [
-            'order_id' => $orderId,
+            'order_id'        => $orderId,
+        ]);
+
+        //process query parameters
+        ApiHelper::appendUrlWithQueryParameters($_queryUrl, [
+            'resolve_returns' => (null != $resolveReturns) ?
+                var_export($resolveReturns, true) : false,
         ]);
 
         //prepare headers

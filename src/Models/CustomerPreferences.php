@@ -17,6 +17,11 @@ class CustomerPreferences implements \JsonSerializable
     private $emailUnsubscribed;
 
     /**
+     * @var string|null
+     */
+    private $marketingSubscriptionStatus;
+
+    /**
      * Returns Email Unsubscribed.
      * Indicates whether the customer has unsubscribed from marketing campaign emails. A value of `true`
      * means that the customer chose to opt out of email marketing from the current Square seller or from
@@ -41,6 +46,26 @@ class CustomerPreferences implements \JsonSerializable
     }
 
     /**
+     * Returns Marketing Subscription Status.
+     * Indicates the customer preferences for receiving marketing emails.
+     */
+    public function getMarketingSubscriptionStatus(): ?string
+    {
+        return $this->marketingSubscriptionStatus;
+    }
+
+    /**
+     * Sets Marketing Subscription Status.
+     * Indicates the customer preferences for receiving marketing emails.
+     *
+     * @maps marketing_subscription_status
+     */
+    public function setMarketingSubscriptionStatus(?string $marketingSubscriptionStatus): void
+    {
+        $this->marketingSubscriptionStatus = $marketingSubscriptionStatus;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -53,7 +78,10 @@ class CustomerPreferences implements \JsonSerializable
     {
         $json = [];
         if (isset($this->emailUnsubscribed)) {
-            $json['email_unsubscribed'] = $this->emailUnsubscribed;
+            $json['email_unsubscribed']            = $this->emailUnsubscribed;
+        }
+        if (isset($this->marketingSubscriptionStatus)) {
+            $json['marketing_subscription_status'] = $this->marketingSubscriptionStatus;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

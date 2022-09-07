@@ -32,6 +32,11 @@ class OrderLineItemAppliedDiscount implements \JsonSerializable
     private $appliedMoney;
 
     /**
+     * @var string|null
+     */
+    private $quantity;
+
+    /**
      * @param string $discountUid
      */
     public function __construct(string $discountUid)
@@ -121,6 +126,26 @@ class OrderLineItemAppliedDiscount implements \JsonSerializable
     }
 
     /**
+     * Returns Quantity.
+     * The number of times this discount was applied.
+     */
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Sets Quantity.
+     * The number of times this discount was applied.
+     *
+     * @maps quantity
+     */
+    public function setQuantity(?string $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -138,6 +163,9 @@ class OrderLineItemAppliedDiscount implements \JsonSerializable
         $json['discount_uid']      = $this->discountUid;
         if (isset($this->appliedMoney)) {
             $json['applied_money'] = $this->appliedMoney;
+        }
+        if (isset($this->quantity)) {
+            $json['quantity']      = $this->quantity;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

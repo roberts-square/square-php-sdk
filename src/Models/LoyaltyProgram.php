@@ -22,6 +22,11 @@ class LoyaltyProgram implements \JsonSerializable
     private $id;
 
     /**
+     * @var string|null
+     */
+    private $description;
+
+    /**
      * @var string
      */
     private $status;
@@ -30,6 +35,11 @@ class LoyaltyProgram implements \JsonSerializable
      * @var LoyaltyProgramRewardTier[]
      */
     private $rewardTiers;
+
+    /**
+     * @var LoyaltyProgramAccrualRule|null
+     */
+    private $rule;
 
     /**
      * @var LoyaltyProgramExpirationPolicy|null
@@ -112,6 +122,26 @@ class LoyaltyProgram implements \JsonSerializable
     }
 
     /**
+     * Returns Description.
+     * The program description.
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Sets Description.
+     * The program description.
+     *
+     * @maps description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
      * Returns Status.
      * Indicates whether the program is currently active.
      */
@@ -155,6 +185,28 @@ class LoyaltyProgram implements \JsonSerializable
     public function setRewardTiers(array $rewardTiers): void
     {
         $this->rewardTiers = $rewardTiers;
+    }
+
+    /**
+     * Returns Rule.
+     * Represents an accrual rule, which defines how buyers can earn points from the base [loyalty
+     * program]($m/LoyaltyProgram).
+     */
+    public function getRule(): ?LoyaltyProgramAccrualRule
+    {
+        return $this->rule;
+    }
+
+    /**
+     * Sets Rule.
+     * Represents an accrual rule, which defines how buyers can earn points from the base [loyalty
+     * program]($m/LoyaltyProgram).
+     *
+     * @maps rule
+     */
+    public function setRule(?LoyaltyProgramAccrualRule $rule): void
+    {
+        $this->rule = $rule;
     }
 
     /**
@@ -306,8 +358,14 @@ class LoyaltyProgram implements \JsonSerializable
     {
         $json = [];
         $json['id']                    = $this->id;
+        if (isset($this->description)) {
+            $json['description']       = $this->description;
+        }
         $json['status']                = $this->status;
         $json['reward_tiers']          = $this->rewardTiers;
+        if (isset($this->rule)) {
+            $json['rule']              = $this->rule;
+        }
         if (isset($this->expirationPolicy)) {
             $json['expiration_policy'] = $this->expirationPolicy;
         }

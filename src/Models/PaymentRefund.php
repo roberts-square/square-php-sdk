@@ -25,7 +25,22 @@ class PaymentRefund implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $accountId;
+
+    /**
+     * @var string|null
+     */
     private $locationId;
+
+    /**
+     * @var bool|null
+     */
+    private $unlinked;
+
+    /**
+     * @var string|null
+     */
+    private $destinationType;
 
     /**
      * @var Money
@@ -41,6 +56,11 @@ class PaymentRefund implements \JsonSerializable
      * @var ProcessingFee[]|null
      */
     private $processingFee;
+
+    /**
+     * @var AppProcessingFee[]|null
+     */
+    private $appProcessingFee;
 
     /**
      * @var string|null
@@ -71,6 +91,11 @@ class PaymentRefund implements \JsonSerializable
      * @var string|null
      */
     private $teamMemberId;
+
+    /**
+     * @var DeviceDetails|null
+     */
+    private $deviceDetails;
 
     /**
      * @param string $id
@@ -132,6 +157,26 @@ class PaymentRefund implements \JsonSerializable
     }
 
     /**
+     * Returns Account Id.
+     * The ID of the account that took the payment that this refund is associated with.
+     */
+    public function getAccountId(): ?string
+    {
+        return $this->accountId;
+    }
+
+    /**
+     * Sets Account Id.
+     * The ID of the account that took the payment that this refund is associated with.
+     *
+     * @maps account_id
+     */
+    public function setAccountId(?string $accountId): void
+    {
+        $this->accountId = $accountId;
+    }
+
+    /**
      * Returns Location Id.
      * The location ID associated with the payment this refund is attached to.
      */
@@ -149,6 +194,50 @@ class PaymentRefund implements \JsonSerializable
     public function setLocationId(?string $locationId): void
     {
         $this->locationId = $locationId;
+    }
+
+    /**
+     * Returns Unlinked.
+     * Flag indicating whether or not the refund is linked to an existing payment in Square.
+     */
+    public function getUnlinked(): ?bool
+    {
+        return $this->unlinked;
+    }
+
+    /**
+     * Sets Unlinked.
+     * Flag indicating whether or not the refund is linked to an existing payment in Square.
+     *
+     * @maps unlinked
+     */
+    public function setUnlinked(?bool $unlinked): void
+    {
+        $this->unlinked = $unlinked;
+    }
+
+    /**
+     * Returns Destination Type.
+     * The destination type for this refund.
+     *
+     * Current values include `CARD`, `BANK_ACCOUNT`, `WALLET`, `CASH`, or `EXTERNAL`.
+     */
+    public function getDestinationType(): ?string
+    {
+        return $this->destinationType;
+    }
+
+    /**
+     * Sets Destination Type.
+     * The destination type for this refund.
+     *
+     * Current values include `CARD`, `BANK_ACCOUNT`, `WALLET`, `CASH`, or `EXTERNAL`.
+     *
+     * @maps destination_type
+     */
+    public function setDestinationType(?string $destinationType): void
+    {
+        $this->destinationType = $destinationType;
     }
 
     /**
@@ -238,6 +327,30 @@ class PaymentRefund implements \JsonSerializable
     public function setProcessingFee(?array $processingFee): void
     {
         $this->processingFee = $processingFee;
+    }
+
+    /**
+     * Returns App Processing Fee.
+     * Processing fees returned by the third-party application platform for this refund.
+     *
+     * @return AppProcessingFee[]|null
+     */
+    public function getAppProcessingFee(): ?array
+    {
+        return $this->appProcessingFee;
+    }
+
+    /**
+     * Sets App Processing Fee.
+     * Processing fees returned by the third-party application platform for this refund.
+     *
+     * @maps app_processing_fee
+     *
+     * @param AppProcessingFee[]|null $appProcessingFee
+     */
+    public function setAppProcessingFee(?array $appProcessingFee): void
+    {
+        $this->appProcessingFee = $appProcessingFee;
     }
 
     /**
@@ -361,6 +474,26 @@ class PaymentRefund implements \JsonSerializable
     }
 
     /**
+     * Returns Device Details.
+     * Details about the device that took the payment.
+     */
+    public function getDeviceDetails(): ?DeviceDetails
+    {
+        return $this->deviceDetails;
+    }
+
+    /**
+     * Sets Device Details.
+     * Details about the device that took the payment.
+     *
+     * @maps device_details
+     */
+    public function setDeviceDetails(?DeviceDetails $deviceDetails): void
+    {
+        $this->deviceDetails = $deviceDetails;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -372,37 +505,52 @@ class PaymentRefund implements \JsonSerializable
     public function jsonSerialize(bool $asArrayWhenEmpty = false)
     {
         $json = [];
-        $json['id']                 = $this->id;
+        $json['id']                     = $this->id;
         if (isset($this->status)) {
-            $json['status']         = $this->status;
+            $json['status']             = $this->status;
+        }
+        if (isset($this->accountId)) {
+            $json['account_id']         = $this->accountId;
         }
         if (isset($this->locationId)) {
-            $json['location_id']    = $this->locationId;
+            $json['location_id']        = $this->locationId;
         }
-        $json['amount_money']       = $this->amountMoney;
+        if (isset($this->unlinked)) {
+            $json['unlinked']           = $this->unlinked;
+        }
+        if (isset($this->destinationType)) {
+            $json['destination_type']   = $this->destinationType;
+        }
+        $json['amount_money']           = $this->amountMoney;
         if (isset($this->appFeeMoney)) {
-            $json['app_fee_money']  = $this->appFeeMoney;
+            $json['app_fee_money']      = $this->appFeeMoney;
         }
         if (isset($this->processingFee)) {
-            $json['processing_fee'] = $this->processingFee;
+            $json['processing_fee']     = $this->processingFee;
+        }
+        if (isset($this->appProcessingFee)) {
+            $json['app_processing_fee'] = $this->appProcessingFee;
         }
         if (isset($this->paymentId)) {
-            $json['payment_id']     = $this->paymentId;
+            $json['payment_id']         = $this->paymentId;
         }
         if (isset($this->orderId)) {
-            $json['order_id']       = $this->orderId;
+            $json['order_id']           = $this->orderId;
         }
         if (isset($this->reason)) {
-            $json['reason']         = $this->reason;
+            $json['reason']             = $this->reason;
         }
         if (isset($this->createdAt)) {
-            $json['created_at']     = $this->createdAt;
+            $json['created_at']         = $this->createdAt;
         }
         if (isset($this->updatedAt)) {
-            $json['updated_at']     = $this->updatedAt;
+            $json['updated_at']         = $this->updatedAt;
         }
         if (isset($this->teamMemberId)) {
-            $json['team_member_id'] = $this->teamMemberId;
+            $json['team_member_id']     = $this->teamMemberId;
+        }
+        if (isset($this->deviceDetails)) {
+            $json['device_details']     = $this->deviceDetails;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

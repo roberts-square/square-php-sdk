@@ -14,6 +14,7 @@ a request to the `BatchRetrieveOrders` endpoint.
 |  --- | --- | --- | --- | --- | --- |
 | `orders` | [`?(Order[])`](../../doc/models/order.md) | Optional | The requested orders. This will omit any requested orders that do not exist. | getOrders(): ?array | setOrders(?array orders): void |
 | `errors` | [`?(Error[])`](../../doc/models/error.md) | Optional | Any errors that occurred during the request. | getErrors(): ?array | setErrors(?array errors): void |
+| `unconvertibleTransactionIds` | `?(string[])` | Optional | A list of transaction IDs, within the requested set of IDs, that encountered<br>transformation issues when being converted to an order. | getUnconvertibleTransactionIds(): ?array | setUnconvertibleTransactionIds(?array unconvertibleTransactionIds): void |
 
 ## Example (as JSON)
 

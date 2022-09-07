@@ -66,6 +66,7 @@ Square API.
 | `CUSTOMER_MISSING_EMAIL` | The provided customer does not have a recorded email. |
 | `INVALID_PAUSE_LENGTH` | The subscription cannot be paused longer than the duration of the current phase. |
 | `INVALID_DATE` | The subscription cannot be paused/resumed on the given date. |
+| `JOB_TEMPLATE_NAME_TAKEN` | There already exists a job template with the given name. |
 | `CARD_EXPIRED` | The card issuer declined the request because the card is expired. |
 | `INVALID_EXPIRATION` | The expiration date for the payment card is invalid. For example,<br>it indicates a date in the past. |
 | `INVALID_EXPIRATION_YEAR` | The expiration year for the payment card is invalid. For example,<br>it indicates a year in the past or contains invalid characters. |
@@ -116,6 +117,12 @@ Square API.
 | `SOURCE_EXPIRED` | The provided source id has expired. |
 | `UNSUPPORTED_LOYALTY_REWARD_TIER` | The referenced loyalty program reward tier is not supported.<br>This could happen if the reward tier created in a first party<br>application is incompatible with the Loyalty API. |
 | `LOCATION_MISMATCH` | Generic error - the given location does not matching what is expected. |
+| `ORDER_EXPIRED` | The requested order has expired and cannot be updated. |
+| `ORDER_ALREADY_USED` | The order was already used. |
+| `ORDER_TOO_MANY_CATALOG_OBJECTS` | The creation request contains too many catalog IDs. |
+| `INSUFFICIENT_INVENTORY` | The referenced inventory item has insufficient inventory. |
+| `PRICE_MISMATCH` | There is a price mismatch. |
+| `VERSION_MISMATCH` | The provided object version does not match the expected value. |
 | `IDEMPOTENCY_KEY_REUSED` | The provided idempotency key has already been used. |
 | `UNEXPECTED_VALUE` | General error - the value provided was unexpected. |
 | `SANDBOX_NOT_SUPPORTED` | The API request is not supported in sandbox. |
@@ -134,7 +141,13 @@ Square API.
 | `CHIP_INSERTION_REQUIRED` | The card issuer requires that the card be read<br>using a chip reader. |
 | `ALLOWABLE_PIN_TRIES_EXCEEDED` | The card has exhausted its available pin entry<br>retries set by the card issuer. Resolving the error typically requires the<br>card holder to contact the card issuer. |
 | `RESERVATION_DECLINED` | The card issuer declined the refund. |
+| `FULFILLMENT_PREFERENCES_RESTRICTED_DATE_NOT_UNIQUE` | This restricted date is a duplicate within the list. |
+| `FULFILLMENT_PREFERENCES_INVALID_SCHEDULING_DATETIME` | The datetime value is not in the correct format per app business logic. |
+| `FULFILLMENT_PREFERENCES_FULFILLMENT_SCHEDULE_NOT_ALLOWED` | Fulfillment Preferences with fulfillment schedules cannot be assigned to a CATALOG_ITEM |
+| `FULFILLMENT_PREFERENCES_ASSIGNMENT_IS_IMMUTABLE` | Unable to re-assign preferences assignment. Preferences assignment is a write-once field. |
+| `INVALID_TIMEZONE` | Value is not a valid timezone. |
 | `UNKNOWN_BODY_PARAMETER` | The body parameter is not recognized by the requested endpoint. |
+| `FULFILLMENT_PREFERENCES_CONFLICTING_ASSIGNMENT_TYPE` | The provided preferences assignment types should be consistent within request |
 | `NOT_FOUND` | Not Found - a general error occurred. |
 | `APPLE_PAYMENT_PROCESSING_CERTIFICATE_HASH_NOT_FOUND` | Square could not find the associated Apple Pay certificate. |
 | `METHOD_NOT_ALLOWED` | Method Not Allowed - a general error occurred. |

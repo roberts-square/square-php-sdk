@@ -29,6 +29,16 @@ class TerminalAction implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $sessionId;
+
+    /**
+     * @var bool|null
+     */
+    private $autocompleteSession;
+
+    /**
+     * @var string|null
+     */
     private $status;
 
     /**
@@ -57,14 +67,59 @@ class TerminalAction implements \JsonSerializable
     private $type;
 
     /**
+     * @var QrCodeOptions|null
+     */
+    private $qrCodeOptions;
+
+    /**
+     * @var CheckoutOptions|null
+     */
+    private $checkoutOptions;
+
+    /**
+     * @var RefundOptions|null
+     */
+    private $refundOptions;
+
+    /**
      * @var SaveCardOptions|null
      */
     private $saveCardOptions;
 
     /**
+     * @var SignatureOptions|null
+     */
+    private $signatureOptions;
+
+    /**
+     * @var ConfirmationOptions|null
+     */
+    private $confirmationOptions;
+
+    /**
      * @var DeviceMetadata|null
      */
     private $deviceMetadata;
+
+    /**
+     * @var bool|null
+     */
+    private $completable;
+
+    /**
+     * @var bool|null
+     */
+    private $clientCompleted;
+
+    /**
+     * @var bool|null
+     */
+    private $completeRequested;
+
+    /**
+     * @var bool|null
+     */
+    private $cancelRequested;
 
     /**
      * Returns Id.
@@ -141,9 +196,53 @@ class TerminalAction implements \JsonSerializable
     }
 
     /**
+     * Returns Session Id.
+     * Connect the action to referenced session. If no session is defined, Terminal API
+     * may automatically generate a session.
+     */
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    /**
+     * Sets Session Id.
+     * Connect the action to referenced session. If no session is defined, Terminal API
+     * may automatically generate a session.
+     *
+     * @maps session_id
+     */
+    public function setSessionId(?string $sessionId): void
+    {
+        $this->sessionId = $sessionId;
+    }
+
+    /**
+     * Returns Autocomplete Session.
+     * Complete the current session (if active) if the action completes.
+     * Defaults to true.
+     */
+    public function getAutocompleteSession(): ?bool
+    {
+        return $this->autocompleteSession;
+    }
+
+    /**
+     * Sets Autocomplete Session.
+     * Complete the current session (if active) if the action completes.
+     * Defaults to true.
+     *
+     * @maps autocomplete_session
+     */
+    public function setAutocompleteSession(?bool $autocompleteSession): void
+    {
+        $this->autocompleteSession = $autocompleteSession;
+    }
+
+    /**
      * Returns Status.
      * The status of the `TerminalAction`.
-     * Options: `PENDING`, `IN_PROGRESS`, `CANCELED`, `COMPLETED`
+     * Options: `PENDING`, `IN_PROGRESS`, `CANCEL_REQUESTED`, `CANCELED`, `COMPLETED`
      */
     public function getStatus(): ?string
     {
@@ -153,7 +252,7 @@ class TerminalAction implements \JsonSerializable
     /**
      * Sets Status.
      * The status of the `TerminalAction`.
-     * Options: `PENDING`, `IN_PROGRESS`, `CANCELED`, `COMPLETED`
+     * Options: `PENDING`, `IN_PROGRESS`, `CANCEL_REQUESTED`, `CANCELED`, `COMPLETED`
      *
      * @maps status
      */
@@ -263,6 +362,62 @@ class TerminalAction implements \JsonSerializable
     }
 
     /**
+     * Returns Qr Code Options.
+     * Fields to describe the action that displays QR-Codes.
+     */
+    public function getQrCodeOptions(): ?QrCodeOptions
+    {
+        return $this->qrCodeOptions;
+    }
+
+    /**
+     * Sets Qr Code Options.
+     * Fields to describe the action that displays QR-Codes.
+     *
+     * @maps qr_code_options
+     */
+    public function setQrCodeOptions(?QrCodeOptions $qrCodeOptions): void
+    {
+        $this->qrCodeOptions = $qrCodeOptions;
+    }
+
+    /**
+     * Returns Checkout Options.
+     */
+    public function getCheckoutOptions(): ?CheckoutOptions
+    {
+        return $this->checkoutOptions;
+    }
+
+    /**
+     * Sets Checkout Options.
+     *
+     * @maps checkout_options
+     */
+    public function setCheckoutOptions(?CheckoutOptions $checkoutOptions): void
+    {
+        $this->checkoutOptions = $checkoutOptions;
+    }
+
+    /**
+     * Returns Refund Options.
+     */
+    public function getRefundOptions(): ?RefundOptions
+    {
+        return $this->refundOptions;
+    }
+
+    /**
+     * Sets Refund Options.
+     *
+     * @maps refund_options
+     */
+    public function setRefundOptions(?RefundOptions $refundOptions): void
+    {
+        $this->refundOptions = $refundOptions;
+    }
+
+    /**
      * Returns Save Card Options.
      * Describes save-card action fields.
      */
@@ -280,6 +435,42 @@ class TerminalAction implements \JsonSerializable
     public function setSaveCardOptions(?SaveCardOptions $saveCardOptions): void
     {
         $this->saveCardOptions = $saveCardOptions;
+    }
+
+    /**
+     * Returns Signature Options.
+     */
+    public function getSignatureOptions(): ?SignatureOptions
+    {
+        return $this->signatureOptions;
+    }
+
+    /**
+     * Sets Signature Options.
+     *
+     * @maps signature_options
+     */
+    public function setSignatureOptions(?SignatureOptions $signatureOptions): void
+    {
+        $this->signatureOptions = $signatureOptions;
+    }
+
+    /**
+     * Returns Confirmation Options.
+     */
+    public function getConfirmationOptions(): ?ConfirmationOptions
+    {
+        return $this->confirmationOptions;
+    }
+
+    /**
+     * Sets Confirmation Options.
+     *
+     * @maps confirmation_options
+     */
+    public function setConfirmationOptions(?ConfirmationOptions $confirmationOptions): void
+    {
+        $this->confirmationOptions = $confirmationOptions;
     }
 
     /**
@@ -301,6 +492,90 @@ class TerminalAction implements \JsonSerializable
     }
 
     /**
+     * Returns Completable.
+     * Indicates the action is completable, up-to-date with internal state.
+     */
+    public function getCompletable(): ?bool
+    {
+        return $this->completable;
+    }
+
+    /**
+     * Sets Completable.
+     * Indicates the action is completable, up-to-date with internal state.
+     *
+     * @maps completable
+     */
+    public function setCompletable(?bool $completable): void
+    {
+        $this->completable = $completable;
+    }
+
+    /**
+     * Returns Client Completed.
+     * Indicates the action or workflow has been completed by the Terminal API client.
+     */
+    public function getClientCompleted(): ?bool
+    {
+        return $this->clientCompleted;
+    }
+
+    /**
+     * Sets Client Completed.
+     * Indicates the action or workflow has been completed by the Terminal API client.
+     *
+     * @maps client_completed
+     */
+    public function setClientCompleted(?bool $clientCompleted): void
+    {
+        $this->clientCompleted = $clientCompleted;
+    }
+
+    /**
+     * Returns Complete Requested.
+     * Indicates the action requires action-specific updates that have been applied,
+     * but the action has not been completed.
+     */
+    public function getCompleteRequested(): ?bool
+    {
+        return $this->completeRequested;
+    }
+
+    /**
+     * Sets Complete Requested.
+     * Indicates the action requires action-specific updates that have been applied,
+     * but the action has not been completed.
+     *
+     * @maps complete_requested
+     */
+    public function setCompleteRequested(?bool $completeRequested): void
+    {
+        $this->completeRequested = $completeRequested;
+    }
+
+    /**
+     * Returns Cancel Requested.
+     * Indicates the action has been requested to be canceled, but the Terminal API client owns
+     * the action.
+     */
+    public function getCancelRequested(): ?bool
+    {
+        return $this->cancelRequested;
+    }
+
+    /**
+     * Sets Cancel Requested.
+     * Indicates the action has been requested to be canceled, but the Terminal API client owns
+     * the action.
+     *
+     * @maps cancel_requested
+     */
+    public function setCancelRequested(?bool $cancelRequested): void
+    {
+        $this->cancelRequested = $cancelRequested;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -313,37 +588,70 @@ class TerminalAction implements \JsonSerializable
     {
         $json = [];
         if (isset($this->id)) {
-            $json['id']                = $this->id;
+            $json['id']                   = $this->id;
         }
         if (isset($this->deviceId)) {
-            $json['device_id']         = $this->deviceId;
+            $json['device_id']            = $this->deviceId;
         }
         if (isset($this->deadlineDuration)) {
-            $json['deadline_duration'] = $this->deadlineDuration;
+            $json['deadline_duration']    = $this->deadlineDuration;
+        }
+        if (isset($this->sessionId)) {
+            $json['session_id']           = $this->sessionId;
+        }
+        if (isset($this->autocompleteSession)) {
+            $json['autocomplete_session'] = $this->autocompleteSession;
         }
         if (isset($this->status)) {
-            $json['status']            = $this->status;
+            $json['status']               = $this->status;
         }
         if (isset($this->cancelReason)) {
-            $json['cancel_reason']     = $this->cancelReason;
+            $json['cancel_reason']        = $this->cancelReason;
         }
         if (isset($this->createdAt)) {
-            $json['created_at']        = $this->createdAt;
+            $json['created_at']           = $this->createdAt;
         }
         if (isset($this->updatedAt)) {
-            $json['updated_at']        = $this->updatedAt;
+            $json['updated_at']           = $this->updatedAt;
         }
         if (isset($this->appId)) {
-            $json['app_id']            = $this->appId;
+            $json['app_id']               = $this->appId;
         }
         if (isset($this->type)) {
-            $json['type']              = $this->type;
+            $json['type']                 = $this->type;
+        }
+        if (isset($this->qrCodeOptions)) {
+            $json['qr_code_options']      = $this->qrCodeOptions;
+        }
+        if (isset($this->checkoutOptions)) {
+            $json['checkout_options']     = $this->checkoutOptions;
+        }
+        if (isset($this->refundOptions)) {
+            $json['refund_options']       = $this->refundOptions;
         }
         if (isset($this->saveCardOptions)) {
-            $json['save_card_options'] = $this->saveCardOptions;
+            $json['save_card_options']    = $this->saveCardOptions;
+        }
+        if (isset($this->signatureOptions)) {
+            $json['signature_options']    = $this->signatureOptions;
+        }
+        if (isset($this->confirmationOptions)) {
+            $json['confirmation_options'] = $this->confirmationOptions;
         }
         if (isset($this->deviceMetadata)) {
-            $json['device_metadata']   = $this->deviceMetadata;
+            $json['device_metadata']      = $this->deviceMetadata;
+        }
+        if (isset($this->completable)) {
+            $json['completable']          = $this->completable;
+        }
+        if (isset($this->clientCompleted)) {
+            $json['client_completed']     = $this->clientCompleted;
+        }
+        if (isset($this->completeRequested)) {
+            $json['complete_requested']   = $this->completeRequested;
+        }
+        if (isset($this->cancelRequested)) {
+            $json['cancel_requested']     = $this->cancelRequested;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

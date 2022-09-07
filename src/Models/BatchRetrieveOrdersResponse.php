@@ -23,6 +23,11 @@ class BatchRetrieveOrdersResponse implements \JsonSerializable
     private $errors;
 
     /**
+     * @var string[]|null
+     */
+    private $unconvertibleTransactionIds;
+
+    /**
      * Returns Orders.
      * The requested orders. This will omit any requested orders that do not exist.
      *
@@ -71,6 +76,32 @@ class BatchRetrieveOrdersResponse implements \JsonSerializable
     }
 
     /**
+     * Returns Unconvertible Transaction Ids.
+     * A list of transaction IDs, within the requested set of IDs, that encountered
+     * transformation issues when being converted to an order.
+     *
+     * @return string[]|null
+     */
+    public function getUnconvertibleTransactionIds(): ?array
+    {
+        return $this->unconvertibleTransactionIds;
+    }
+
+    /**
+     * Sets Unconvertible Transaction Ids.
+     * A list of transaction IDs, within the requested set of IDs, that encountered
+     * transformation issues when being converted to an order.
+     *
+     * @maps unconvertible_transaction_ids
+     *
+     * @param string[]|null $unconvertibleTransactionIds
+     */
+    public function setUnconvertibleTransactionIds(?array $unconvertibleTransactionIds): void
+    {
+        $this->unconvertibleTransactionIds = $unconvertibleTransactionIds;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -83,10 +114,13 @@ class BatchRetrieveOrdersResponse implements \JsonSerializable
     {
         $json = [];
         if (isset($this->orders)) {
-            $json['orders'] = $this->orders;
+            $json['orders']                        = $this->orders;
         }
         if (isset($this->errors)) {
-            $json['errors'] = $this->errors;
+            $json['errors']                        = $this->errors;
+        }
+        if (isset($this->unconvertibleTransactionIds)) {
+            $json['unconvertible_transaction_ids'] = $this->unconvertibleTransactionIds;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

@@ -250,6 +250,65 @@ class CatalogApi extends BaseApi
     }
 
     /**
+     * Fetches any configuration values that apply to this catalog.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function catalogConfiguration(): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/catalog/configuration';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion()
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        $_httpRequest = new HttpRequest(HttpMethod::GET, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->get($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders());
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'CatalogConfigurationResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
      * Uploads an image file to be represented by a [CatalogImage]($m/CatalogImage) object that can be
      * linked to an existing
      * [CatalogObject]($m/CatalogObject) instance. The resulting `CatalogImage` is unattached to any
@@ -515,11 +574,11 @@ class CatalogApi extends BaseApi
      *        SUBSCRIPTION_PLAN, ITEM_OPTION, CUSTOM_ATTRIBUTE_DEFINITION, QUICK_AMOUNT_SETTINGS.
      * @param int|null $catalogVersion The specific version of the catalog objects to be included in
      *        the response.
-     *        This allows you to retrieve historical
-     *        versions of objects. The specified version value is matched against
+     *        This allows you to retrieve historical versions of objects. The specified version
+     *        value is matched against
      *        the [CatalogObject]($m/CatalogObject)s' `version` attribute.  If not included,
-     *        results will
-     *        be from the current version of the catalog.
+     *        results will be from the
+     *        current version of the catalog.
      *
      * @return ApiResponse Response from the API call
      *
@@ -921,6 +980,89 @@ class CatalogApi extends BaseApi
     }
 
     /**
+     * Searches for catalog item variations by matching supported search attribute values against one or
+     * more of the
+     * specified query filters. Additionally, this endpoint returns stock counts at all locations for
+     * returned item variations.
+     *
+     * This (`SearchCatalogItemVariations`) endpoint is similar to the
+     * [SearchCatalogItems]($e/Catalog/SearchCatalogItems)
+     * endpoint, but differs in the following aspects:
+     * - `SearchCatalogItems` searches both items and their variations and returns items with nested
+     * variations, whereas `SearchCatalogItemVariations` returns only item variations as a flat list.
+     * - `SearchCatalogItemVariations` returns stock count information for returned item variations, and
+     * the results are sortable by this value.
+     * - `SearchCatalogItemVariations` includes a field to specify which neighboring objects to return (e.g.
+     * parent items).
+     * - The `MultiFieldTextFilter` in `SearchCatalogItemVariations` allows specification for which
+     * attributes to consider in a text search.
+     *
+     * @param Models\SearchCatalogItemVariationsRequest $body An object containing the fields to
+     *        POST for the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function searchCatalogItemVariations(Models\SearchCatalogItemVariationsRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/catalog/search-catalog-item-variations';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'SearchCatalogItemVariationsResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
      * Searches for catalog items or item variations by matching supported search attribute values,
      * including
      * custom attribute values, against one or more of the specified query filters.
@@ -998,6 +1140,79 @@ class CatalogApi extends BaseApi
             $_httpResponse,
             $response->body,
             'SearchCatalogItemsResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Returns [CatalogObject]($m/CatalogObject)s that have been modified or deleted since a given
+     * timestamp.
+     * Deleted objects are returned as empty "tombstones" with their `is_deleted` field set to true but
+     * with other fields empty.
+     * Use this endpoint instead of `SearchCatalogObject` when the contents of deleted objects are not
+     * needed.
+     *
+     * @param Models\SyncCatalogObjectsRequest $body An object containing the fields to POST for the
+     *        request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function syncCatalogObjects(Models\SyncCatalogObjectsRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/catalog/sync';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'SyncCatalogObjectsResponse'
         );
         return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
     }

@@ -23,6 +23,7 @@ For a more detailed discussion of the Catalog data model, please see the
 | `type` | [`string (CatalogObjectType)`](../../doc/models/catalog-object-type.md) | Required | Possible types of CatalogObjects returned from the catalog, each<br>containing type-specific properties in the `*_data` field corresponding to the specfied object type. | getType(): string | setType(string type): void |
 | `id` | `string` | Required | An identifier to reference this object in the catalog. When a new `CatalogObject`<br>is inserted, the client should set the id to a temporary identifier starting with<br>a "`#`" character. Other objects being inserted or updated within the same request<br>may use this identifier to refer to the new object.<br><br>When the server receives the new object, it will supply a unique identifier that<br>replaces the temporary identifier for all future references.<br>**Constraints**: *Minimum Length*: `1` | getId(): string | setId(string id): void |
 | `updatedAt` | `?string` | Optional | Last modification [timestamp](https://developer.squareup.com/docs/build-basics/working-with-dates) in RFC 3339 format, e.g., `"2016-08-15T23:59:33.123Z"`<br>would indicate the UTC time (denoted by `Z`) of August 15, 2016 at 23:59:33 and 123 milliseconds. | getUpdatedAt(): ?string | setUpdatedAt(?string updatedAt): void |
+| `createdAt` | `?string` | Optional | The [timestamp](https://developer.squareup.com/docs/build-basics/working-with-dates) of the request that created this object<br>in RFC 3339 format, e.g., `"2016-08-15T23:59:33.123Z"` would indicate the UTC time (denoted by `Z`) of August 15, 2016 at 23:59:33 and 123 milliseconds. | getCreatedAt(): ?string | setCreatedAt(?string createdAt): void |
 | `version` | `?int` | Optional | The version of the object. When updating an object, the version supplied<br>must match the version in the database, otherwise the write will be rejected as conflicting. | getVersion(): ?int | setVersion(?int version): void |
 | `isDeleted` | `?bool` | Optional | If `true`, the object has been deleted from the database. Must be `false` for new objects<br>being inserted. When deleted, the `updated_at` field will equal the deletion time. | getIsDeleted(): ?bool | setIsDeleted(?bool isDeleted): void |
 | `customAttributeValues` | [`?array<string,CatalogCustomAttributeValue>`](../../doc/models/catalog-custom-attribute-value.md) | Optional | A map (key-value pairs) of application-defined custom attribute values. The value of a key-value pair<br>is a [CatalogCustomAttributeValue](../../doc/models/catalog-custom-attribute-value.md) object. The key is the `key` attribute<br>value defined in the associated [CatalogCustomAttributeDefinition](../../doc/models/catalog-custom-attribute-definition.md)<br>object defined by the application making the request.<br><br>If the `CatalogCustomAttributeDefinition` object is<br>defined by another application, the `CatalogCustomAttributeDefinition`'s key attribute value is prefixed by<br>the defining application ID. For example, if the `CatalogCustomAttributeDefinition` has a `key` attribute of<br>`"cocoa_brand"` and the defining application ID is `"abcd1234"`, the key in the map is `"abcd1234:cocoa_brand"`<br>if the application making the request is different from the application defining the custom attribute definition.<br>Otherwise, the key used in the map is simply `"cocoa_brand"`.<br><br>Application-defined custom attributes are set at a global (location-independent) level.<br>Custom attribute values are intended to store additional information about a catalog object<br>or associations with an entity in another system. Do not use custom attributes<br>to store any sensitive information (personally identifiable information, card details, etc.). | getCustomAttributeValues(): ?array | setCustomAttributeValues(?array customAttributeValues): void |
@@ -47,12 +48,16 @@ For a more detailed discussion of the Catalog data model, please see the
 | `itemOptionValueData` | [`?CatalogItemOptionValue`](../../doc/models/catalog-item-option-value.md) | Optional | An enumerated value that can link a<br>`CatalogItemVariation` to an item option as one of<br>its item option values. | getItemOptionValueData(): ?CatalogItemOptionValue | setItemOptionValueData(?CatalogItemOptionValue itemOptionValueData): void |
 | `customAttributeDefinitionData` | [`?CatalogCustomAttributeDefinition`](../../doc/models/catalog-custom-attribute-definition.md) | Optional | Contains information defining a custom attribute. Custom attributes are<br>intended to store additional information about a catalog object or to associate a<br>catalog object with an entity in another system. Do not use custom attributes<br>to store any sensitive information (personally identifiable information, card details, etc.).<br>[Read more about custom attributes](https://developer.squareup.com/docs/catalog-api/add-custom-attributes) | getCustomAttributeDefinitionData(): ?CatalogCustomAttributeDefinition | setCustomAttributeDefinitionData(?CatalogCustomAttributeDefinition customAttributeDefinitionData): void |
 | `quickAmountsSettingsData` | [`?CatalogQuickAmountsSettings`](../../doc/models/catalog-quick-amounts-settings.md) | Optional | A parent Catalog Object model represents a set of Quick Amounts and the settings control the amounts. | getQuickAmountsSettingsData(): ?CatalogQuickAmountsSettings | setQuickAmountsSettingsData(?CatalogQuickAmountsSettings quickAmountsSettingsData): void |
+| `taxExemptionData` | [`?CatalogTaxExemption`](../../doc/models/catalog-tax-exemption.md) | Optional | A conditional tax exemption for non-taxable goods and services. Supported conditions include<br>`dining_option`, `max_total_amount`, `min_item_price` and `max_item_price`.<br>Exactly one condition is allowed for a tax exemption. | getTaxExemptionData(): ?CatalogTaxExemption | setTaxExemptionData(?CatalogTaxExemption taxExemptionData): void |
+| `diningOptionData` | [`?CatalogDiningOption`](../../doc/models/catalog-dining-option.md) | Optional | A dining option in the Catalog object model. | getDiningOptionData(): ?CatalogDiningOption | setDiningOptionData(?CatalogDiningOption diningOptionData): void |
+| `serviceChargeData` | [`?CatalogServiceCharge`](../../doc/models/catalog-service-charge.md) | Optional | A service charge in the Catalog object model. Note that `AUTO_GRATUITY` service charge can be applied only in one location. | getServiceChargeData(): ?CatalogServiceCharge | setServiceChargeData(?CatalogServiceCharge serviceChargeData): void |
+| `subscriptionPlanVariationData` | [`?CatalogSubscriptionPlanVariation`](../../doc/models/catalog-subscription-plan-variation.md) | Optional | Describes a subscription plan variation. All of the fields were copied from the original Subscription Plan | getSubscriptionPlanVariationData(): ?CatalogSubscriptionPlanVariation | setSubscriptionPlanVariationData(?CatalogSubscriptionPlanVariation subscriptionPlanVariationData): void |
 
 ## Example (as JSON)
 
 ```json
 {
-  "type": "ITEM_VARIATION",
+  "type": "DISCOUNT",
   "id": "id0",
   "version": null,
   "is_deleted": null,
@@ -77,7 +82,11 @@ For a more detailed discussion of the Catalog data model, please see the
   "item_option_data": null,
   "item_option_value_data": null,
   "custom_attribute_definition_data": null,
-  "quick_amounts_settings_data": null
+  "quick_amounts_settings_data": null,
+  "tax_exemption_data": null,
+  "dining_option_data": null,
+  "service_charge_data": null,
+  "subscription_plan_variation_data": null
 }
 ```
 

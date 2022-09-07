@@ -83,17 +83,22 @@ The gateway for the SDK. This class acts as a factory for the Apis and also hold
 | getMobileAuthorizationApi() | Gets MobileAuthorizationApi |
 | getOAuthApi() | Gets OAuthApi |
 | getV1TransactionsApi() | Gets V1TransactionsApi |
+| getAccountsApi() | Gets AccountsApi |
 | getApplePayApi() | Gets ApplePayApi |
 | getBankAccountsApi() | Gets BankAccountsApi |
 | getBookingsApi() | Gets BookingsApi |
+| getResourceApi() | Gets ResourceApi |
+| getCaPlayResourceCustomAttributesApi() | Gets CaPlayResourceCustomAttributesApi |
 | getCardsApi() | Gets CardsApi |
 | getCashDrawersApi() | Gets CashDrawersApi |
 | getCatalogApi() | Gets CatalogApi |
+| getCheckoutsApi() | Gets CheckoutsApi |
 | getCustomersApi() | Gets CustomersApi |
 | getCustomerCustomAttributesApi() | Gets CustomerCustomAttributesApi |
 | getCustomerGroupsApi() | Gets CustomerGroupsApi |
 | getCustomerSegmentsApi() | Gets CustomerSegmentsApi |
 | getDevicesApi() | Gets DevicesApi |
+| getDiscountCodesApi() | Gets DiscountCodesApi |
 | getDisputesApi() | Gets DisputesApi |
 | getEmployeesApi() | Gets EmployeesApi |
 | getGiftCardsApi() | Gets GiftCardsApi |
@@ -107,6 +112,7 @@ The gateway for the SDK. This class acts as a factory for the Apis and also hold
 | getLoyaltyApi() | Gets LoyaltyApi |
 | getMerchantsApi() | Gets MerchantsApi |
 | getOrdersApi() | Gets OrdersApi |
+| getOrderCustomAttributesApi() | Gets OrderCustomAttributesApi |
 | getPaymentsApi() | Gets PaymentsApi |
 | getPayoutsApi() | Gets PayoutsApi |
 | getRefundsApi() | Gets RefundsApi |
@@ -116,5 +122,7 @@ The gateway for the SDK. This class acts as a factory for the Apis and also hold
 | getTeamApi() | Gets TeamApi |
 | getTerminalApi() | Gets TerminalApi |
 | getVendorsApi() | Gets VendorsApi |
+| getVerificationQuestionsApi() | Gets VerificationQuestionsApi |
 | getWebhookSubscriptionsApi() | Gets WebhookSubscriptionsApi |
+| getWebhookSubscriptionFiltersApi() | Gets WebhookSubscriptionFiltersApi |
 

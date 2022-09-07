@@ -24,6 +24,11 @@ class SearchTerminalActionsResponse implements \JsonSerializable
     private $cursor;
 
     /**
+     * @var TerminalIncludedResources|null
+     */
+    private $includedResources;
+
+    /**
      * Returns Errors.
      * Information on errors encountered during the request.
      *
@@ -100,6 +105,24 @@ class SearchTerminalActionsResponse implements \JsonSerializable
     }
 
     /**
+     * Returns Included Resources.
+     */
+    public function getIncludedResources(): ?TerminalIncludedResources
+    {
+        return $this->includedResources;
+    }
+
+    /**
+     * Sets Included Resources.
+     *
+     * @maps included_resources
+     */
+    public function setIncludedResources(?TerminalIncludedResources $includedResources): void
+    {
+        $this->includedResources = $includedResources;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -112,13 +135,16 @@ class SearchTerminalActionsResponse implements \JsonSerializable
     {
         $json = [];
         if (isset($this->errors)) {
-            $json['errors'] = $this->errors;
+            $json['errors']             = $this->errors;
         }
         if (isset($this->action)) {
-            $json['action'] = $this->action;
+            $json['action']             = $this->action;
         }
         if (isset($this->cursor)) {
-            $json['cursor'] = $this->cursor;
+            $json['cursor']             = $this->cursor;
+        }
+        if (isset($this->includedResources)) {
+            $json['included_resources'] = $this->includedResources;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

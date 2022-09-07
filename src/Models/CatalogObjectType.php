@@ -67,6 +67,27 @@ class CatalogObjectType
     public const MODIFIER = 'MODIFIER';
 
     /**
+     * The `CatalogObject` instance is of the [CatalogDiningOption]($m/CatalogDiningOption) type and
+     * represents a dining option. The dining-option-specific data
+     * will be stored in the `dining_option_data` field.
+     */
+    public const DINING_OPTION = 'DINING_OPTION';
+
+    /**
+     * The `CatalogObject` instance is of the [CatalogTaxExemption]($m/CatalogTaxExemption) type and
+     * represents a tax exemption rule. The rule-specific data
+     * must be set on the `tax_exemption_data` field.
+     */
+    public const TAX_EXEMPTION = 'TAX_EXEMPTION';
+
+    /**
+     * The `CatalogObject` instance is of the [CatalogServiceCharge]($m/CatalogServiceCharge) type and
+     * represents a service charge. The service-charge-specific data
+     * will be stored in the `service_charge_data` field.
+     */
+    public const SERVICE_CHARGE = 'SERVICE_CHARGE';
+
+    /**
      * The `CatalogObject` instance is of the [CatalogPricingRule]($m/CatalogPricingRule) type and
      * represents a pricing rule. The pricing-rule-specific data
      * must be set on the `pricing_rule_data` field.
@@ -100,7 +121,7 @@ class CatalogObjectType
      * and represents a subscription plan.
      * The subscription-plan-specific data must be stored on the `subscription_plan_data` field.
      */
-    public const SUBSCRIPTION_PLAN = 'SUBSCRIPTION_PLAN';
+    public const SUBSCRIPTION_PLAN_VARIATION = 'SUBSCRIPTION_PLAN_VARIATION';
 
     /**
      * The `CatalogObject` instance is of the [CatalogItemOption]($m/CatalogItemOption) type and represents
@@ -135,4 +156,11 @@ class CatalogObjectType
      * The quick-amounts-settings-specific data must be set on the `quick_amounts_settings_data` field.
      */
     public const QUICK_AMOUNTS_SETTINGS = 'QUICK_AMOUNTS_SETTINGS';
+
+    /**
+     * The `CatalogObject` instance is of the [CatalogSubscriptionPlan]($m/CatalogSubscriptionPlan) type
+     * and represents a subscription plan.
+     * The subscription plan specific data must be stored on the `subscription_plan_data` field.
+     */
+    public const SUBSCRIPTION_PLAN = 'SUBSCRIPTION_PLAN';
 }

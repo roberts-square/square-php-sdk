@@ -15,6 +15,8 @@ $ordersApi = $client->getOrdersApi();
 * [Calculate Order](../../doc/apis/orders.md#calculate-order)
 * [Clone Order](../../doc/apis/orders.md#clone-order)
 * [Search Orders](../../doc/apis/orders.md#search-orders)
+* [Sync Orders](../../doc/apis/orders.md#sync-orders)
+* [Sync Orders Bootstrap](../../doc/apis/orders.md#sync-orders-bootstrap)
 * [Retrieve Order](../../doc/apis/orders.md#retrieve-order)
 * [Update Order](../../doc/apis/orders.md#update-order)
 * [Pay Order](../../doc/apis/orders.md#pay-order)
@@ -361,12 +363,109 @@ if ($apiResponse->isSuccess()) {
 ```
 
 
+# Sync Orders
+
+Perform a sync for all orders for one or more locations. All orders since the last sync
+or bootstrap will be returned.
+
+```php
+function syncOrders(SyncOrdersRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`SyncOrdersRequest`](../../doc/models/sync-orders-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`SyncOrdersResponse`](../../doc/models/sync-orders-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\SyncOrdersRequest;
+$body->setLocationIds(['057P5VYJ4A5X1', '18YC4JDH91E1H']);
+$body->setCursor('');
+$body->setSoftLimit(3);
+
+$apiResponse = $ordersApi->syncOrders($body);
+
+if ($apiResponse->isSuccess()) {
+    $syncOrdersResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Sync Orders Bootstrap
+
+Perform a SyncBootstrap all orders for one or more locations. Orders include all sales,
+returns, and exchanges regardless of how or when they entered the Square
+ecosystem (such as Point of Sale, Invoices, and Connect APIs).
+
+`SearchOrders` requests need to specify which locations to search and define a
+[SearchOrdersQuery](../../doc/models/search-orders-query.md) object that controls
+how to sort or filter the results. Your `SearchOrdersQuery` can:
+
+Set filter criteria.
+Set the sort order.
+Determine whether to return results as complete `Order` objects or as
+[OrderEntry](../../doc/models/order-entry.md) objects.
+
+Note that details for orders processed with Square Point of Sale while in
+offline mode might not be transmitted to Square for up to 72 hours. Offline
+orders have a `created_at` value that reflects the time the order was created,
+not the time it was subsequently transmitted to Square.
+
+```php
+function syncOrdersBootstrap(SyncOrdersBootstrapRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`SyncOrdersBootstrapRequest`](../../doc/models/sync-orders-bootstrap-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`SyncOrdersBootstrapResponse`](../../doc/models/sync-orders-bootstrap-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\SyncOrdersBootstrapRequest;
+$body->setLocationIds(['057P5VYJ4A5X1', '18YC4JDH91E1H']);
+$body->setLimit(500);
+$body->setNewerThan('2021-11-01T00:00:00+00:00');
+
+$apiResponse = $ordersApi->syncOrdersBootstrap($body);
+
+if ($apiResponse->isSuccess()) {
+    $syncOrdersBootstrapResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
 # Retrieve Order
 
 Retrieves an [Order](../../doc/models/order.md) by ID.
 
 ```php
-function retrieveOrder(string $orderId): ApiResponse
+function retrieveOrder(string $orderId, ?bool $resolveReturns = false): ApiResponse
 ```
 
 ## Parameters
@@ -374,6 +473,7 @@ function retrieveOrder(string $orderId): ApiResponse
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
 | `orderId` | `string` | Template, Required | The ID of the order to retrieve. |
+| `resolveReturns` | `?bool` | Query, Optional | Whether to make pending returns look like they happened surfacing from reservations<br>**Default**: `false` |
 
 ## Response Type
 
@@ -383,8 +483,9 @@ function retrieveOrder(string $orderId): ApiResponse
 
 ```php
 $orderId = 'order_id6';
+$resolveReturns = false;
 
-$apiResponse = $ordersApi->retrieveOrder($orderId);
+$apiResponse = $ordersApi->retrieveOrder($orderId, $resolveReturns);
 
 if ($apiResponse->isSuccess()) {
     $retrieveOrderResponse = $apiResponse->getResult();

@@ -25,9 +25,19 @@ class LoyaltyProgramRewardDefinition implements \JsonSerializable
     private $discountType;
 
     /**
+     * @var Money|null
+     */
+    private $fixedDiscount;
+
+    /**
      * @var string|null
      */
     private $percentageDiscount;
+
+    /**
+     * @var Money|null
+     */
+    private $maxDiscount;
 
     /**
      * @var string[]|null
@@ -109,6 +119,38 @@ class LoyaltyProgramRewardDefinition implements \JsonSerializable
     }
 
     /**
+     * Returns Fixed Discount.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getFixedDiscount(): ?Money
+    {
+        return $this->fixedDiscount;
+    }
+
+    /**
+     * Sets Fixed Discount.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps fixed_discount
+     */
+    public function setFixedDiscount(?Money $fixedDiscount): void
+    {
+        $this->fixedDiscount = $fixedDiscount;
+    }
+
+    /**
      * Returns Percentage Discount.
      * The fixed percentage of the discount. Present if `discount_type` is `FIXED_PERCENTAGE`.
      * For example, a 7.25% off discount will be represented as "7.25". DEPRECATED at version 2020-12-16.
@@ -134,6 +176,38 @@ class LoyaltyProgramRewardDefinition implements \JsonSerializable
     public function setPercentageDiscount(?string $percentageDiscount): void
     {
         $this->percentageDiscount = $percentageDiscount;
+    }
+
+    /**
+     * Returns Max Discount.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getMaxDiscount(): ?Money
+    {
+        return $this->maxDiscount;
+    }
+
+    /**
+     * Sets Max Discount.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps max_discount
+     */
+    public function setMaxDiscount(?Money $maxDiscount): void
+    {
+        $this->maxDiscount = $maxDiscount;
     }
 
     /**
@@ -246,8 +320,14 @@ class LoyaltyProgramRewardDefinition implements \JsonSerializable
         $json = [];
         $json['scope']                    = $this->scope;
         $json['discount_type']            = $this->discountType;
+        if (isset($this->fixedDiscount)) {
+            $json['fixed_discount']       = $this->fixedDiscount;
+        }
         if (isset($this->percentageDiscount)) {
             $json['percentage_discount']  = $this->percentageDiscount;
+        }
+        if (isset($this->maxDiscount)) {
+            $json['max_discount']         = $this->maxDiscount;
         }
         if (isset($this->catalogObjectIds)) {
             $json['catalog_object_ids']   = $this->catalogObjectIds;

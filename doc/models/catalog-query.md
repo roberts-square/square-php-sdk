@@ -47,6 +47,8 @@ the `"name"`, `"description"`, or `"abbreviation"` attribute in an applicable qu
 | `itemsForModifierListQuery` | [`?CatalogQueryItemsForModifierList`](../../doc/models/catalog-query-items-for-modifier-list.md) | Optional | The query filter to return the items containing the specified modifier list IDs. | getItemsForModifierListQuery(): ?CatalogQueryItemsForModifierList | setItemsForModifierListQuery(?CatalogQueryItemsForModifierList itemsForModifierListQuery): void |
 | `itemsForItemOptionsQuery` | [`?CatalogQueryItemsForItemOptions`](../../doc/models/catalog-query-items-for-item-options.md) | Optional | The query filter to return the items containing the specified item option IDs. | getItemsForItemOptionsQuery(): ?CatalogQueryItemsForItemOptions | setItemsForItemOptionsQuery(?CatalogQueryItemsForItemOptions itemsForItemOptionsQuery): void |
 | `itemVariationsForItemOptionValuesQuery` | [`?CatalogQueryItemVariationsForItemOptionValues`](../../doc/models/catalog-query-item-variations-for-item-option-values.md) | Optional | The query filter to return the item variations containing the specified item option value IDs. | getItemVariationsForItemOptionValuesQuery(): ?CatalogQueryItemVariationsForItemOptionValues | setItemVariationsForItemOptionValuesQuery(?CatalogQueryItemVariationsForItemOptionValues itemVariationsForItemOptionValuesQuery): void |
+| `filteredItemsQuery` | [`?CatalogQueryFilteredItems`](../../doc/models/catalog-query-filtered-items.md) | Optional | Supported query expressions to search for items or item variations.<br>When supplying any of the query expressions, be aware that newly created or updated<br>items or item variations may not appear in the search result if the search request<br>is submitted in 5 seconds or less after the items are created or updated. In this<br>case, the search result may include the items or item variations with old data if they<br>are updated, or the search result may not include the items or item variations at all<br>if they are newly created. | getFilteredItemsQuery(): ?CatalogQueryFilteredItems | setFilteredItemsQuery(?CatalogQueryFilteredItems filteredItemsQuery): void |
+| `customAttributeUsage` | [`?CatalogQueryCustomAttributeUsage`](../../doc/models/catalog-query-custom-attribute-usage.md) | Optional | - | getCustomAttributeUsage(): ?CatalogQueryCustomAttributeUsage | setCustomAttributeUsage(?CatalogQueryCustomAttributeUsage customAttributeUsage): void |
 
 ## Example (as JSON)
 
@@ -61,7 +63,9 @@ the `"name"`, `"description"`, or `"abbreviation"` attribute in an applicable qu
   "items_for_tax_query": null,
   "items_for_modifier_list_query": null,
   "items_for_item_options_query": null,
-  "item_variations_for_item_option_values_query": null
+  "item_variations_for_item_option_values_query": null,
+  "filtered_items_query": null,
+  "custom_attribute_usage": null
 }
 ```
 

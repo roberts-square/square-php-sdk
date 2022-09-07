@@ -94,6 +94,11 @@ class CatalogItemVariation implements \JsonSerializable
     private $serviceDuration;
 
     /**
+     * @var string|null
+     */
+    private $priceDescription;
+
+    /**
      * @var bool|null
      */
     private $availableForBooking;
@@ -132,6 +137,11 @@ class CatalogItemVariation implements \JsonSerializable
      * @var CatalogStockConversion|null
      */
     private $stockableConversion;
+
+    /**
+     * @var string[]|null
+     */
+    private $subscriptionPlanIds;
 
     /**
      * Returns Item Id.
@@ -454,6 +464,26 @@ class CatalogItemVariation implements \JsonSerializable
     }
 
     /**
+     * Returns Price Description.
+     * A description of the price. Can only be used with variable pricing.
+     */
+    public function getPriceDescription(): ?string
+    {
+        return $this->priceDescription;
+    }
+
+    /**
+     * Sets Price Description.
+     * A description of the price. Can only be used with variable pricing.
+     *
+     * @maps price_description
+     */
+    public function setPriceDescription(?string $priceDescription): void
+    {
+        $this->priceDescription = $priceDescription;
+    }
+
+    /**
      * Returns Available for Booking.
      * If the `CatalogItem` that owns this item variation is of type
      * `APPOINTMENTS_SERVICE`, a bool representing whether this service is available for booking.
@@ -654,6 +684,34 @@ class CatalogItemVariation implements \JsonSerializable
     }
 
     /**
+     * Returns Subscription Plan Ids.
+     * A list of all of the Subscription Plans a seller can use to create a subscription with this item
+     * variation.
+     * This field is read-only.
+     *
+     * @return string[]|null
+     */
+    public function getSubscriptionPlanIds(): ?array
+    {
+        return $this->subscriptionPlanIds;
+    }
+
+    /**
+     * Sets Subscription Plan Ids.
+     * A list of all of the Subscription Plans a seller can use to create a subscription with this item
+     * variation.
+     * This field is read-only.
+     *
+     * @maps subscription_plan_ids
+     *
+     * @param string[]|null $subscriptionPlanIds
+     */
+    public function setSubscriptionPlanIds(?array $subscriptionPlanIds): void
+    {
+        $this->subscriptionPlanIds = $subscriptionPlanIds;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -704,6 +762,9 @@ class CatalogItemVariation implements \JsonSerializable
         if (isset($this->serviceDuration)) {
             $json['service_duration']          = $this->serviceDuration;
         }
+        if (isset($this->priceDescription)) {
+            $json['price_description']         = $this->priceDescription;
+        }
         if (isset($this->availableForBooking)) {
             $json['available_for_booking']     = $this->availableForBooking;
         }
@@ -727,6 +788,9 @@ class CatalogItemVariation implements \JsonSerializable
         }
         if (isset($this->stockableConversion)) {
             $json['stockable_conversion']      = $this->stockableConversion;
+        }
+        if (isset($this->subscriptionPlanIds)) {
+            $json['subscription_plan_ids']     = $this->subscriptionPlanIds;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

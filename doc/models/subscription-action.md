@@ -15,6 +15,7 @@ Represents an action as a pending change to a subscription.
 | `type` | [`?string (SubscriptionActionType)`](../../doc/models/subscription-action-type.md) | Optional | Supported types of an action as a pending change to a subscription. | getType(): ?string | setType(?string type): void |
 | `effectiveDate` | `?string` | Optional | The `YYYY-MM-DD`-formatted date when the action occurs on the subscription. | getEffectiveDate(): ?string | setEffectiveDate(?string effectiveDate): void |
 | `newPlanId` | `?string` | Optional | The target subscription plan a subscription switches to, for a `SWAP_PLAN` action. | getNewPlanId(): ?string | setNewPlanId(?string newPlanId): void |
+| `monthlyBillingAnchorDate` | `?int` | Optional | The new billing anchor day value, for a `CHANGE_BILLING_ANCHOR_DATE` action. | getMonthlyBillingAnchorDate(): ?int | setMonthlyBillingAnchorDate(?int monthlyBillingAnchorDate): void |
 
 ## Example (as JSON)
 
@@ -23,7 +24,8 @@ Represents an action as a pending change to a subscription.
   "id": null,
   "type": null,
   "effective_date": null,
-  "new_plan_id": null
+  "new_plan_id": null,
+  "monthly_billing_anchor_date": null
 }
 ```
 

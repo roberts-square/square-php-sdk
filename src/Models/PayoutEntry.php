@@ -48,6 +48,11 @@ class PayoutEntry implements \JsonSerializable
     private $netAmountMoney;
 
     /**
+     * @var string|null
+     */
+    private $paymentId;
+
+    /**
      * @var PaymentBalanceActivityAutomaticSavingsDetail|null
      */
     private $typeAutomaticSavingsDetails;
@@ -331,6 +336,28 @@ class PayoutEntry implements \JsonSerializable
     public function setNetAmountMoney(?Money $netAmountMoney): void
     {
         $this->netAmountMoney = $netAmountMoney;
+    }
+
+    /**
+     * Returns Payment Id.
+     * deprecated in favor of payment_id inside type_*_details field https://plathome.sqprod.
+     * co/docs/build/proto-options
+     */
+    public function getPaymentId(): ?string
+    {
+        return $this->paymentId;
+    }
+
+    /**
+     * Sets Payment Id.
+     * deprecated in favor of payment_id inside type_*_details field https://plathome.sqprod.
+     * co/docs/build/proto-options
+     *
+     * @maps payment_id
+     */
+    public function setPaymentId(?string $paymentId): void
+    {
+        $this->paymentId = $paymentId;
     }
 
     /**
@@ -735,6 +762,9 @@ class PayoutEntry implements \JsonSerializable
         }
         if (isset($this->netAmountMoney)) {
             $json['net_amount_money']                             = $this->netAmountMoney;
+        }
+        if (isset($this->paymentId)) {
+            $json['payment_id']                                   = $this->paymentId;
         }
         if (isset($this->typeAutomaticSavingsDetails)) {
             $json['type_automatic_savings_details']               = $this->typeAutomaticSavingsDetails;

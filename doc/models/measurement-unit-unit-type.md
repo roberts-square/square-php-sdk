@@ -16,5 +16,6 @@ Describes the type of this unit and indicates which field contains the unit info
 | `TYPE_LENGTH` | The unit details are contained in the length_unit field. |
 | `TYPE_VOLUME` | The unit details are contained in the volume_unit field. |
 | `TYPE_WEIGHT` | The unit details are contained in the weight_unit field. |
+| `TYPE_TIME` | The unit details are contained in the time_unit field. |
 | `TYPE_GENERIC` | The unit details are contained in the generic_unit field. |
 

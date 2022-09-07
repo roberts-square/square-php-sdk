@@ -27,6 +27,7 @@ Represents one of a business' [locations](https://developer.squareup.com/docs/lo
 | `type` | [`?string (LocationType)`](../../doc/models/location-type.md) | Optional | A location's type. | getType(): ?string | setType(?string type): void |
 | `websiteUrl` | `?string` | Optional | The website URL of the location.  For example, `https://squareup.com`.<br>**Constraints**: *Maximum Length*: `255` | getWebsiteUrl(): ?string | setWebsiteUrl(?string websiteUrl): void |
 | `businessHours` | [`?BusinessHours`](../../doc/models/business-hours.md) | Optional | The hours of operation for a location. | getBusinessHours(): ?BusinessHours | setBusinessHours(?BusinessHours businessHours): void |
+| `specialHours` | [`?SpecialBusinessHours`](../../doc/models/special-business-hours.md) | Optional | The list of time periods during which the business location is open on non-normal days (e.g. holidays). | getSpecialHours(): ?SpecialBusinessHours | setSpecialHours(?SpecialBusinessHours specialHours): void |
 | `businessEmail` | `?string` | Optional | The email address of the location. This can be unique to the location and is not always the email address for the business owner or administrator.<br>**Constraints**: *Maximum Length*: `255` | getBusinessEmail(): ?string | setBusinessEmail(?string businessEmail): void |
 | `description` | `?string` | Optional | The description of the location. For example, `Main Street location`.<br>**Constraints**: *Maximum Length*: `1024` | getDescription(): ?string | setDescription(?string description): void |
 | `twitterUsername` | `?string` | Optional | The Twitter username of the location without the '@' symbol. For example, `Square`.<br>**Constraints**: *Minimum Length*: `1`, *Maximum Length*: `15` | getTwitterUsername(): ?string | setTwitterUsername(?string twitterUsername): void |
@@ -55,6 +56,7 @@ Represents one of a business' [locations](https://developer.squareup.com/docs/lo
   "type": null,
   "website_url": null,
   "business_hours": null,
+  "special_hours": null,
   "business_email": null,
   "description": null,
   "twitter_username": null,

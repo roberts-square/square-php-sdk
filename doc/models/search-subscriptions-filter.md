@@ -15,6 +15,7 @@ the [SearchSubscriptions](../../doc/apis/subscriptions.md#search-subscriptions) 
 | `customerIds` | `?(string[])` | Optional | A filter to select subscriptions based on the subscribing customer IDs. | getCustomerIds(): ?array | setCustomerIds(?array customerIds): void |
 | `locationIds` | `?(string[])` | Optional | A filter to select subscriptions based on the location. | getLocationIds(): ?array | setLocationIds(?array locationIds): void |
 | `sourceNames` | `?(string[])` | Optional | A filter to select subscriptions based on the source application. | getSourceNames(): ?array | setSourceNames(?array sourceNames): void |
+| `planIds` | `?(string[])` | Optional | A filter to select subscriptions based on the plan IDs. | getPlanIds(): ?array | setPlanIds(?array planIds): void |
 
 ## Example (as JSON)
 
@@ -22,7 +23,8 @@ the [SearchSubscriptions](../../doc/apis/subscriptions.md#search-subscriptions) 
 {
   "customer_ids": null,
   "location_ids": null,
-  "source_names": null
+  "source_names": null,
+  "plan_ids": null
 }
 ```
 

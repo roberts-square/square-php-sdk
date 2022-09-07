@@ -11,6 +11,7 @@ The type of the loyalty event.
 
 | Name | Description |
 |  --- | --- |
+| `CREATE_ACCOUNT` | A loyalty account is created for a buyer. |
 | `ACCUMULATE_POINTS` | Points are added to a loyalty account for a purchase that<br>qualified for points based on an [accrual rule](../../doc/models/loyalty-program-accrual-rule.md). |
 | `CREATE_REWARD` | A [loyalty reward](../../doc/models/loyalty-reward.md) is created. |
 | `REDEEM_REWARD` | A loyalty reward is redeemed. |

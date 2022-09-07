@@ -84,12 +84,42 @@ class TerminalCheckout implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $cancelReasonDeprecated;
+
+    /**
+     * @var string|null
+     */
     private $locationId;
 
     /**
      * @var string|null
      */
     private $paymentType;
+
+    /**
+     * @var AuxiliaryInfo[]|null
+     */
+    private $auxiliaryInfo;
+
+    /**
+     * @var string[]|null
+     */
+    private $revenueAssociationTags;
+
+    /**
+     * @var string|null
+     */
+    private $sessionId;
+
+    /**
+     * @var bool|null
+     */
+    private $autocompleteSession;
+
+    /**
+     * @var string|null
+     */
+    private $teamMemberId;
 
     /**
      * @var string|null
@@ -428,6 +458,24 @@ class TerminalCheckout implements \JsonSerializable
     }
 
     /**
+     * Returns Cancel Reason Deprecated.
+     */
+    public function getCancelReasonDeprecated(): ?string
+    {
+        return $this->cancelReasonDeprecated;
+    }
+
+    /**
+     * Sets Cancel Reason Deprecated.
+     *
+     * @maps cancel_reason_deprecated
+     */
+    public function setCancelReasonDeprecated(?string $cancelReasonDeprecated): void
+    {
+        $this->cancelReasonDeprecated = $cancelReasonDeprecated;
+    }
+
+    /**
      * Returns Location Id.
      * The location of the device where the `TerminalCheckout` was directed.
      */
@@ -463,6 +511,126 @@ class TerminalCheckout implements \JsonSerializable
     public function setPaymentType(?string $paymentType): void
     {
         $this->paymentType = $paymentType;
+    }
+
+    /**
+     * Returns Auxiliary Info.
+     * An optional field containing additional information about the payment. Provided field
+     * keys and values are validated by Square application code and might be modified in processing the
+     * request.
+     *
+     * @return AuxiliaryInfo[]|null
+     */
+    public function getAuxiliaryInfo(): ?array
+    {
+        return $this->auxiliaryInfo;
+    }
+
+    /**
+     * Sets Auxiliary Info.
+     * An optional field containing additional information about the payment. Provided field
+     * keys and values are validated by Square application code and might be modified in processing the
+     * request.
+     *
+     * @maps auxiliary_info
+     *
+     * @param AuxiliaryInfo[]|null $auxiliaryInfo
+     */
+    public function setAuxiliaryInfo(?array $auxiliaryInfo): void
+    {
+        $this->auxiliaryInfo = $auxiliaryInfo;
+    }
+
+    /**
+     * Returns Revenue Association Tags.
+     * An optional list of string tags describing Square products or features associated with
+     * this checkout. This list is passed to the Terminal to be associated with the payment for internal
+     * accounting.
+     *
+     * @return string[]|null
+     */
+    public function getRevenueAssociationTags(): ?array
+    {
+        return $this->revenueAssociationTags;
+    }
+
+    /**
+     * Sets Revenue Association Tags.
+     * An optional list of string tags describing Square products or features associated with
+     * this checkout. This list is passed to the Terminal to be associated with the payment for internal
+     * accounting.
+     *
+     * @maps revenue_association_tags
+     *
+     * @param string[]|null $revenueAssociationTags
+     */
+    public function setRevenueAssociationTags(?array $revenueAssociationTags): void
+    {
+        $this->revenueAssociationTags = $revenueAssociationTags;
+    }
+
+    /**
+     * Returns Session Id.
+     * Connect the checkout to a referenced session. If no session is defined, the Terminal API
+     * might automatically generate a session.
+     */
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    /**
+     * Sets Session Id.
+     * Connect the checkout to a referenced session. If no session is defined, the Terminal API
+     * might automatically generate a session.
+     *
+     * @maps session_id
+     */
+    public function setSessionId(?string $sessionId): void
+    {
+        $this->sessionId = $sessionId;
+    }
+
+    /**
+     * Returns Autocomplete Session.
+     * Complete the current session (if active) if the checkout completes.
+     * Defaults to true.
+     */
+    public function getAutocompleteSession(): ?bool
+    {
+        return $this->autocompleteSession;
+    }
+
+    /**
+     * Sets Autocomplete Session.
+     * Complete the current session (if active) if the checkout completes.
+     * Defaults to true.
+     *
+     * @maps autocomplete_session
+     */
+    public function setAutocompleteSession(?bool $autocompleteSession): void
+    {
+        $this->autocompleteSession = $autocompleteSession;
+    }
+
+    /**
+     * Returns Team Member Id.
+     * An optional ID of the team member associated with creating the checkout.
+     */
+    public function getTeamMemberId(): ?string
+    {
+        return $this->teamMemberId;
+    }
+
+    /**
+     * Sets Team Member Id.
+     * An optional ID of the team member associated with creating the checkout.
+     *
+     * @maps team_member_id
+     */
+    public function setTeamMemberId(?string $teamMemberId): void
+    {
+        $this->teamMemberId = $teamMemberId;
     }
 
     /**
@@ -530,54 +698,72 @@ class TerminalCheckout implements \JsonSerializable
     {
         $json = [];
         if (isset($this->id)) {
-            $json['id']                = $this->id;
+            $json['id']                       = $this->id;
         }
-        $json['amount_money']          = $this->amountMoney;
+        $json['amount_money']                 = $this->amountMoney;
         if (isset($this->referenceId)) {
-            $json['reference_id']      = $this->referenceId;
+            $json['reference_id']             = $this->referenceId;
         }
         if (isset($this->note)) {
-            $json['note']              = $this->note;
+            $json['note']                     = $this->note;
         }
         if (isset($this->orderId)) {
-            $json['order_id']          = $this->orderId;
+            $json['order_id']                 = $this->orderId;
         }
         if (isset($this->paymentOptions)) {
-            $json['payment_options']   = $this->paymentOptions;
+            $json['payment_options']          = $this->paymentOptions;
         }
-        $json['device_options']        = $this->deviceOptions;
+        $json['device_options']               = $this->deviceOptions;
         if (isset($this->deadlineDuration)) {
-            $json['deadline_duration'] = $this->deadlineDuration;
+            $json['deadline_duration']        = $this->deadlineDuration;
         }
         if (isset($this->status)) {
-            $json['status']            = $this->status;
+            $json['status']                   = $this->status;
         }
         if (isset($this->cancelReason)) {
-            $json['cancel_reason']     = $this->cancelReason;
+            $json['cancel_reason']            = $this->cancelReason;
         }
         if (isset($this->paymentIds)) {
-            $json['payment_ids']       = $this->paymentIds;
+            $json['payment_ids']              = $this->paymentIds;
         }
         if (isset($this->createdAt)) {
-            $json['created_at']        = $this->createdAt;
+            $json['created_at']               = $this->createdAt;
         }
         if (isset($this->updatedAt)) {
-            $json['updated_at']        = $this->updatedAt;
+            $json['updated_at']               = $this->updatedAt;
         }
         if (isset($this->appId)) {
-            $json['app_id']            = $this->appId;
+            $json['app_id']                   = $this->appId;
+        }
+        if (isset($this->cancelReasonDeprecated)) {
+            $json['cancel_reason_deprecated'] = $this->cancelReasonDeprecated;
         }
         if (isset($this->locationId)) {
-            $json['location_id']       = $this->locationId;
+            $json['location_id']              = $this->locationId;
         }
         if (isset($this->paymentType)) {
-            $json['payment_type']      = $this->paymentType;
+            $json['payment_type']             = $this->paymentType;
+        }
+        if (isset($this->auxiliaryInfo)) {
+            $json['auxiliary_info']           = $this->auxiliaryInfo;
+        }
+        if (isset($this->revenueAssociationTags)) {
+            $json['revenue_association_tags'] = $this->revenueAssociationTags;
+        }
+        if (isset($this->sessionId)) {
+            $json['session_id']               = $this->sessionId;
+        }
+        if (isset($this->autocompleteSession)) {
+            $json['autocomplete_session']     = $this->autocompleteSession;
+        }
+        if (isset($this->teamMemberId)) {
+            $json['team_member_id']           = $this->teamMemberId;
         }
         if (isset($this->customerId)) {
-            $json['customer_id']       = $this->customerId;
+            $json['customer_id']              = $this->customerId;
         }
         if (isset($this->appFeeMoney)) {
-            $json['app_fee_money']     = $this->appFeeMoney;
+            $json['app_fee_money']            = $this->appFeeMoney;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

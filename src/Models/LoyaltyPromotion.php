@@ -40,6 +40,11 @@ class LoyaltyPromotion implements \JsonSerializable
     private $triggerLimit;
 
     /**
+     * @var Money|null
+     */
+    private $minimumAmountSpentMoney;
+
+    /**
      * @var string|null
      */
     private $status;
@@ -208,6 +213,38 @@ class LoyaltyPromotion implements \JsonSerializable
     }
 
     /**
+     * Returns Minimum Amount Spent Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getMinimumAmountSpentMoney(): ?Money
+    {
+        return $this->minimumAmountSpentMoney;
+    }
+
+    /**
+     * Sets Minimum Amount Spent Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps minimum_amount_spent_money
+     */
+    public function setMinimumAmountSpentMoney(?Money $minimumAmountSpentMoney): void
+    {
+        $this->minimumAmountSpentMoney = $minimumAmountSpentMoney;
+    }
+
+    /**
      * Returns Status.
      * Indicates the status of a [loyalty promotion]($m/LoyaltyPromotion).
      */
@@ -359,6 +396,9 @@ class LoyaltyPromotion implements \JsonSerializable
         $json['available_time']                 = $this->availableTime;
         if (isset($this->triggerLimit)) {
             $json['trigger_limit']              = $this->triggerLimit;
+        }
+        if (isset($this->minimumAmountSpentMoney)) {
+            $json['minimum_amount_spent_money'] = $this->minimumAmountSpentMoney;
         }
         if (isset($this->status)) {
             $json['status']                     = $this->status;

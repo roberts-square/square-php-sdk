@@ -52,6 +52,31 @@ class OrderFulfillment implements \JsonSerializable
     private $shipmentDetails;
 
     /**
+     * @var OrderFulfillmentDigitalDetails|null
+     */
+    private $digitalDetails;
+
+    /**
+     * @var OrderFulfillmentDeliveryDetails|null
+     */
+    private $deliveryDetails;
+
+    /**
+     * @var OrderFulfillmentSimpleDetails|null
+     */
+    private $simpleDetails;
+
+    /**
+     * @var string|null
+     */
+    private $locationId;
+
+    /**
+     * @var string|null
+     */
+    private $createdAt;
+
+    /**
      * Returns Uid.
      * A unique ID that identifies the fulfillment only within this order.
      */
@@ -276,6 +301,104 @@ class OrderFulfillment implements \JsonSerializable
     }
 
     /**
+     * Returns Digital Details.
+     */
+    public function getDigitalDetails(): ?OrderFulfillmentDigitalDetails
+    {
+        return $this->digitalDetails;
+    }
+
+    /**
+     * Sets Digital Details.
+     *
+     * @maps digital_details
+     */
+    public function setDigitalDetails(?OrderFulfillmentDigitalDetails $digitalDetails): void
+    {
+        $this->digitalDetails = $digitalDetails;
+    }
+
+    /**
+     * Returns Delivery Details.
+     * Describes delivery details of an order fulfillment.
+     */
+    public function getDeliveryDetails(): ?OrderFulfillmentDeliveryDetails
+    {
+        return $this->deliveryDetails;
+    }
+
+    /**
+     * Sets Delivery Details.
+     * Describes delivery details of an order fulfillment.
+     *
+     * @maps delivery_details
+     */
+    public function setDeliveryDetails(?OrderFulfillmentDeliveryDetails $deliveryDetails): void
+    {
+        $this->deliveryDetails = $deliveryDetails;
+    }
+
+    /**
+     * Returns Simple Details.
+     */
+    public function getSimpleDetails(): ?OrderFulfillmentSimpleDetails
+    {
+        return $this->simpleDetails;
+    }
+
+    /**
+     * Sets Simple Details.
+     *
+     * @maps simple_details
+     */
+    public function setSimpleDetails(?OrderFulfillmentSimpleDetails $simpleDetails): void
+    {
+        $this->simpleDetails = $simpleDetails;
+    }
+
+    /**
+     * Returns Location Id.
+     * The location that performs the fulfillment and from which inventory is drawn.
+     */
+    public function getLocationId(): ?string
+    {
+        return $this->locationId;
+    }
+
+    /**
+     * Sets Location Id.
+     * The location that performs the fulfillment and from which inventory is drawn.
+     *
+     * @maps location_id
+     */
+    public function setLocationId(?string $locationId): void
+    {
+        $this->locationId = $locationId;
+    }
+
+    /**
+     * Returns Created At.
+     * The timestamp for when the fulfillment was created, in RFC 3339 format
+     * (for example, "2016-09-04T23:59:33.123Z").
+     */
+    public function getCreatedAt(): ?string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Sets Created At.
+     * The timestamp for when the fulfillment was created, in RFC 3339 format
+     * (for example, "2016-09-04T23:59:33.123Z").
+     *
+     * @maps created_at
+     */
+    public function setCreatedAt(?string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -310,6 +433,21 @@ class OrderFulfillment implements \JsonSerializable
         }
         if (isset($this->shipmentDetails)) {
             $json['shipment_details']      = $this->shipmentDetails;
+        }
+        if (isset($this->digitalDetails)) {
+            $json['digital_details']       = $this->digitalDetails;
+        }
+        if (isset($this->deliveryDetails)) {
+            $json['delivery_details']      = $this->deliveryDetails;
+        }
+        if (isset($this->simpleDetails)) {
+            $json['simple_details']        = $this->simpleDetails;
+        }
+        if (isset($this->locationId)) {
+            $json['location_id']           = $this->locationId;
+        }
+        if (isset($this->createdAt)) {
+            $json['created_at']            = $this->createdAt;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

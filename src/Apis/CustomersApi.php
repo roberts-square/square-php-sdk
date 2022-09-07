@@ -195,6 +195,299 @@ class CustomersApi extends BaseApi
     }
 
     /**
+     * Creates multiple customer profiles.
+     *
+     * Taking a map of the `{idempotency_key: CreateCustomerRequest}` key-value pairs as input,
+     * this bulk operation calls the specified create operations individually and returns a valid customer
+     * profile
+     * for each success and error information for each failure.
+     *
+     * @param Models\BulkCreateCustomersRequest $body An object containing the fields to POST for
+     *        the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function bulkCreateCustomers(Models\BulkCreateCustomersRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/customers/bulk-create';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'BulkCreateCustomersResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Deletes multiple customer profiles as identified by their `customer_id` values.
+     *
+     * This bulk operation returns the profile of the deleted customer for each success and error
+     * information
+     * for each failure.
+     *
+     * @param Models\BulkDeleteCustomersRequest $body An object containing the fields to POST for
+     *        the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function bulkDeleteCustomers(Models\BulkDeleteCustomersRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/customers/bulk-delete';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'BulkDeleteCustomersResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Retrieve specified custom profiles as identified by a list of `customer_id` values.
+     *
+     * The result is returned as a map of key-value pairs. Each key-value pair is of the `{customer_id:
+     * RetrieveCustomerResponse}` format.
+     *
+     * @param Models\BulkRetrieveCustomersRequest $body An object containing the fields to POST for
+     *        the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function bulkRetrieveCustomers(Models\BulkRetrieveCustomersRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/customers/bulk-retrieve';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'BulkRetrieveCustomersResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
+     * Updates multiple customer profiles.
+     *
+     * The request takes a map of the ({`customer_id`:`UpdateCustomerRequest`}) key-value pairs as input.
+     * The `customer_id` value identifies an existing customer and the corresponding
+     * `UpdateCustomerRequest`
+     * object specifies the new profile of that customer.
+     *
+     * This bulk operation calls the specified update requests individually and returns the updated
+     * customer profile for
+     * each success and error information for each failure.
+     *
+     * @param Models\BulkUpdateCustomersRequest $body An object containing the fields to POST for
+     *        the request.
+     *
+     *        See the corresponding object definition for field details.
+     *
+     * @return ApiResponse Response from the API call
+     *
+     * @throws ApiException Thrown if API call fails
+     */
+    public function bulkUpdateCustomers(Models\BulkUpdateCustomersRequest $body): ApiResponse
+    {
+        //prepare query string for API call
+        $_queryUrl = $this->config->getBaseUri() . '/v2/customers/bulk-update';
+
+        //prepare headers
+        $_headers = [
+            'user-agent'    => $this->internalUserAgent,
+            'Accept'        => 'application/json',
+            'Square-Version' => $this->config->getSquareVersion(),
+            'Content-Type'    => 'application/json'
+        ];
+        $_headers = ApiHelper::mergeHeaders($_headers, $this->config->getAdditionalHeaders());
+
+        //json encode body
+        $_bodyJson = ApiHelper::serialize($body);
+
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+
+        // Apply authorization to request
+        $this->getAuthManager('global')->apply($_httpRequest);
+
+        //call on-before Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        // and invoke the API call request to fetch the response
+        try {
+            $response = self::$request->post($_httpRequest->getQueryUrl(), $_httpRequest->getHeaders(), $_bodyJson);
+        } catch (\Unirest\Exception $ex) {
+            throw new ApiException($ex->getMessage(), $_httpRequest);
+        }
+
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        if (!$this->isValidResponse($_httpResponse)) {
+            return ApiResponse::createFromContext($response->body, null, $_httpContext);
+        }
+
+        $deserializedResponse = ApiHelper::mapClass(
+            $_httpRequest,
+            $_httpResponse,
+            $response->body,
+            'BulkUpdateCustomersResponse'
+        );
+        return ApiResponse::createFromContext($response->body, $deserializedResponse, $_httpContext);
+    }
+
+    /**
      * Searches the customer profiles associated with a Square account using one or more supported query
      * filters.
      *

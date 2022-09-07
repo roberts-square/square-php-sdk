@@ -10,6 +10,11 @@ namespace Square\Models;
 class LoyaltyEventType
 {
     /**
+     * A loyalty account is created for a buyer.
+     */
+    public const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
+
+    /**
      * Points are added to a loyalty account for a purchase that
      * qualified for points based on an [accrual rule]($m/LoyaltyProgramAccrualRule).
      */

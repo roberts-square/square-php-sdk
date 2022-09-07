@@ -96,10 +96,11 @@ class ListCatalogRequest implements \JsonSerializable
     /**
      * Returns Catalog Version.
      * The specific version of the catalog objects to be included in the response.
-     * This allows you to retrieve historical
-     * versions of objects. The specified version value is matched against
-     * the [CatalogObject]($m/CatalogObject)s' `version` attribute.  If not included, results will
-     * be from the current version of the catalog.
+     * This allows you to retrieve historical versions of objects. The specified version value is matched
+     * against
+     * the [CatalogObject]($m/CatalogObject)s' `version` attribute.  If not included, results will be from
+     * the
+     * current version of the catalog.
      */
     public function getCatalogVersion(): ?int
     {
@@ -109,10 +110,11 @@ class ListCatalogRequest implements \JsonSerializable
     /**
      * Sets Catalog Version.
      * The specific version of the catalog objects to be included in the response.
-     * This allows you to retrieve historical
-     * versions of objects. The specified version value is matched against
-     * the [CatalogObject]($m/CatalogObject)s' `version` attribute.  If not included, results will
-     * be from the current version of the catalog.
+     * This allows you to retrieve historical versions of objects. The specified version value is matched
+     * against
+     * the [CatalogObject]($m/CatalogObject)s' `version` attribute.  If not included, results will be from
+     * the
+     * current version of the catalog.
      *
      * @maps catalog_version
      */

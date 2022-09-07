@@ -25,8 +25,14 @@ Represents a checkout processed by the Square Terminal.
 | `createdAt` | `?string` | Optional | The time when the `TerminalCheckout` was created, as an RFC 3339 timestamp. | getCreatedAt(): ?string | setCreatedAt(?string createdAt): void |
 | `updatedAt` | `?string` | Optional | The time when the `TerminalCheckout` was last updated, as an RFC 3339 timestamp. | getUpdatedAt(): ?string | setUpdatedAt(?string updatedAt): void |
 | `appId` | `?string` | Optional | The ID of the application that created the checkout. | getAppId(): ?string | setAppId(?string appId): void |
+| `cancelReasonDeprecated` | `?string` | Optional | - | getCancelReasonDeprecated(): ?string | setCancelReasonDeprecated(?string cancelReasonDeprecated): void |
 | `locationId` | `?string` | Optional | The location of the device where the `TerminalCheckout` was directed. | getLocationId(): ?string | setLocationId(?string locationId): void |
 | `paymentType` | [`?string (CheckoutOptionsPaymentType)`](../../doc/models/checkout-options-payment-type.md) | Optional | - | getPaymentType(): ?string | setPaymentType(?string paymentType): void |
+| `auxiliaryInfo` | [`?(AuxiliaryInfo[])`](../../doc/models/auxiliary-info.md) | Optional | An optional field containing additional information about the payment. Provided field<br>keys and values are validated by Square application code and might be modified in processing the<br>request. | getAuxiliaryInfo(): ?array | setAuxiliaryInfo(?array auxiliaryInfo): void |
+| `revenueAssociationTags` | `?(string[])` | Optional | An optional list of string tags describing Square products or features associated with<br>this checkout. This list is passed to the Terminal to be associated with the payment for internal accounting. | getRevenueAssociationTags(): ?array | setRevenueAssociationTags(?array revenueAssociationTags): void |
+| `sessionId` | `?string` | Optional | Connect the checkout to a referenced session. If no session is defined, the Terminal API<br>might automatically generate a session. | getSessionId(): ?string | setSessionId(?string sessionId): void |
+| `autocompleteSession` | `?bool` | Optional | Complete the current session (if active) if the checkout completes.<br>Defaults to true. | getAutocompleteSession(): ?bool | setAutocompleteSession(?bool autocompleteSession): void |
+| `teamMemberId` | `?string` | Optional | An optional ID of the team member associated with creating the checkout. | getTeamMemberId(): ?string | setTeamMemberId(?string teamMemberId): void |
 | `customerId` | `?string` | Optional | An optional ID of the customer associated with the checkout. | getCustomerId(): ?string | setCustomerId(?string customerId): void |
 | `appFeeMoney` | [`?Money`](../../doc/models/money.md) | Optional | Represents an amount of money. `Money` fields can be signed or unsigned.<br>Fields that do not explicitly define whether they are signed or unsigned are<br>considered unsigned and can only hold positive amounts. For signed fields, the<br>sign of the value indicates the purpose of the money transfer. See<br>[Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-monetary-amounts)<br>for more information. | getAppFeeMoney(): ?Money | setAppFeeMoney(?Money appFeeMoney): void |
 
@@ -47,11 +53,18 @@ Represents a checkout processed by the Square Terminal.
     "skip_receipt_screen": null,
     "collect_signature": null,
     "tip_settings": null,
+    "loyalty_settings": null,
     "show_itemized_cart": null
   },
   "deadline_duration": null,
   "cancel_reason": null,
+  "cancel_reason_deprecated": null,
   "payment_type": null,
+  "auxiliary_info": null,
+  "revenue_association_tags": null,
+  "session_id": null,
+  "autocomplete_session": null,
+  "team_member_id": null,
   "customer_id": null,
   "app_fee_money": null
 }

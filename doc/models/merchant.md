@@ -18,6 +18,8 @@ Represents a business that sells with Square.
 | `currency` | [`?string (Currency)`](../../doc/models/currency.md) | Optional | Indicates the associated currency for an amount of money. Values correspond<br>to [ISO 4217](https://wikipedia.org/wiki/ISO_4217). | getCurrency(): ?string | setCurrency(?string currency): void |
 | `status` | [`?string (MerchantStatus)`](../../doc/models/merchant-status.md) | Optional | - | getStatus(): ?string | setStatus(?string status): void |
 | `mainLocationId` | `?string` | Optional | The ID of the [main `Location`](https://developer.squareup.com/docs/locations-api#about-the-main-location) for this merchant. | getMainLocationId(): ?string | setMainLocationId(?string mainLocationId): void |
+| `ownerEmail` | `?string` | Optional | A contact email for the team member who is responsible for this merchant. | getOwnerEmail(): ?string | setOwnerEmail(?string ownerEmail): void |
+| `capabilities` | [`?(string[]) (MerchantCapability)`](../../doc/models/merchant-capability.md) | Optional | Capabilities enabled for this merchant<br>See [MerchantCapability](#type-merchantcapability) for possible values | getCapabilities(): ?array | setCapabilities(?array capabilities): void |
 | `createdAt` | `?string` | Optional | The time when the merchant was created, in RFC 3339 format.<br>For more information, see [Working with Dates](https://developer.squareup.com/docs/build-basics/working-with-dates). | getCreatedAt(): ?string | setCreatedAt(?string createdAt): void |
 
 ## Example (as JSON)
@@ -30,7 +32,9 @@ Represents a business that sells with Square.
   "language_code": null,
   "currency": null,
   "status": null,
-  "main_location_id": null
+  "main_location_id": null,
+  "owner_email": null,
+  "capabilities": null
 }
 ```
 

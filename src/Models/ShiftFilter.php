@@ -45,6 +45,16 @@ class ShiftFilter implements \JsonSerializable
     /**
      * @var string[]|null
      */
+    private $locationId;
+
+    /**
+     * @var string[]|null
+     */
+    private $employeeId;
+
+    /**
+     * @var string[]|null
+     */
     private $teamMemberIds;
 
     /**
@@ -196,6 +206,50 @@ class ShiftFilter implements \JsonSerializable
     }
 
     /**
+     * Returns Location Id.
+     *
+     * @return string[]|null
+     */
+    public function getLocationId(): ?array
+    {
+        return $this->locationId;
+    }
+
+    /**
+     * Sets Location Id.
+     *
+     * @maps location_id
+     *
+     * @param string[]|null $locationId
+     */
+    public function setLocationId(?array $locationId): void
+    {
+        $this->locationId = $locationId;
+    }
+
+    /**
+     * Returns Employee Id.
+     *
+     * @return string[]|null
+     */
+    public function getEmployeeId(): ?array
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * Sets Employee Id.
+     *
+     * @maps employee_id
+     *
+     * @param string[]|null $employeeId
+     */
+    public function setEmployeeId(?array $employeeId): void
+    {
+        $this->employeeId = $employeeId;
+    }
+
+    /**
      * Returns Team Member Ids.
      * Fetch shifts for the specified team members. Replaced `employee_ids` at version "2020-08-26".
      *
@@ -248,6 +302,12 @@ class ShiftFilter implements \JsonSerializable
         }
         if (isset($this->workday)) {
             $json['workday']         = $this->workday;
+        }
+        if (isset($this->locationId)) {
+            $json['location_id']     = $this->locationId;
+        }
+        if (isset($this->employeeId)) {
+            $json['employee_id']     = $this->employeeId;
         }
         if (isset($this->teamMemberIds)) {
             $json['team_member_ids'] = $this->teamMemberIds;

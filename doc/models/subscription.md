@@ -29,8 +29,12 @@ For an overview of the `Subscription` type, see
 | `createdAt` | `?string` | Optional | The timestamp when the subscription was created, in RFC 3339 format. | getCreatedAt(): ?string | setCreatedAt(?string createdAt): void |
 | `cardId` | `?string` | Optional | The ID of the [subscriber's](../../doc/models/customer.md) [card](../../doc/models/card.md)<br>used to charge for the subscription. | getCardId(): ?string | setCardId(?string cardId): void |
 | `timezone` | `?string` | Optional | Timezone that will be used in date calculations for the subscription.<br>Defaults to the timezone of the location based on `location_id`.<br>Format: the IANA Timezone Database identifier for the location timezone (for example, `America/Los_Angeles`). | getTimezone(): ?string | setTimezone(?string timezone): void |
+| `orderTemplateId` | `?string` | Optional | The ID of the [Order](../../doc/models/order.md) object that should be used as a template for this subscription.<br>This sets the items and pricing for the subscription. | getOrderTemplateId(): ?string | setOrderTemplateId(?string orderTemplateId): void |
+| `bankAccountId` | `?string` | Optional | The ID of the bank account that is charged for the subscription. | getBankAccountId(): ?string | setBankAccountId(?string bankAccountId): void |
 | `source` | [`?SubscriptionSource`](../../doc/models/subscription-source.md) | Optional | The origination details of the subscription. | getSource(): ?SubscriptionSource | setSource(?SubscriptionSource source): void |
 | `actions` | [`?(SubscriptionAction[])`](../../doc/models/subscription-action.md) | Optional | The list of scheduled actions on this subscription. It is set only in the response from  <br>[RetrieveSubscription](../../doc/apis/subscriptions.md#retrieve-subscription) with the query parameter<br>of `include=actions` or from<br>[SearchSubscriptions](../../doc/apis/subscriptions.md#search-subscriptions) with the input parameter<br>of `include:["actions"]`. | getActions(): ?array | setActions(?array actions): void |
+| `monthlyBillingAnchorDate` | `?int` | Optional | The day-of-the-month to change the billing date to. | getMonthlyBillingAnchorDate(): ?int | setMonthlyBillingAnchorDate(?int monthlyBillingAnchorDate): void |
+| `phases` | [`?(Phase[])`](../../doc/models/phase.md) | Optional | array of phases for this subscription | getPhases(): ?array | setPhases(?array phases): void |
 
 ## Example (as JSON)
 
@@ -42,6 +46,8 @@ For an overview of the `Subscription` type, see
   "price_override_money": null,
   "version": null,
   "card_id": null,
+  "order_template_id": null,
+  "bank_account_id": null,
   "source": null,
   "actions": null
 }

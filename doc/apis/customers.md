@@ -12,6 +12,10 @@ $customersApi = $client->getCustomersApi();
 
 * [List Customers](../../doc/apis/customers.md#list-customers)
 * [Create Customer](../../doc/apis/customers.md#create-customer)
+* [Bulk Create Customers](../../doc/apis/customers.md#bulk-create-customers)
+* [Bulk Delete Customers](../../doc/apis/customers.md#bulk-delete-customers)
+* [Bulk Retrieve Customers](../../doc/apis/customers.md#bulk-retrieve-customers)
+* [Bulk Update Customers](../../doc/apis/customers.md#bulk-update-customers)
 * [Search Customers](../../doc/apis/customers.md#search-customers)
 * [Delete Customer](../../doc/apis/customers.md#delete-customer)
 * [Retrieve Customer](../../doc/apis/customers.md#retrieve-customer)
@@ -118,6 +122,170 @@ $apiResponse = $customersApi->createCustomer($body);
 
 if ($apiResponse->isSuccess()) {
     $createCustomerResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Bulk Create Customers
+
+Creates multiple customer profiles.
+
+Taking a map of the `{idempotency_key: CreateCustomerRequest}` key-value pairs as input,
+this bulk operation calls the specified create operations individually and returns a valid customer profile
+for each success and error information for each failure.
+
+```php
+function bulkCreateCustomers(BulkCreateCustomersRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`BulkCreateCustomersRequest`](../../doc/models/bulk-create-customers-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`BulkCreateCustomersResponse`](../../doc/models/bulk-create-customers-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\BulkCreateCustomersRequest;
+
+$apiResponse = $customersApi->bulkCreateCustomers($body);
+
+if ($apiResponse->isSuccess()) {
+    $bulkCreateCustomersResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Bulk Delete Customers
+
+Deletes multiple customer profiles as identified by their `customer_id` values.
+
+This bulk operation returns the profile of the deleted customer for each success and error information
+for each failure.
+
+```php
+function bulkDeleteCustomers(BulkDeleteCustomersRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`BulkDeleteCustomersRequest`](../../doc/models/bulk-delete-customers-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`BulkDeleteCustomersResponse`](../../doc/models/bulk-delete-customers-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\BulkDeleteCustomersRequest;
+
+$apiResponse = $customersApi->bulkDeleteCustomers($body);
+
+if ($apiResponse->isSuccess()) {
+    $bulkDeleteCustomersResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Bulk Retrieve Customers
+
+Retrieve specified custom profiles as identified by a list of `customer_id` values.
+
+The result is returned as a map of key-value pairs. Each key-value pair is of the `{customer_id: RetrieveCustomerResponse}` format.
+
+```php
+function bulkRetrieveCustomers(BulkRetrieveCustomersRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`BulkRetrieveCustomersRequest`](../../doc/models/bulk-retrieve-customers-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`BulkRetrieveCustomersResponse`](../../doc/models/bulk-retrieve-customers-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\BulkRetrieveCustomersRequest;
+
+$apiResponse = $customersApi->bulkRetrieveCustomers($body);
+
+if ($apiResponse->isSuccess()) {
+    $bulkRetrieveCustomersResponse = $apiResponse->getResult();
+} else {
+    $errors = $apiResponse->getErrors();
+}
+
+// Get more response info...
+// $statusCode = $apiResponse->getStatusCode();
+// $headers = $apiResponse->getHeaders();
+```
+
+
+# Bulk Update Customers
+
+Updates multiple customer profiles.
+
+The request takes a map of the ({`customer_id`:`UpdateCustomerRequest`}) key-value pairs as input.
+The `customer_id` value identifies an existing customer and the corresponding `UpdateCustomerRequest`
+object specifies the new profile of that customer.
+
+This bulk operation calls the specified update requests individually and returns the updated customer profile for
+each success and error information for each failure.
+
+```php
+function bulkUpdateCustomers(BulkUpdateCustomersRequest $body): ApiResponse
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `body` | [`BulkUpdateCustomersRequest`](../../doc/models/bulk-update-customers-request.md) | Body, Required | An object containing the fields to POST for the request.<br><br>See the corresponding object definition for field details. |
+
+## Response Type
+
+[`BulkUpdateCustomersResponse`](../../doc/models/bulk-update-customers-response.md)
+
+## Example Usage
+
+```php
+$body = new Models\BulkUpdateCustomersRequest;
+
+$apiResponse = $customersApi->bulkUpdateCustomers($body);
+
+if ($apiResponse->isSuccess()) {
+    $bulkUpdateCustomersResponse = $apiResponse->getResult();
 } else {
     $errors = $apiResponse->getErrors();
 }

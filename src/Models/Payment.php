@@ -57,6 +57,11 @@ class Payment implements \JsonSerializable
     private $processingFee;
 
     /**
+     * @var AppProcessingFee[]|null
+     */
+    private $appProcessingFee;
+
+    /**
      * @var Money|null
      */
     private $refundedMoney;
@@ -117,6 +122,11 @@ class Payment implements \JsonSerializable
     private $buyNowPayLaterDetails;
 
     /**
+     * @var SquareAccountDetails|null
+     */
+    private $squareAccountDetails;
+
+    /**
      * @var string|null
      */
     private $locationId;
@@ -159,6 +169,16 @@ class Payment implements \JsonSerializable
     /**
      * @var string|null
      */
+    private $terminalCheckoutId;
+
+    /**
+     * @var string|null
+     */
+    private $accountId;
+
+    /**
+     * @var string|null
+     */
     private $buyerEmailAddress;
 
     /**
@@ -195,6 +215,11 @@ class Payment implements \JsonSerializable
      * @var string|null
      */
     private $receiptUrl;
+
+    /**
+     * @var RecurringPaymentDetails|null
+     */
+    private $recurringDetails;
 
     /**
      * @var DeviceDetails|null
@@ -453,6 +478,30 @@ class Payment implements \JsonSerializable
     public function setProcessingFee(?array $processingFee): void
     {
         $this->processingFee = $processingFee;
+    }
+
+    /**
+     * Returns App Processing Fee.
+     * The application-defined processing fees for this payment.
+     *
+     * @return AppProcessingFee[]|null
+     */
+    public function getAppProcessingFee(): ?array
+    {
+        return $this->appProcessingFee;
+    }
+
+    /**
+     * Sets App Processing Fee.
+     * The application-defined processing fees for this payment.
+     *
+     * @maps app_processing_fee
+     *
+     * @param AppProcessingFee[]|null $appProcessingFee
+     */
+    public function setAppProcessingFee(?array $appProcessingFee): void
+    {
+        $this->appProcessingFee = $appProcessingFee;
     }
 
     /**
@@ -766,6 +815,26 @@ class Payment implements \JsonSerializable
     }
 
     /**
+     * Returns Square Account Details.
+     * Additional details about Square Account payments.
+     */
+    public function getSquareAccountDetails(): ?SquareAccountDetails
+    {
+        return $this->squareAccountDetails;
+    }
+
+    /**
+     * Sets Square Account Details.
+     * Additional details about Square Account payments.
+     *
+     * @maps square_account_details
+     */
+    public function setSquareAccountDetails(?SquareAccountDetails $squareAccountDetails): void
+    {
+        $this->squareAccountDetails = $squareAccountDetails;
+    }
+
+    /**
      * Returns Location Id.
      * The ID of the location associated with the payment.
      */
@@ -943,6 +1012,46 @@ class Payment implements \JsonSerializable
     public function setRiskEvaluation(?RiskEvaluation $riskEvaluation): void
     {
         $this->riskEvaluation = $riskEvaluation;
+    }
+
+    /**
+     * Returns Terminal Checkout Id.
+     * An optional ID for a Terminal checkout that is associated with the payment.
+     */
+    public function getTerminalCheckoutId(): ?string
+    {
+        return $this->terminalCheckoutId;
+    }
+
+    /**
+     * Sets Terminal Checkout Id.
+     * An optional ID for a Terminal checkout that is associated with the payment.
+     *
+     * @maps terminal_checkout_id
+     */
+    public function setTerminalCheckoutId(?string $terminalCheckoutId): void
+    {
+        $this->terminalCheckoutId = $terminalCheckoutId;
+    }
+
+    /**
+     * Returns Account Id.
+     * The ID of the account that took the payment.
+     */
+    public function getAccountId(): ?string
+    {
+        return $this->accountId;
+    }
+
+    /**
+     * Sets Account Id.
+     * The ID of the account that took the payment.
+     *
+     * @maps account_id
+     */
+    public function setAccountId(?string $accountId): void
+    {
+        $this->accountId = $accountId;
     }
 
     /**
@@ -1142,6 +1251,26 @@ class Payment implements \JsonSerializable
     }
 
     /**
+     * Returns Recurring Details.
+     * Additional details indicating that this payment is part of a recurring series.
+     */
+    public function getRecurringDetails(): ?RecurringPaymentDetails
+    {
+        return $this->recurringDetails;
+    }
+
+    /**
+     * Sets Recurring Details.
+     * Additional details indicating that this payment is part of a recurring series.
+     *
+     * @maps recurring_details
+     */
+    public function setRecurringDetails(?RecurringPaymentDetails $recurringDetails): void
+    {
+        $this->recurringDetails = $recurringDetails;
+    }
+
+    /**
      * Returns Device Details.
      * Details about the device that took the payment.
      */
@@ -1242,6 +1371,9 @@ class Payment implements \JsonSerializable
         if (isset($this->processingFee)) {
             $json['processing_fee']                   = $this->processingFee;
         }
+        if (isset($this->appProcessingFee)) {
+            $json['app_processing_fee']               = $this->appProcessingFee;
+        }
         if (isset($this->refundedMoney)) {
             $json['refunded_money']                   = $this->refundedMoney;
         }
@@ -1278,6 +1410,9 @@ class Payment implements \JsonSerializable
         if (isset($this->buyNowPayLaterDetails)) {
             $json['buy_now_pay_later_details']        = $this->buyNowPayLaterDetails;
         }
+        if (isset($this->squareAccountDetails)) {
+            $json['square_account_details']           = $this->squareAccountDetails;
+        }
         if (isset($this->locationId)) {
             $json['location_id']                      = $this->locationId;
         }
@@ -1302,6 +1437,12 @@ class Payment implements \JsonSerializable
         if (isset($this->riskEvaluation)) {
             $json['risk_evaluation']                  = $this->riskEvaluation;
         }
+        if (isset($this->terminalCheckoutId)) {
+            $json['terminal_checkout_id']             = $this->terminalCheckoutId;
+        }
+        if (isset($this->accountId)) {
+            $json['account_id']                       = $this->accountId;
+        }
         if (isset($this->buyerEmailAddress)) {
             $json['buyer_email_address']              = $this->buyerEmailAddress;
         }
@@ -1325,6 +1466,9 @@ class Payment implements \JsonSerializable
         }
         if (isset($this->receiptUrl)) {
             $json['receipt_url']                      = $this->receiptUrl;
+        }
+        if (isset($this->recurringDetails)) {
+            $json['recurring_details']                = $this->recurringDetails;
         }
         if (isset($this->deviceDetails)) {
             $json['device_details']                   = $this->deviceDetails;

@@ -23,6 +23,11 @@ class ListCardsRequest implements \JsonSerializable
     private $customerId;
 
     /**
+     * @var string|null
+     */
+    private $buyerId;
+
+    /**
      * @var bool|null
      */
     private $includeDisabled;
@@ -83,6 +88,26 @@ class ListCardsRequest implements \JsonSerializable
     public function setCustomerId(?string $customerId): void
     {
         $this->customerId = $customerId;
+    }
+
+    /**
+     * Returns Buyer Id.
+     * Limit results to cards associated with the buyer supplied.
+     */
+    public function getBuyerId(): ?string
+    {
+        return $this->buyerId;
+    }
+
+    /**
+     * Sets Buyer Id.
+     * Limit results to cards associated with the buyer supplied.
+     *
+     * @maps buyer_id
+     */
+    public function setBuyerId(?string $buyerId): void
+    {
+        $this->buyerId = $buyerId;
     }
 
     /**
@@ -164,6 +189,9 @@ class ListCardsRequest implements \JsonSerializable
         }
         if (isset($this->customerId)) {
             $json['customer_id']      = $this->customerId;
+        }
+        if (isset($this->buyerId)) {
+            $json['buyer_id']         = $this->buyerId;
         }
         if (isset($this->includeDisabled)) {
             $json['include_disabled'] = $this->includeDisabled;

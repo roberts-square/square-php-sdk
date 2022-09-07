@@ -29,6 +29,11 @@ class DeviceCheckoutOptions implements \JsonSerializable
     private $tipSettings;
 
     /**
+     * @var LoyaltySettings|null
+     */
+    private $loyaltySettings;
+
+    /**
      * @var bool|null
      */
     private $showItemizedCart;
@@ -125,6 +130,24 @@ class DeviceCheckoutOptions implements \JsonSerializable
     }
 
     /**
+     * Returns Loyalty Settings.
+     */
+    public function getLoyaltySettings(): ?LoyaltySettings
+    {
+        return $this->loyaltySettings;
+    }
+
+    /**
+     * Sets Loyalty Settings.
+     *
+     * @maps loyalty_settings
+     */
+    public function setLoyaltySettings(?LoyaltySettings $loyaltySettings): void
+    {
+        $this->loyaltySettings = $loyaltySettings;
+    }
+
+    /**
      * Returns Show Itemized Cart.
      * Show the itemization screen prior to taking a payment. This field is only meaningful when the
      * checkout includes an order ID. Defaults to true.
@@ -167,6 +190,9 @@ class DeviceCheckoutOptions implements \JsonSerializable
         }
         if (isset($this->tipSettings)) {
             $json['tip_settings']        = $this->tipSettings;
+        }
+        if (isset($this->loyaltySettings)) {
+            $json['loyalty_settings']    = $this->loyaltySettings;
         }
         if (isset($this->showItemizedCart)) {
             $json['show_itemized_cart']  = $this->showItemizedCart;

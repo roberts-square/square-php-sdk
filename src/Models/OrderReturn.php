@@ -53,6 +53,11 @@ class OrderReturn implements \JsonSerializable
     private $returnAmounts;
 
     /**
+     * @var string|null
+     */
+    private $returnType;
+
+    /**
      * Returns Uid.
      * A unique ID that identifies the return only within this order.
      */
@@ -243,6 +248,24 @@ class OrderReturn implements \JsonSerializable
     }
 
     /**
+     * Returns Return Type.
+     */
+    public function getReturnType(): ?string
+    {
+        return $this->returnType;
+    }
+
+    /**
+     * Sets Return Type.
+     *
+     * @maps return_type
+     */
+    public function setReturnType(?string $returnType): void
+    {
+        $this->returnType = $returnType;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -277,6 +300,9 @@ class OrderReturn implements \JsonSerializable
         }
         if (isset($this->returnAmounts)) {
             $json['return_amounts']         = $this->returnAmounts;
+        }
+        if (isset($this->returnType)) {
+            $json['return_type']            = $this->returnType;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

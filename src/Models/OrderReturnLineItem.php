@@ -62,6 +62,11 @@ class OrderReturnLineItem implements \JsonSerializable
     private $itemType;
 
     /**
+     * @var string|null
+     */
+    private $sku;
+
+    /**
      * @var OrderReturnLineItemModifier[]|null
      */
     private $returnModifiers;
@@ -105,6 +110,21 @@ class OrderReturnLineItem implements \JsonSerializable
      * @var Money|null
      */
     private $totalMoney;
+
+    /**
+     * @var string|null
+     */
+    private $restockType;
+
+    /**
+     * @var OrderLineItemAppliedServiceCharge[]|null
+     */
+    private $appliedServiceCharges;
+
+    /**
+     * @var Money|null
+     */
+    private $totalServiceChargeMoney;
 
     /**
      * @param string $quantity
@@ -323,6 +343,26 @@ class OrderReturnLineItem implements \JsonSerializable
     public function setItemType(?string $itemType): void
     {
         $this->itemType = $itemType;
+    }
+
+    /**
+     * Returns Sku.
+     * The SKU of the item variation.
+     */
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    /**
+     * Sets Sku.
+     * The SKU of the item variation.
+     *
+     * @maps sku
+     */
+    public function setSku(?string $sku): void
+    {
+        $this->sku = $sku;
     }
 
     /**
@@ -602,6 +642,86 @@ class OrderReturnLineItem implements \JsonSerializable
     }
 
     /**
+     * Returns Restock Type.
+     */
+    public function getRestockType(): ?string
+    {
+        return $this->restockType;
+    }
+
+    /**
+     * Sets Restock Type.
+     *
+     * @maps restock_type
+     */
+    public function setRestockType(?string $restockType): void
+    {
+        $this->restockType = $restockType;
+    }
+
+    /**
+     * Returns Applied Service Charges.
+     * The list of references to `OrderReturnServiceCharge` entities applied to the return
+     * line item. Each `OrderLineItemAppliedServiceCharge` has a `service_charge_uid` that
+     * references the `uid` of a top-level `OrderReturnServiceCharge` applied to the return line
+     * item. On reads, the applied amount is populated.
+     *
+     * @return OrderLineItemAppliedServiceCharge[]|null
+     */
+    public function getAppliedServiceCharges(): ?array
+    {
+        return $this->appliedServiceCharges;
+    }
+
+    /**
+     * Sets Applied Service Charges.
+     * The list of references to `OrderReturnServiceCharge` entities applied to the return
+     * line item. Each `OrderLineItemAppliedServiceCharge` has a `service_charge_uid` that
+     * references the `uid` of a top-level `OrderReturnServiceCharge` applied to the return line
+     * item. On reads, the applied amount is populated.
+     *
+     * @maps applied_service_charges
+     *
+     * @param OrderLineItemAppliedServiceCharge[]|null $appliedServiceCharges
+     */
+    public function setAppliedServiceCharges(?array $appliedServiceCharges): void
+    {
+        $this->appliedServiceCharges = $appliedServiceCharges;
+    }
+
+    /**
+     * Returns Total Service Charge Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     */
+    public function getTotalServiceChargeMoney(): ?Money
+    {
+        return $this->totalServiceChargeMoney;
+    }
+
+    /**
+     * Sets Total Service Charge Money.
+     * Represents an amount of money. `Money` fields can be signed or unsigned.
+     * Fields that do not explicitly define whether they are signed or unsigned are
+     * considered unsigned and can only hold positive amounts. For signed fields, the
+     * sign of the value indicates the purpose of the money transfer. See
+     * [Working with Monetary Amounts](https://developer.squareup.com/docs/build-basics/working-with-
+     * monetary-amounts)
+     * for more information.
+     *
+     * @maps total_service_charge_money
+     */
+    public function setTotalServiceChargeMoney(?Money $totalServiceChargeMoney): void
+    {
+        $this->totalServiceChargeMoney = $totalServiceChargeMoney;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -641,6 +761,9 @@ class OrderReturnLineItem implements \JsonSerializable
         if (isset($this->itemType)) {
             $json['item_type']                   = $this->itemType;
         }
+        if (isset($this->sku)) {
+            $json['sku']                         = $this->sku;
+        }
         if (isset($this->returnModifiers)) {
             $json['return_modifiers']            = $this->returnModifiers;
         }
@@ -667,6 +790,15 @@ class OrderReturnLineItem implements \JsonSerializable
         }
         if (isset($this->totalMoney)) {
             $json['total_money']                 = $this->totalMoney;
+        }
+        if (isset($this->restockType)) {
+            $json['restock_type']                = $this->restockType;
+        }
+        if (isset($this->appliedServiceCharges)) {
+            $json['applied_service_charges']     = $this->appliedServiceCharges;
+        }
+        if (isset($this->totalServiceChargeMoney)) {
+            $json['total_service_charge_money']  = $this->totalServiceChargeMoney;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

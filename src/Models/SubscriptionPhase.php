@@ -39,6 +39,11 @@ class SubscriptionPhase implements \JsonSerializable
     private $ordinal;
 
     /**
+     * @var SubscriptionPricing|null
+     */
+    private $pricing;
+
+    /**
      * @param string $cadence
      */
     public function __construct(string $cadence)
@@ -166,6 +171,26 @@ class SubscriptionPhase implements \JsonSerializable
     }
 
     /**
+     * Returns Pricing.
+     * Describes the pricing for the subscription.
+     */
+    public function getPricing(): ?SubscriptionPricing
+    {
+        return $this->pricing;
+    }
+
+    /**
+     * Sets Pricing.
+     * Describes the pricing for the subscription.
+     *
+     * @maps pricing
+     */
+    public function setPricing(?SubscriptionPricing $pricing): void
+    {
+        $this->pricing = $pricing;
+    }
+
+    /**
      * Encode this object to JSON
      *
      * @param bool $asArrayWhenEmpty Whether to serialize this model as an array whenever no fields
@@ -189,6 +214,9 @@ class SubscriptionPhase implements \JsonSerializable
         }
         if (isset($this->ordinal)) {
             $json['ordinal']               = $this->ordinal;
+        }
+        if (isset($this->pricing)) {
+            $json['pricing']               = $this->pricing;
         }
         $json = array_filter($json, function ($val) {
             return $val !== null;

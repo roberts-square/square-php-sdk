@@ -16,6 +16,7 @@ Either the `order_entries` or `orders` field is set, depending on whether
 | `orders` | [`?(Order[])`](../../doc/models/order.md) | Optional | A list of<br>[Order](../../doc/models/order.md) objects that match the query conditions. The list is populated only if<br>`return_entries` is set to `false` in the request. | getOrders(): ?array | setOrders(?array orders): void |
 | `cursor` | `?string` | Optional | The pagination cursor to be used in a subsequent request. If unset,<br>this is the final response.<br>For more information, see [Pagination](https://developer.squareup.com/docs/basics/api101/pagination). | getCursor(): ?string | setCursor(?string cursor): void |
 | `errors` | [`?(Error[])`](../../doc/models/error.md) | Optional | [Errors](../../doc/models/error.md) encountered during the search. | getErrors(): ?array | setErrors(?array errors): void |
+| `unconvertibleTransactionIds` | `?(string[])` | Optional | A list of transaction IDs identifying transactions that could not be<br>converted to an `Order`. Empty if, `return_entries` is `true`; however, attempts<br>to retrieve those orders might encounter subsequent `unconvertible_transcation_ids`.<br>This field has been moved to ALPHA so that it is not exposed for the `SearchOrders` GA release. | getUnconvertibleTransactionIds(): ?array | setUnconvertibleTransactionIds(?array unconvertibleTransactionIds): void |
 
 ## Example (as JSON)
 

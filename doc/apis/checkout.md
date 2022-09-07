@@ -351,12 +351,10 @@ function updatePaymentLink(string $id, UpdatePaymentLinkRequest $body): ApiRespo
 
 ```php
 $id = 'id0';
-$body_paymentLink_version = 1;
+$body_paymentLink_version = 176;
 $body_paymentLink = new Models\PaymentLink(
     $body_paymentLink_version
 );
-$body_paymentLink->setCheckoutOptions(new Models\CheckoutOptions);
-$body_paymentLink->getCheckoutOptions()->setAskForShippingAddress(true);
 $body = new Models\UpdatePaymentLinkRequest(
     $body_paymentLink
 );
